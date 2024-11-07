@@ -29,10 +29,10 @@ dependencies {
         exclude(module = "bdrs-client")
         exclude("org.eclipse.edc", "identity-trust-issuers-configuration")
     }
-    implementation(project(":core:json-ld-core"))
+    implementation(libs.eclipse.tractusx.core.json.ld)
     implementation(project(":edc-extensions:fx-policy"))
-    implementation(project(":edc-extensions:dcp:tx-dcp"))
-    implementation(project(":edc-extensions:dcp:tx-dcp-sts-dim"))
+    implementation(libs.eclipse.tractusx.dcp)
+    implementation(libs.eclipse.tractusx.dcp.sts.dim)
 
     implementation(project(":edc-tests:runtime:extensions"))
     implementation(project(":edc-tests:runtime:iatp:iatp-extensions"))

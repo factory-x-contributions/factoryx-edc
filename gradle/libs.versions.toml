@@ -2,7 +2,7 @@
 format.version = "1.1"
 
 [versions]
-edc = "0.10.0-20241014-SNAPSHOT"
+edc = "0.10.0"
 assertj = "3.26.3"
 awaitility = "4.2.2"
 aws = "2.28.12"
@@ -21,6 +21,7 @@ restAssured = "5.5.0"
 rsApi = "4.0.0"
 testcontainers = "1.20.2"
 titanium = "1.4.1"
+tractusx = "0.8.0-rc5"
 
 [libraries]
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
@@ -86,6 +87,7 @@ edc-lib-jersey-providers = { module = "org.eclipse.edc:jersey-providers-lib", ve
 edc-lib-jws2020 = { module = "org.eclipse.edc:jws2020-lib", version.ref = "edc" }
 edc-lib-query = { module = "org.eclipse.edc:query-lib", version.ref = "edc" }
 edc-lib-store = { module = "org.eclipse.edc:store-lib", version.ref = "edc" }
+edc-lib-token = { module = "org.eclipse.edc:token-lib", version.ref = "edc" }
 edc-lib-util = { module = "org.eclipse.edc:util-lib", version.ref = "edc" }
 edc-lib-validator = { module = "org.eclipse.edc:validator-lib", version.ref = "edc" }
 edc-lib-transform = { module = "org.eclipse.edc:transform-lib", version.ref = "edc" }
@@ -189,8 +191,34 @@ edc-micrometer-jetty = { module = "org.eclipse.edc:jetty-micrometer", version.re
 edc-transfer-dynamicreceiver = { module = "org.eclipse.edc:transfer-pull-http-dynamic-receiver", version.ref = "edc" }
 edc-edr-store-receiver = { module = "org.eclipse.edc:edr-store-receiver", version.ref = "edc" }
 
-# other deps
+# tractusx modules
+eclipse-tractusx-controlplane-migration = { module = "org.eclipse.tractusx.edc:control-plane-migration", version.ref = "tractusx"}
+eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", version.ref = "tractusx"}
+eclipse-tractusx-core-json-ld = { module = "org.eclipse.tractusx.edc:json-ld-core", version.ref = "tractusx"}
+eclipse-tractusx-agreements = { module = "org.eclipse.tractusx.edc:agreements", version.ref = "tractusx"}
+eclipse-tractusx-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation", version.ref = "tractusx"}
+eclipse-tractusx-bdrs-client = { module = "org.eclipse.tractusx.edc:bdrs-client", version.ref = "tractusx"}
+eclipse-tractusx-dataplane-migration = { module = "org.eclipse.tractusx.edc:data-plane-migration", version.ref = "tractusx"}
+eclipse-tractusx-dataflow-properties-provider = { module = "org.eclipse.tractusx.edc:data-flow-properties-provider", version.ref = "tractusx"}
+eclipse-tractusx-edr-callback = { module = "org.eclipse.tractusx.edc:edr-callback", version.ref = "tractusx"}
+eclipse-tractusx-edr-core = { module = "org.eclipse.tractusx.edc:edr-core", version.ref = "tractusx"}
+eclipse-tractusx-edr-api-v2 = { module = "org.eclipse.tractusx.edc:edr-api-v2", version.ref = "tractusx"}
+eclipse-tractusx-edr-spi = { module = "org.eclipse.tractusx.edc:edr-spi", version.ref = "tractusx"}
+eclipse-tractusx-federated-catalog = { module = "org.eclipse.tractusx.edc:federated-catalog", version.ref = "tractusx"}
+eclipse-tractusx-tokenrefresh-handler = { module = "org.eclipse.tractusx.edc:tokenrefresh-handler", version.ref = "tractusx"}
+eclipse-tractusx-tokenrefresh-core = { module = "org.eclipse.tractusx.edc:token-refresh-core", version.ref = "tractusx"}
+eclipse-tractusx-tokenrefresh-api = { module = "org.eclipse.tractusx.edc:token-refresh-api", version.ref = "tractusx"}
+eclipse-tractusx-dcp-sts-dim = { module = "org.eclipse.tractusx.edc:tx-dcp-sts-dim", version.ref = "tractusx"}
+eclipse-tractusx-dcp = { module = "org.eclipse.tractusx.edc:tx-dcp", version.ref = "tractusx"}
+eclipse-tractusx-dataplane-proxy-consumer-api = { module = "org.eclipse.tractusx.edc:edc-dataplane-proxy-consumer-api", version.ref = "tractusx"}
+eclipse-tractusx-dataplane-selector-configuration = { module = "org.eclipse.tractusx.edc:dataplane-selector-configuration", version.ref = "tractusx"}
+eclipse-tractusx-provision-additional-headers = { module = "org.eclipse.tractusx.edc:provision-additional-headers", version.ref = "tractusx"}
+eclipse-tractusx-spi-tokenrefresh = { module = "org.eclipse.tractusx.edc:tokenrefresh-spi", version.ref = "tractusx"}
+eclipse-tractusx-spi-bdrs-client = { module = "org.eclipse.tractusx.edc:bdrs-client-spi", version.ref = "tractusx"}
+eclipse-tractusx-spi-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation-spi", version.ref = "tractusx"}
+eclipse-tractusx-spi-retirement-evaluation = { module = "org.eclipse.tractusx.edc:retirement-evaluation-spi", version.ref = "tractusx"}
 
+# other deps
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
 aws-s3 = { module = "software.amazon.awssdk:s3", version.ref = "aws" }
@@ -202,6 +230,7 @@ jacksonJsonP = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jakar
 jakarta-rsApi = { module = "jakarta.ws.rs:jakarta.ws.rs-api", version.ref = "rsApi" }
 jakartaJson = { module = "org.glassfish:jakarta.json", version.ref = "jakarta-json" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jupiter" }
 nimbus-jwt = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimbus" }
 opentelemetry-javaagent = { module = "io.opentelemetry.javaagent:opentelemetry-javaagent", version.ref = "opentelemetry" }
 netty-mockserver = { module = "org.mock-server:mockserver-netty", version.ref = "netty-mockserver" }

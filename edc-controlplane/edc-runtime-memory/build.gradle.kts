@@ -24,7 +24,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core:core-utils"))
+    implementation(libs.eclipse.tractusx.coreutils)
     implementation(libs.edc.spi.core)
     runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
     runtimeOnly(project(":edc-dataplane:edc-dataplane-base")) {
@@ -36,6 +36,7 @@ dependencies {
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    exclude("**/pom.properties", "**/pom.xm")
     mergeServiceFiles()
     archiveFileName.set("${project.name}.jar")
 }

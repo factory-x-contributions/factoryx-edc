@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,7 +23,9 @@ plugins {
 
 dependencies {
     implementation(project(":spi:core-spi"))
-    implementation(project(":core:core-utils"))
+    implementation(libs.eclipse.tractusx.coreutils)
+    implementation(libs.edc.spi.catalog)
+    implementation(libs.edc.spi.contract)
     implementation(libs.edc.spi.policyengine)
     implementation(libs.jakartaJson)
     implementation(libs.edc.spi.identitytrust)

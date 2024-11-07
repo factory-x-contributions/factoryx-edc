@@ -27,9 +27,9 @@ dependencies {
     // use basic (all in-mem) control plane
     implementation(project(":edc-controlplane:edc-controlplane-base"))
     implementation(project(":edc-extensions:fx-policy"))
-    implementation(project(":core:json-ld-core"))
-    implementation(project(":edc-extensions:dcp:tx-dcp"))
-    implementation(project(":edc-extensions:dcp:tx-dcp-sts-dim"))
+    implementation(libs.eclipse.tractusx.core.json.ld)
+    implementation(libs.eclipse.tractusx.dcp)
+    implementation(libs.eclipse.tractusx.dcp.sts.dim)
 
     implementation(project(":edc-tests:runtime:extensions"))
     implementation(project(":edc-tests:runtime:iatp:iatp-extensions"))

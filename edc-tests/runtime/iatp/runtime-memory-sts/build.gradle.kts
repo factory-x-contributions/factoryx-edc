@@ -29,7 +29,7 @@ dependencies {
         exclude(module = "tx-dcp-sts-dim")
         exclude("org.eclipse.edc", "identity-trust-issuers-configuration")
     }
-    implementation(project(":core:json-ld-core"))
+    implementation(libs.eclipse.tractusx.core.json.ld)
     implementation(project(":edc-tests:runtime:extensions"))
 
     implementation(libs.edc.iam.mock)
@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.bundles.edc.sts)
 
     implementation(libs.edc.identity.trust.sts.embedded)
+    implementation(libs.edc.lib.token)
     implementation(libs.edc.core.token)
 
     implementation(libs.edc.ih.core)

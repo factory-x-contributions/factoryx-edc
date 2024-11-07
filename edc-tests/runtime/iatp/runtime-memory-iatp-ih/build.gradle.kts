@@ -31,8 +31,8 @@ dependencies {
         exclude("org.eclipse.edc", "identity-trust-issuers-configuration")
     }
     implementation(project(":edc-extensions:fx-policy"))
-    implementation(project(":core:json-ld-core"))
-    implementation(project(":edc-extensions:dcp:tx-dcp"))
+    implementation(libs.eclipse.tractusx.core.json.ld)
+    implementation(libs.eclipse.tractusx.dcp)
 
     implementation(project(":edc-tests:runtime:extensions"))
     implementation(project(":edc-tests:runtime:iatp:iatp-extensions"))

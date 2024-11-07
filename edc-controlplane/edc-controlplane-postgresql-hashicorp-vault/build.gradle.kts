@@ -28,8 +28,7 @@ plugins {
 
 dependencies {
     runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-    runtimeOnly(project(":edc-extensions:migrations::control-plane-migration"))
-    runtimeOnly(project(":edc-extensions:bpn-validation:business-partner-store-sql"))
+    runtimeOnly(libs.eclipse.tractusx.controlplane.migration)
     runtimeOnly(libs.edc.vault.hashicorp)
     runtimeOnly(libs.bundles.edc.sqlstores)
     runtimeOnly(libs.edc.transaction.local)
@@ -40,6 +39,7 @@ dependencies {
 
 
 tasks.withType<ShadowJar> {
+    exclude("**/pom.properties", "**/pom.xm")
     mergeServiceFiles()
     archiveFileName.set("${project.name}.jar")
 }

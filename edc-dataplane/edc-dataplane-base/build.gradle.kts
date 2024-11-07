@@ -23,12 +23,12 @@ plugins {
 }
 
 dependencies {
-    runtimeOnly(project(":core:edr-core"))
-    runtimeOnly(project(":edc-extensions:tokenrefresh-handler"))
-    runtimeOnly(project(":edc-extensions:dcp:tx-dcp-sts-dim"))
-    runtimeOnly(project(":edc-extensions:dataplane:dataplane-proxy:edc-dataplane-proxy-consumer-api"))
-    runtimeOnly(project(":edc-extensions:dataplane:dataplane-token-refresh:token-refresh-core"))
-    runtimeOnly(project(":edc-extensions:dataplane:dataplane-token-refresh:token-refresh-api"))
+    runtimeOnly(libs.eclipse.tractusx.edr.core)
+    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.handler)
+    runtimeOnly(libs.eclipse.tractusx.dcp.sts.dim)
+    runtimeOnly(libs.eclipse.tractusx.dataplane.proxy.consumer.api)
+    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.core)
+    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.api)
 
     runtimeOnly(libs.edc.jsonld) // needed by the DataPlaneSignalingApi
     runtimeOnly(libs.edc.core.did) // for the DID Public Key Resolver

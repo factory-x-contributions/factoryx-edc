@@ -1,4 +1,5 @@
 /********************************************************************************
+ * Copyright (c) 2024 T-Systems International GmbH
  * Copyright (c) 2022 Mercedes-Benz Tech Innovation GmbH
  * Copyright (c) 2021,2022 Contributors to the Eclipse Foundation
  *
@@ -28,8 +29,7 @@ plugins {
 
 dependencies {
     runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-    runtimeOnly(project(":edc-extensions:migrations::control-plane-migration"))
-    runtimeOnly(project(":edc-extensions:bpn-validation:business-partner-store-sql"))
+    runtimeOnly(libs.eclipse.tractusx.controlplane.migration)
     runtimeOnly(libs.edc.azure.vault)
     runtimeOnly(libs.bundles.edc.sqlstores)
     runtimeOnly(libs.edc.transaction.local)

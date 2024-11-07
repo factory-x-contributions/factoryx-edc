@@ -25,7 +25,7 @@ plugins {
 
 dependencies {
     implementation(project(":edc-dataplane:edc-dataplane-base"))
-    runtimeOnly(project(":edc-extensions:migrations::data-plane-migration"))
+    runtimeOnly(libs.eclipse.tractusx.dataplane.migration)
     runtimeOnly(libs.edc.vault.hashicorp)
     runtimeOnly(libs.edc.transaction.local)
     runtimeOnly(libs.edc.sql.pool)
@@ -36,6 +36,7 @@ dependencies {
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    exclude("**/pom.properties", "**/pom.xm")
     mergeServiceFiles()
     archiveFileName.set("${project.name}.jar")
 }

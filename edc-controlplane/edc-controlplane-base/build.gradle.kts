@@ -1,4 +1,5 @@
 /********************************************************************************
+ * Copyright (c) 2024 T-Systems International GmbH
  * Copyright (c) 2022 Mercedes-Benz Tech Innovation GmbH
  * Copyright (c) 2021,2022 Contributors to the Eclipse Foundation
  *
@@ -24,13 +25,13 @@ plugins {
 }
 
 dependencies {
-    runtimeOnly(project(":core:edr-core"))
-    runtimeOnly(project(":edc-extensions:dataplane:dataplane-selector-configuration"))
-    runtimeOnly(project(":edc-extensions:provision-additional-headers"))
-    runtimeOnly(project(":edc-extensions:edr:edr-api-v2"))
-    runtimeOnly(project(":edc-extensions:edr:edr-callback"))
-    runtimeOnly(project(":edc-extensions:tokenrefresh-handler"))
-    runtimeOnly(project(":edc-extensions:agreements"))
+    runtimeOnly(libs.eclipse.tractusx.edr.core)
+    runtimeOnly(libs.eclipse.tractusx.dataplane.selector.configuration)
+    runtimeOnly(libs.eclipse.tractusx.provision.additional.headers)
+    runtimeOnly(libs.eclipse.tractusx.edr.api.v2)
+    runtimeOnly(libs.eclipse.tractusx.edr.callback)
+    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.handler)
+    runtimeOnly(libs.eclipse.tractusx.agreements)
 
     runtimeOnly(libs.edc.core.edrstore)
     runtimeOnly(libs.edc.edr.store.receiver)
@@ -38,21 +39,21 @@ dependencies {
     runtimeOnly(libs.edc.controlplane.callback.staticendpoint)
 
     // needed for BPN validation
-    runtimeOnly(project(":edc-extensions:bpn-validation"))
+    runtimeOnly(libs.eclipse.tractusx.bpn.validation)
     // Credentials FX policies
     runtimeOnly(project(":edc-extensions:fx-policy"))
 
     // needed for DCP integration
-    runtimeOnly(project(":core:json-ld-core"))
+    runtimeOnly(libs.eclipse.tractusx.core.json.ld)
     runtimeOnly(libs.edc.core.did)
     runtimeOnly(libs.edc.identity.did.web)
     runtimeOnly(libs.edc.core.identitytrust)
     runtimeOnly(libs.edc.identity.trust.transform)
     runtimeOnly(libs.edc.identity.trust.issuers.configuration)
-    runtimeOnly(project(":edc-extensions:dcp:tx-dcp"))
-    runtimeOnly(project(":edc-extensions:dcp:tx-dcp-sts-dim"))
-    runtimeOnly(project(":edc-extensions:bdrs-client"))
-    runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
+    runtimeOnly(libs.eclipse.tractusx.dcp)
+    runtimeOnly(libs.eclipse.tractusx.dcp.sts.dim)
+    runtimeOnly(libs.eclipse.tractusx.bdrs.client)
+    runtimeOnly(libs.eclipse.tractusx.dataflow.properties.provider)
 
     runtimeOnly(libs.edc.core.connector)
     runtimeOnly(libs.edc.core.controlplane)
@@ -62,7 +63,6 @@ dependencies {
     runtimeOnly(libs.edc.auth.delegated)
     runtimeOnly(libs.edc.auth.configuration)
     runtimeOnly(libs.edc.validator.data.address.http.data)
-    runtimeOnly(libs.edc.aws.validator.data.address.s3)
     runtimeOnly(libs.edc.data.plane.selector.control.api)
 
     runtimeOnly(libs.edc.api.management) {
@@ -87,7 +87,7 @@ dependencies {
     runtimeOnly(libs.edc.azure.blob.provision)
 
     // Federated Catalog Crawler + Query API
-    runtimeOnly(project(":edc-extensions:federated-catalog"))
+    runtimeOnly(libs.eclipse.tractusx.federated.catalog)
     runtimeOnly(libs.edc.fc.core)
     runtimeOnly(libs.edc.fc.api)
 
