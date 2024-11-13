@@ -24,15 +24,14 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.eclipse.tractusx.coreutils)
-    implementation(libs.edc.spi.core)
     runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
     runtimeOnly(project(":edc-dataplane:edc-dataplane-base")) {
         exclude("org.eclipse.edc", "data-plane-selector-client")
     }
-    runtimeOnly(libs.edc.core.controlplane)
-    testImplementation(libs.edc.junit)
-    testImplementation(libs.edc.lib.boot)
+    runtimeOnly(libs.eclipse.tractusx.edc.runtime.memory) {
+        exclude("org.eclipse.tractusx.edc", "edc-controlplane-base")
+        exclude("org.eclipse.tractusx.edc", "edc-dataplane-base")
+    }
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {

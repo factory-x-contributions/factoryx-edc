@@ -19,7 +19,13 @@
 
 package org.factoryx.edc.policy.fx.certification;
 
+/**
+ * enum to hold different certification types allowed by Factory-X
+ */
 public enum CertificationType {
+    /**
+     * A default certification type placeholder until policies are defined.
+     */
     MyCertification("MyCertification");
 
     CertificationType(String type) {

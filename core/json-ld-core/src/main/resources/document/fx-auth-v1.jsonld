@@ -1,0 +1,12 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "fx-auth": "https://w3id.org/factoryx/auth/",
+    "refreshToken": "fx-auth:refreshToken",
+    "refreshEndpoint": "fx-auth:refreshEndpoint",
+    "refreshAudience": "fx-auth:refreshAudience",
+    "audience": "fx-auth:audience",
+    "expiresIn": "fx-auth:expiresIn"
+  }
+}

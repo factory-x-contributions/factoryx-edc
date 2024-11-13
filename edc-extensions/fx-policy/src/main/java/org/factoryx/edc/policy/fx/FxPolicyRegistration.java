@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.eclipse.edc.policy.model.OdrlNamespace.ODRL_SCHEMA;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 import static org.factoryx.edc.policy.fx.certification.CertificationTypeCredentialConstraintFunction.CERTIFICATION_LITERAL;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.CATALOG_REQUEST_SCOPE;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.CATALOG_SCOPE;
@@ -39,10 +39,26 @@ import static org.factoryx.edc.policy.fx.common.PolicyScopes.TRANSFER_PROCESS_RE
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.TRANSFER_PROCESS_SCOPE;
 import static org.factoryx.edc.policy.fx.membership.MembershipCredentialConstraintFunction.MEMBERSHIP_LITERAL;
 
+/**
+ * Registers FX policy constraints to the EDC
+ * This helps in adding custom constraints to EDC to enact Factory-X's own policies.
+ */
 public class FxPolicyRegistration {
+    /**
+     * List of functional scopes in EDC where the FX-policy constraints are validated
+     */
     private static final Set<String> FUNCTION_SCOPES = Set.of(CATALOG_SCOPE, NEGOTIATION_SCOPE, TRANSFER_PROCESS_SCOPE);
+
+    /**
+     * List of Rules to which FX-policy constraints are bound by.
+     */
     private static final Set<String> RULE_SCOPES = Set.of(CATALOG_REQUEST_SCOPE, NEGOTIATION_REQUEST_SCOPE, TRANSFER_PROCESS_REQUEST_SCOPE, CATALOG_SCOPE, NEGOTIATION_SCOPE, TRANSFER_PROCESS_SCOPE);
 
+    /**
+     * Registers FX-policies to EDC's policy engine.
+     *
+     * @param engine holds all policies that EDC follows.
+     */
     public static void registerFunctions(PolicyEngine engine) {
         FUNCTION_SCOPES.forEach(scope -> {
             engine.registerFunction(scope, Permission.class, new MembershipCredentialConstraintFunction());
@@ -50,6 +66,11 @@ public class FxPolicyRegistration {
         });
     }
 
+    /**
+     * Registers bindings to the registry so that the FX-policy rules are triggered when a rule is reached
+     *
+     * @param registry is a registry of rules (functions) which are triggered when EDC reaches a rule.
+     */
     public static void registerBindings(RuleBindingRegistry registry) {
         registry.dynamicBind(s -> {
             if (Stream.of(CERTIFICATION_LITERAL, MEMBERSHIP_LITERAL).anyMatch(postfix -> s.startsWith(FX_POLICY_NS + postfix))) {

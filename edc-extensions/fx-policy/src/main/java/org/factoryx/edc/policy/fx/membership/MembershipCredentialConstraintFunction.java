@@ -27,8 +27,8 @@ import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.tractusx.edc.core.utils.credentials.CredentialTypePredicate;
 import org.factoryx.edc.policy.fx.common.AbstractDynamicCredentialConstraintFunction;
 
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_CREDENTIAL_NS;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_CREDENTIAL_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
 
 /**
@@ -36,6 +36,9 @@ import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
  * objects extracted from a {@link ParticipantAgent} which is expected to be present on the {@link ParticipantAgentPolicyContext}.
  */
 public class MembershipCredentialConstraintFunction<C extends ParticipantAgentPolicyContext> extends AbstractDynamicCredentialConstraintFunction<C> {
+    /**
+     * key of the membership credential constraint
+     */
     public static final String MEMBERSHIP_LITERAL = "Membership";
 
     @Override

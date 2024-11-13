@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_CREDENTIAL_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_CREDENTIAL_NS;
 
 public class CredentialFunctions {
 

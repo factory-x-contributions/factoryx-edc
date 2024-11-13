@@ -31,6 +31,7 @@ edc-spi-core = { module = "org.eclipse.edc:core-spi", version.ref = "edc" }
 edc-spi-policy = { module = "org.eclipse.edc:policy-spi", version.ref = "edc" }
 edc-spi-contract = { module = "org.eclipse.edc:contract-spi", version.ref = "edc" }
 edc-spi-policyengine = { module = "org.eclipse.edc:policy-engine-spi", version.ref = "edc" }
+edc-spi-request-policy-context = { module = "org.eclipse.edc:request-policy-context-spi", version.ref = "edc" }
 edc-spi-transaction-datasource = { module = "org.eclipse.edc:transaction-datasource-spi", version.ref = "edc" }
 edc-spi-transactionspi = { module = "org.eclipse.edc:transaction-spi", version.ref = "edc" }
 edc-spi-controlplane = { module = "org.eclipse.edc:control-plane-spi", version.ref = "edc" }
@@ -216,7 +217,15 @@ eclipse-tractusx-provision-additional-headers = { module = "org.eclipse.tractusx
 eclipse-tractusx-spi-tokenrefresh = { module = "org.eclipse.tractusx.edc:tokenrefresh-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-bdrs-client = { module = "org.eclipse.tractusx.edc:bdrs-client-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation-spi", version.ref = "tractusx"}
+eclipse-tractusx-spi-core = { module = "org.eclipse.tractusx.edc:core-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-retirement-evaluation = { module = "org.eclipse.tractusx.edc:retirement-evaluation-spi", version.ref = "tractusx"}
+
+#tractusx runtime modules
+eclipse-tractusx-edc-controlplane-base = {module = "org.eclipse.tractusx.edc:edc-controlplane-base", version.ref = "tractusx"}
+eclipse-tractusx-edc-dataplane-base = {module = "org.eclipse.tractusx.edc:edc-dataplane-base", version.ref = "tractusx"}
+eclipse-tractusx-edc-runtime-memory = {module = "org.eclipse.tractusx.edc:edc-runtime-memory", version.ref = "tractusx"}
+eclipse-tractusx-edc-controlplane-postgresql-hashicorp-vault = {module = "org.eclipse.tractusx.edc:edc-controlplane-postgresql-hashicorp-vault", version.ref = "tractusx"}
+eclipse-tractusx-edc-dataplane-postgresql-vault = {module = "org.eclipse.tractusx.edc:edc-dataplane-hashicorp-vault", version.ref = "tractusx"}
 
 # other deps
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }

@@ -1,14 +1,14 @@
-# Notices for Eclipse Tractus-X
+# Notices for Factory-X
 
-This content is produced and maintained by the Eclipse Tractus-X project.
+This content is produced and maintained by the Factory-X project.
 
-* Project home: <https://projects.eclipse.org/projects/automotive.tractusx>
+* Project home: <https://factory-x.org>
 
 See the AUTHORS file(s) distributed with this work for additional information regarding authorship.
 
 ## Trademarks
 
-Eclipse Tractus-X is a trademark of the Eclipse Foundation.
+Factory-X is a trademark of the Factory-X.
 
 ## Copyright
 
@@ -18,7 +18,7 @@ source code repository logs.
 
 ## Declared Project Licenses
 
-The Tractus-X project uses the following licenses:
+The Factory-X project uses the following licenses:
 
 - Apache-2.0 for code
 - CC-BY-4.0 for non-code
@@ -34,9 +34,9 @@ SPDX-License-Identifier: CC-BY-4.0
 ## Source Code
 
 The project maintains the following source code repositories
-in the GitHub organization <https://github.com/eclipse-tractusx>:
+in the GitHub organization <https://github.com/factory-x-contributions>:
 
-* <https://github.com/eclipse-tractusx/tractusx-edc>
+* <https://github.com/factory-x-contributions/factoryx-edc>
 
 ## Third-party Content
 

@@ -10,11 +10,7 @@ This version of the EDC Control-Plane is backed by [PostgreSQL](https://www.post
 
 ## Configuration
 
-Details regarding each configuration property can be found in the [docs for the chart](../../charts/tractusx-connector/README.md).
-
-Please note that the properties list may not be complete as the tractusx-edc may elect to fall back to the default behavior of an
-extension. When in doubt, check the extensions' README that will likely be in [this repo's](../../edc-extensions) or in the [eclipse-edc's](https://github.com/eclipse-edc/Connector/tree/main/extensions)
-`extensions` folder.
+https://github.com/eclipse-tractusx/tractusx-edc/blob/main/edc-controlplane/edc-controlplane-postgresql-hashicorp-vault/README.md
 
 ## Running
 

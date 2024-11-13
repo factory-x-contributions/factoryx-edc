@@ -25,70 +25,16 @@ plugins {
 }
 
 dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edr.core)
-    runtimeOnly(libs.eclipse.tractusx.dataplane.selector.configuration)
-    runtimeOnly(libs.eclipse.tractusx.provision.additional.headers)
-    runtimeOnly(libs.eclipse.tractusx.edr.api.v2)
-    runtimeOnly(libs.eclipse.tractusx.edr.callback)
-    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.handler)
-    runtimeOnly(libs.eclipse.tractusx.agreements)
+    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.base) {
+        exclude("org.eclipse.tractusx.edc", "cx-policy")
+        exclude("org.eclipse.tractusx.edc", "json-ld-core")
+        exclude("org.eclipse.tractusx.edc", "tx-dcp")
+    }
 
-    runtimeOnly(libs.edc.core.edrstore)
-    runtimeOnly(libs.edc.edr.store.receiver)
-    runtimeOnly(libs.edc.dpf.transfer.signaling)
-    runtimeOnly(libs.edc.controlplane.callback.staticendpoint)
-
-    // needed for BPN validation
-    runtimeOnly(libs.eclipse.tractusx.bpn.validation)
     // Credentials FX policies
     runtimeOnly(project(":edc-extensions:fx-policy"))
 
     // needed for DCP integration
-    runtimeOnly(libs.eclipse.tractusx.core.json.ld)
-    runtimeOnly(libs.edc.core.did)
-    runtimeOnly(libs.edc.identity.did.web)
-    runtimeOnly(libs.edc.core.identitytrust)
-    runtimeOnly(libs.edc.identity.trust.transform)
-    runtimeOnly(libs.edc.identity.trust.issuers.configuration)
-    runtimeOnly(libs.eclipse.tractusx.dcp)
-    runtimeOnly(libs.eclipse.tractusx.dcp.sts.dim)
-    runtimeOnly(libs.eclipse.tractusx.bdrs.client)
-    runtimeOnly(libs.eclipse.tractusx.dataflow.properties.provider)
-
-    runtimeOnly(libs.edc.core.connector)
-    runtimeOnly(libs.edc.core.controlplane)
-    runtimeOnly(libs.edc.core.policy.monitor)
-    runtimeOnly(libs.edc.config.filesystem)
-    runtimeOnly(libs.edc.auth.tokenbased)
-    runtimeOnly(libs.edc.auth.delegated)
-    runtimeOnly(libs.edc.auth.configuration)
-    runtimeOnly(libs.edc.validator.data.address.http.data)
-    runtimeOnly(libs.edc.data.plane.selector.control.api)
-
-    runtimeOnly(libs.edc.api.management) {
-        exclude("org.eclipse.edc", "edr-cache-api")
-    }
-    runtimeOnly(libs.edc.api.controlplane)
-    runtimeOnly(libs.edc.api.management.config)
-    runtimeOnly(libs.edc.api.control.config)
-    runtimeOnly(libs.edc.api.core)
-    runtimeOnly(libs.edc.api.observability)
-    runtimeOnly(libs.edc.dsp)
-    runtimeOnly(libs.edc.spi.jwt)
-    runtimeOnly(libs.bundles.edc.dpf)
-
-    runtimeOnly(libs.edc.ext.http)
-    runtimeOnly(libs.bundles.edc.monitoring)
-    runtimeOnly(libs.edc.transfer.dynamicreceiver)
-    runtimeOnly(libs.edc.controlplane.callback.dispatcher.event)
-    runtimeOnly(libs.edc.controlplane.callback.dispatcher.http)
-
-    // cloud provisioner extensions
-    runtimeOnly(libs.edc.azure.blob.provision)
-
-    // Federated Catalog Crawler + Query API
-    runtimeOnly(libs.eclipse.tractusx.federated.catalog)
-    runtimeOnly(libs.edc.fc.core)
-    runtimeOnly(libs.edc.fc.api)
-
+    runtimeOnly(project(":core:json-ld-core"))
+    runtimeOnly(project(":edc-extensions:dcp:tx-dcp"))
 }

@@ -27,14 +27,10 @@ plugins {
 }
 
 dependencies {
+    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.postgresql.hashicorp.vault) {
+        exclude("org.eclipse.tractusx.edc", "edc-controlplane-base")
+    }
     runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-    runtimeOnly(libs.eclipse.tractusx.controlplane.migration)
-    runtimeOnly(libs.edc.vault.hashicorp)
-    runtimeOnly(libs.bundles.edc.sqlstores)
-    runtimeOnly(libs.edc.transaction.local)
-    runtimeOnly(libs.edc.sql.pool)
-    runtimeOnly(libs.edc.core.controlplane)
-    runtimeOnly(libs.postgres)
 }
 
 

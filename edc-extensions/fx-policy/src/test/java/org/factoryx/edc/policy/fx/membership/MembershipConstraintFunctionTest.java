@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2024 T-Systems International GmbH
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 import static org.factoryx.edc.policy.fx.CredentialFunctions.createMembershipCredential;
 import static org.factoryx.edc.policy.fx.CredentialFunctions.createPcfCredential;
 import static org.mockito.ArgumentMatchers.eq;

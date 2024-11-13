@@ -36,11 +36,34 @@ import java.util.List;
  * common constants
  */
 public abstract class AbstractDynamicCredentialConstraintFunction<C extends ParticipantAgentPolicyContext> implements DynamicAtomicConstraintRuleFunction<Permission, C> {
+    /**
+     * Verifiable credential key to extract values
+     */
     public static final String VC_CLAIM = "vc";
+
+    /**
+     * Expected right operand of membership. Inactive members cannot participate.
+     */
     public static final String ACTIVE = "active";
+
+    /**
+     * Credential Literal used to identify credentials and extract from credentialScopeExtractor
+     */
     public static final String CREDENTIAL_LITERAL = "Credential";
+
+    /**
+     * Expected ODRL operators to check fx policy
+     */
     protected static final Collection<Operator> EQUALITY_OPERATORS = List.of(Operator.EQ, Operator.NEQ);
 
+    /**
+     * checks acceptability of ODRL operator passed for constraint validation.
+     *
+     * @param actual operator from request
+     * @param context context of the policy
+     * @param expectedOperators collection of allowed operators
+     * @return true/false based on validity of the operator
+     */
     protected boolean checkOperator(Operator actual, PolicyContext context, Collection<Operator> expectedOperators) {
         if (!expectedOperators.contains(actual)) {
             context.reportProblem("Invalid operator: this constraint only allows the following operators: %s, but received '%s'.".formatted(EQUALITY_OPERATORS, actual));
@@ -49,6 +72,12 @@ public abstract class AbstractDynamicCredentialConstraintFunction<C extends Part
         return true;
     }
 
+    /**
+     * extracts participant agent from the policy context.
+     *
+     * @param context policy context from which participant is extracted.
+     * @return participant agent needed to validate policies.
+     */
     protected Result<ParticipantAgent> extractParticipantAgent(PolicyContext context) {
         // make sure the ParticipantAgent is there
         var participantAgent = context.getContextData(ParticipantAgent.class);
@@ -61,6 +90,9 @@ public abstract class AbstractDynamicCredentialConstraintFunction<C extends Part
     /**
      * Extracts a {@link List} of {@link VerifiableCredential} objects from the {@link ParticipantAgent}. Credentials must be
      * stored in the agent's claims map using the "vc" key.
+     *
+     * @param agent participantAgent which contains information on the participant.
+     * @return list of verifiable credentials extracted from the participant agent
      */
     protected Result<List<VerifiableCredential>> getCredentialList(ParticipantAgent agent) {
         var vcListClaim = agent.getClaims().get(VC_CLAIM);

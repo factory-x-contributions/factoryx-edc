@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Factory-X project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,42 +19,29 @@
 
 rootProject.name = "factoryx-edc"
 
+// core modules
+include(":core:json-ld-core")
+
 // spi modules
 include(":spi:core-spi")
 
 // extensions - control plane
 include(":edc-extensions:fx-policy")
-
-// test modules
-include(":edc-tests:e2e-fixtures")
-include(":edc-tests:edc-controlplane:edr-api-tests")
-include(":edc-tests:edc-controlplane:catalog-tests")
-include(":edc-tests:edc-controlplane:transfer-tests")
-include(":edc-tests:edc-controlplane:iatp-tests")
-include(":edc-tests:edc-controlplane:policy-tests")
-include(":edc-tests:runtime:extensions")
-include(":edc-tests:runtime:runtime-memory")
-include(":edc-tests:runtime:mock-connector")
-include(":edc-tests:runtime:dataplane-cloud")
-include(":edc-tests:runtime:runtime-postgresql")
-include(":edc-tests:runtime:iatp:runtime-memory-iatp-ih")
-include(":edc-tests:runtime:iatp:runtime-memory-iatp-dim-ih")
-include(":edc-tests:runtime:iatp:runtime-memory-iatp-dim")
-include(":edc-tests:runtime:iatp:runtime-memory-sts")
-include(":edc-tests:runtime:iatp:iatp-extensions")
+include(":edc-extensions:dcp:tx-dcp")
+include(":edc-extensions:bdrs-client")
 
 // modules for controlplane artifacts
 include(":edc-controlplane")
 include(":edc-controlplane:edc-controlplane-base")
 include(":edc-controlplane:edc-runtime-memory")
-include(":edc-controlplane:edc-controlplane-postgresql-azure-vault")
 include(":edc-controlplane:edc-controlplane-postgresql-hashicorp-vault")
 
 // modules for dataplane artifacts
 include(":edc-dataplane")
-include(":edc-dataplane:edc-dataplane-azure-vault")
 include(":edc-dataplane:edc-dataplane-base")
 include(":edc-dataplane:edc-dataplane-hashicorp-vault")
+
+include(":samples:multi-tenancy")
 
 
 // this is needed to have access to snapshot builds of plugins

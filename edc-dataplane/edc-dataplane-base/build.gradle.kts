@@ -23,40 +23,5 @@ plugins {
 }
 
 dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edr.core)
-    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.handler)
-    runtimeOnly(libs.eclipse.tractusx.dcp.sts.dim)
-    runtimeOnly(libs.eclipse.tractusx.dataplane.proxy.consumer.api)
-    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.core)
-    runtimeOnly(libs.eclipse.tractusx.tokenrefresh.api)
-
-    runtimeOnly(libs.edc.jsonld) // needed by the DataPlaneSignalingApi
-    runtimeOnly(libs.edc.core.did) // for the DID Public Key Resolver
-    runtimeOnly(libs.edc.identity.did.web)
-    runtimeOnly(libs.edc.config.filesystem)
-    runtimeOnly(libs.edc.dpf.awss3)
-    runtimeOnly(libs.edc.dpf.azblob)
-    runtimeOnly(libs.edc.dpf.oauth2)
-    runtimeOnly(libs.edc.dpf.http)
-
-    runtimeOnly(libs.edc.aws.validator.data.address.s3)
-
-    runtimeOnly(libs.edc.dpf.core)
-    runtimeOnly(libs.edc.dpf.iam)
-    runtimeOnly(libs.edc.controlplane.apiclient)
-
-    runtimeOnly(libs.edc.data.plane.selector.client)
-    runtimeOnly(libs.edc.data.plane.self.registration)
-    runtimeOnly(libs.edc.dpf.api.signaling)
-
-    runtimeOnly(libs.edc.api.control.config)
-    runtimeOnly(libs.edc.dpf.api.public.v2)
-    runtimeOnly(libs.edc.core.connector)
-    runtimeOnly(libs.edc.boot)
-    runtimeOnly(libs.edc.core.edrstore)
-
-    runtimeOnly(libs.bundles.edc.monitoring)
-    runtimeOnly(libs.edc.ext.http)
-    runtimeOnly(libs.edc.api.observability)
-    runtimeOnly(libs.edc.api.core)
+    runtimeOnly(libs.eclipse.tractusx.edc.dataplane.base)
 }

@@ -24,15 +24,10 @@ plugins {
 }
 
 dependencies {
+    runtimeOnly(libs.eclipse.tractusx.edc.dataplane.postgresql.vault) {
+        exclude("org.eclipse.tractusx.edc", "edc-dataplane-base")
+    }
     implementation(project(":edc-dataplane:edc-dataplane-base"))
-    runtimeOnly(libs.eclipse.tractusx.dataplane.migration)
-    runtimeOnly(libs.edc.vault.hashicorp)
-    runtimeOnly(libs.edc.transaction.local)
-    runtimeOnly(libs.edc.sql.pool)
-    runtimeOnly(libs.edc.sql.accesstokendata)
-    runtimeOnly(libs.edc.sql.edrindex)
-    runtimeOnly(libs.edc.sql.dataplane)
-    runtimeOnly(libs.postgres)
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {

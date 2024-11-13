@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Factory-X Project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +31,9 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
-val txScmConnection: String by project
-val txWebsiteUrl: String by project
-val txScmUrl: String by project
+val fxScmConnection: String by project
+val fxWebsiteUrl: String by project
+val fxScmUrl: String by project
 val edcVersion = libs.versions.edc
 
 buildscript {
@@ -91,18 +91,9 @@ allprojects {
             groupId = project.group.toString()
             projectName.set(project.name)
             description.set("edc :: ${project.name}")
-            projectUrl.set(txWebsiteUrl)
-            scmConnection.set(txScmConnection)
-            scmUrl.set(txScmUrl)
-        }
-        swagger {
-            title.set((project.findProperty("apiTitle") ?: "Tractus-X REST API") as String)
-            description =
-                (project.findProperty("apiDescription")
-                    ?: "Tractus-X REST APIs - merged by OpenApiMerger") as String
-            outputFilename.set(project.name)
-            outputDirectory.set(file("${rootProject.projectDir.path}/resources/openapi/yaml"))
-            resourcePackages = setOf("org.eclipse.tractusx.edc")
+            projectUrl.set(fxWebsiteUrl)
+            scmConnection.set(fxScmConnection)
+            scmUrl.set(fxScmUrl)
         }
     }
 

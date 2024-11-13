@@ -22,5 +22,6 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.eclipse.tractusx.spi.core)
     implementation(libs.edc.spi.core)
 }

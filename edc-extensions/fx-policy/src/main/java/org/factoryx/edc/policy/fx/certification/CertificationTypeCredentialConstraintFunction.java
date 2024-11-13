@@ -24,11 +24,12 @@ import org.eclipse.edc.participant.spi.ParticipantAgent;
 import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
 import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.policy.model.Permission;
+import org.factoryx.edc.edr.spi.CoreConstants;
 import org.factoryx.edc.policy.fx.common.AbstractDynamicCredentialConstraintFunction;
 
 import java.util.Arrays;
 
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
 /**
  * Enforces a Certification Agreement constraint.
@@ -41,6 +42,9 @@ import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
  * policy is considered <strong>not fulfilled</strong>.
  */
 public class CertificationTypeCredentialConstraintFunction<C extends ParticipantAgentPolicyContext> extends AbstractDynamicCredentialConstraintFunction<C> {
+    /**
+     * key of the certification type constraint
+     */
     public static final String CERTIFICATION_LITERAL = "CertificationType";
 
     /**
@@ -84,7 +88,7 @@ public class CertificationTypeCredentialConstraintFunction<C extends Participant
     }
 
     /**
-     * Returns {@code true} if the left-operand starts with {@link org.eclipse.tractusx.edc.edr.spi.CoreConstants#FX_POLICY_NS}, {@code false} otherwise.
+     * Returns {@code true} if the left-operand starts with {@link CoreConstants#FX_POLICY_NS}, {@code false} otherwise.
      */
     @Override
     public boolean canHandle(Object leftValue) {
