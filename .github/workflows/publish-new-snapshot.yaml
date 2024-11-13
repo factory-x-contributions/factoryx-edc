@@ -80,12 +80,12 @@ jobs:
 #          fi
   publish-docker-images:
     name: "Create Docker Images"
-    needs: [ secret-presence, determine-version]
+    needs: [ secret-presence]
     if: |
       needs.secret-presence.outputs.DOCKER_HUB_TOKEN
     permissions:
       contents: write
     uses: ./.github/workflows/trigger-docker-publish.yaml
     secrets: inherit
-    with:
-      docker_tag: ${{ needs.determine-version.outputs.VERSION }}
+#    with:
+#      docker_tag: ${{ needs.determine-version.outputs.VERSION }}
