@@ -73,11 +73,11 @@ jobs:
           
           IFS=.- read -r RELEASE_VERSION_MAJOR RELEASE_VERSION_MINOR RELEASE_VERSION_PATCH SNAPSHOT<<<$(grep "version" gradle.properties | awk -F= '{print $2}')
           
-          if [[ ${{ github.event.workflow_run.event }} == "schedule" ]]; then
-            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-$(date +"%Y%m%d")-SNAPSHOT" >> "$GITHUB_OUTPUT"
-          else
-            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-SNAPSHOT" >> "$GITHUB_OUTPUT"
-          fi
+#          if [[ ${{ github.event.workflow_run.event }} == "schedule" ]]; then
+#            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-$(date +"%Y%m%d")-SNAPSHOT" >> "$GITHUB_OUTPUT"
+#          else
+#            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-SNAPSHOT" >> "$GITHUB_OUTPUT"
+#          fi
   publish-docker-images:
     name: "Create Docker Images"
     needs: [ secret-presence, determine-version]
