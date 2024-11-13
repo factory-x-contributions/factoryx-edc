@@ -18,7 +18,7 @@ Please also refer to:
 
 ## About The Project
 
-The project is an extension for the [Eclipse Tractus-X](https://github.com/eclipse-tractusx/tractusx-edc) extending compatibility to Manufacturing sector and is based on
+The project is an extension for the [Eclipse Tractus-X](https://github.com/eclipse-tractusx/tractusx-edc) for the Manufacturing sector and is based on
  [Eclipse DataSpaceConnector Project](https://github.com/eclipse-edc/Connector).
 
 ## Inventory
@@ -47,7 +47,7 @@ For testing/development purposes:
 
 ### Build
 
-Build Tractus-X EDC together with its Container Images
+Build Factory-X EDC together with its Container Images
 
 ```shell
 ./gradlew dockerize
