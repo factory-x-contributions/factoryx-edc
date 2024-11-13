@@ -60,24 +60,24 @@ jobs:
           [ ! -z "${{ secrets.SWAGGERHUB_API_KEY }}" ]  &&
           [ ! -z "${{ secrets.SWAGGERHUB_USER }}" ]  && echo "HAS_SWAGGER=true" >> $GITHUB_OUTPUT
           exit 0
-  determine-version:
-    name: "Determine snapshot version to be published"
-    runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.get-version.outputs.VERSION }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: "Get version"
-        id: get-version
-        run: |
-          
-          IFS=.- read -r RELEASE_VERSION_MAJOR RELEASE_VERSION_MINOR RELEASE_VERSION_PATCH SNAPSHOT<<<$(grep "version" gradle.properties | awk -F= '{print $2}')
-          
-          if [[ ${{ github.event.workflow_run.event }} == "schedule" ]]; then
-            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-$(date +"%Y%m%d")-SNAPSHOT" >> "$GITHUB_OUTPUT"
-          else
-            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-SNAPSHOT" >> "$GITHUB_OUTPUT"
-          fi
+#  determine-version:
+#    name: "Determine snapshot version to be published"
+#    runs-on: ubuntu-latest
+#    outputs:
+#      VERSION: ${{ steps.get-version.outputs.VERSION }}
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: "Get version"
+#        id: get-version
+#        run: |
+#
+#          IFS=.- read -r RELEASE_VERSION_MAJOR RELEASE_VERSION_MINOR RELEASE_VERSION_PATCH SNAPSHOT<<<$(grep "version" gradle.properties | awk -F= '{print $2}')
+#
+#          if [[ ${{ github.event.workflow_run.event }} == "schedule" ]]; then
+#            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-$(date +"%Y%m%d")-SNAPSHOT" >> "$GITHUB_OUTPUT"
+#          else
+#            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-SNAPSHOT" >> "$GITHUB_OUTPUT"
+#          fi
   publish-docker-images:
     name: "Create Docker Images"
     needs: [ secret-presence, determine-version]
