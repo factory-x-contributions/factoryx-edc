@@ -21,24 +21,18 @@
 
 ---
 name: "Publish Docker Image"
-description: "Build and publish a Docker Image to DockerHub"
+description: "Build and publish a Docker Image to GHCR"
 inputs:
   rootDir:
     required: true
     description: "The directory where the notice.md file and the src/main/docker directory are located"
   namespace:
-    required: false
-    default: "factoryx"
-    description: "The Docker image namespace"
+    required: true
+    default: "ghcr.io/${{ github.repository_owner }}"
+    description: "The GHCR image namespace"
   imagename:
     required: true
     description: "the name of the image"
-  docker_user:
-    required: false
-    description: "DockerHub user name. No push is done if omitted"
-  docker_token:
-    required: false
-    description: "DockerHub Token. No push is done if omitted"
   docker_tag:
     required: false
     description: 'additional docker tags'
@@ -48,28 +42,19 @@ runs:
   steps:
     - uses: actions/checkout@v4
 
-    #####################
-    # Login to DockerHub
-    #####################
-    - name: DockerHub login
+    - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
-        username: ${{ inputs.docker_user }}
-        password: ${{ inputs.docker_token }}
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-    #####################
-    # Build JAR file
-    #####################
     - uses: ./.github/actions/setup-java
     - name: Build Controlplane
       shell: bash
       run: |-
         ./gradlew -p ${{ inputs.rootDir }} shadowJar
 
-    ###############################
-    # Set metadata of docker image
-    ###############################
-    # Create SemVer or ref tags dependent of trigger event
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v4
@@ -81,13 +66,9 @@ runs:
           type=semver,pattern={{major}}
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{raw}}
-          type=match,pattern=\d.\d.\d
           type=raw,value=latest,enable={{is_default_branch}}
           type=sha
 
-    ###############################
-    # Build and push the image
-    ###############################
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
@@ -100,15 +81,3 @@ runs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-
-    ###############################
-    # Update the description
-    # https://github.com/peter-evans/dockerhub-description
-    ###############################
-    - name: Update Docker Hub description
-      uses: peter-evans/dockerhub-description@v3
-      with:
-        readme-filepath: ${{ inputs.rootDir }}/notice.md
-        username: ${{ inputs.docker_user }}
-        password: ${{ inputs.docker_token }}
-        repository: ${{ inputs.namespace }}/${{ inputs.imagename }}

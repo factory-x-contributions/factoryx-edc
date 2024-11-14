@@ -25,11 +25,11 @@ on:
   workflow_dispatch:
     inputs:
       namespace:
-        description: 'The namespace (=repo) in DockerHub'
+        description: 'The GitHub Container Registry namespace'
         required: false
-        default: "factoryx"
+        default: "ghcr.io/${{ github.repository_owner }}"
       docker_tag:
-        description: 'Explicitly specify the Docker tag. Note that SHA and latest are added automatically.'
+        description: 'Docker tag for the image'
         required: false
         type: string
 
@@ -37,12 +37,12 @@ on:
     inputs:
       namespace:
         type: string
-        description: 'The namespace (=repo) in DockerHub'
+        description: 'The GitHub Container Registry namespace'
         required: false
-        default: "factoryx"
+        default: "ghcr.io/${{ github.repository_owner }}"
       docker_tag:
         type: string
-        description: 'Explicitly specify the Docker tag. Note that SHA and latest are added automatically.'
+        description: 'Docker tag for the image'
         required: false
 
 jobs:
@@ -58,6 +58,7 @@ jobs:
                    { dir: edc-tests/runtime, img: mock-connector }]
     permissions:
       contents: write
+      packages: write  # Needed for pushing to GHCR
     steps:
       - uses: actions/checkout@v4
       - name: Log inputs
@@ -70,5 +71,3 @@ jobs:
           rootDir: ${{ matrix.variant.dir }}/${{ matrix.variant.img }}
           imagename: ${{ matrix.variant.img }}
           namespace: ${{ inputs.namespace }}
-          docker_user: ${{ secrets.DOCKER_HUB_USER }}
-          docker_token: ${{ secrets.DOCKER_HUB_TOKEN }}

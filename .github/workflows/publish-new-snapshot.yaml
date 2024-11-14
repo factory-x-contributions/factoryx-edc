@@ -33,11 +33,7 @@ on:
       - completed
   workflow_dispatch:
 
-  # periodic build triggers are defined in run-all-tests.yml, which triggers this workflow
-
-
 concurrency:
-  # cancel only running jobs on pull requests
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -45,14 +41,12 @@ jobs:
   secret-presence:
     runs-on: ubuntu-latest
     outputs:
-      DOCKER_HUB_TOKEN: ${{ steps.secret-presence.outputs.DOCKER_HUB_TOKEN }}
       HAS_OSSRH: ${{ steps.secret-presence.outputs.HAS_OSSRH }}
       HAS_SWAGGER: ${{ steps.secret-presence.outputs.HAS_SWAGGER }}
     steps:
       - name: Check whether secrets exist
         id: secret-presence
         run: |
-          [ ! -z "${{ secrets.DOCKER_HUB_TOKEN }}" ] && echo "DOCKER_HUB_TOKEN=true" >> $GITHUB_OUTPUT
           [ ! -z "${{ secrets.ORG_GPG_PASSPHRASE }}" ] &&
           [ ! -z "${{ secrets.ORG_GPG_PRIVATE_KEY }}" ] &&
           [ ! -z "${{ secrets.ORG_OSSRH_USERNAME }}" ] &&
@@ -70,19 +64,10 @@ jobs:
       - name: "Get version"
         id: get-version
         run: |
-          
-          IFS=.- read -r RELEASE_VERSION_MAJOR RELEASE_VERSION_MINOR RELEASE_VERSION_PATCH SNAPSHOT<<<$(grep "version" gradle.properties | awk -F= '{print $2}')
-          
-#          if [[ ${{ github.event.workflow_run.event }} == "schedule" ]]; then
-#            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-$(date +"%Y%m%d")-SNAPSHOT" >> "$GITHUB_OUTPUT"
-#          else
-#            echo "VERSION=$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$RELEASE_VERSION_PATCH-SNAPSHOT" >> "$GITHUB_OUTPUT"
-#          fi
+          IFS=.- read -r RELEASE_VERSION_MAJOR RELEASE_VERSION_MINOR RELEASE_VERSION_PATCH SNAPSHOT <<<$(grep "version" gradle.properties | awk -F= '{print $2}')
   publish-docker-images:
     name: "Create Docker Images"
     needs: [ secret-presence, determine-version]
-    if: |
-      needs.secret-presence.outputs.DOCKER_HUB_TOKEN
     permissions:
       contents: write
     uses: ./.github/workflows/trigger-docker-publish.yaml
