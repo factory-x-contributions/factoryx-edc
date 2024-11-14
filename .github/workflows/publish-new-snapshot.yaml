@@ -68,6 +68,7 @@ jobs:
     name: "Create Docker Images"
     needs: [ secret-presence, determine-version]
     permissions:
+      packages: write
       contents: write
     uses: ./.github/workflows/trigger-docker-publish.yaml
     secrets: inherit
