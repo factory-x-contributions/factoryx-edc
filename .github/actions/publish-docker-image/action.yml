@@ -36,6 +36,15 @@ inputs:
   docker_tag:
     required: false
     description: 'additional docker tags'
+  GITHUB_TOKEN:
+    required: true
+    description: "GitHub token for authentication"
+  GHCR_TOKEN:
+    required: true
+    description: "GitHub Container Registry token"
+  GHCR_USERNAME:
+    required: true
+    description: "GitHub username for GHCR authentication"
 
 runs:
   using: "composite"
