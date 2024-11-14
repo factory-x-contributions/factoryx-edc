@@ -27,7 +27,7 @@ inputs:
     required: true
     description: "The directory where the notice.md file and the src/main/docker directory are located"
   namespace:
-    required: true
+    required: false
     default: "ghcr.io/${{ github.repository_owner }}"
     description: "The GHCR image namespace"
   imagename:
