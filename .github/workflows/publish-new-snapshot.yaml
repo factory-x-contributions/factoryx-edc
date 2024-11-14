@@ -72,4 +72,5 @@ jobs:
     uses: ./.github/workflows/trigger-docker-publish.yaml
     secrets: inherit
     with:
+      namespace: "ghcr.io/varun2394"
       docker_tag: ${{ needs.determine-version.outputs.VERSION }}
