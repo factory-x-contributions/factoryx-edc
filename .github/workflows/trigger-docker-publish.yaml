@@ -71,6 +71,6 @@ jobs:
           rootDir: ${{ matrix.variant.dir }}/${{ matrix.variant.img }}
           imagename: ${{ matrix.variant.img }}
           namespace: ${{ inputs.namespace }}
-          GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHCR_TOKEN: ${{ inputs.GHCR_TOKEN }}
           GHCR_USERNAME: ${{ inputs.GITHUB_ACTOR }}
