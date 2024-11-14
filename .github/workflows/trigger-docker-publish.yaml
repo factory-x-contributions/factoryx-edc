@@ -72,3 +72,5 @@ jobs:
           imagename: ${{ matrix.variant.img }}
           namespace: ${{ inputs.namespace }}
           GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+          GHCR_TOKEN: ${{ inputs.GHCR_TOKEN }}
+          GHCR_USERNAME: ${{ inputs.GITHUB_ACTOR }}
