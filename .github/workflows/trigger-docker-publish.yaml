@@ -27,7 +27,7 @@ on:
       namespace:
         description: 'The GitHub Container Registry namespace'
         required: false
-        default: "ghcr.io/varun2394"
+        default: "ghcr.io/factory-x-contributions"
       docker_tag:
         description: 'Docker tag for the image'
         required: false
