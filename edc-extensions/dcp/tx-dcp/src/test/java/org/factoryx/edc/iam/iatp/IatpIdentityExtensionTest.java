@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,24 +17,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-plugins {
-    `java-library`
-    id(libs.plugins.swagger.get().pluginId)
-}
+package org.factoryx.edc.iam.iatp;
 
-dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.base) {
-        exclude("org.eclipse.tractusx.edc", "cx-policy")
-        exclude("org.eclipse.tractusx.edc", "json-ld-core")
-        exclude("org.eclipse.tractusx.edc", "tx-dcp")
-        exclude("org.eclipse.tractusx.edc", "bdrs-client")
+import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
+import org.factoryx.edc.iam.iatp.identity.IatpIdentityExtractor;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@ExtendWith(DependencyInjectionExtension.class)
+public class IatpIdentityExtensionTest {
+
+    @Test
+    void initialize(IatpIdentityExtension extension) {
+        assertThat(extension.extractor()).isInstanceOf(IatpIdentityExtractor.class);
     }
 
-    runtimeOnly(project(":edc-extensions:bdrs-client"))
-    // Credentials FX policies
-    runtimeOnly(project(":edc-extensions:fx-policy"))
-
-    // needed for DCP integration
-    runtimeOnly(project(":core:json-ld-core"))
-    runtimeOnly(project(":edc-extensions:dcp:tx-dcp"))
 }

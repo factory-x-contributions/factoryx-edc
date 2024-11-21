@@ -17,7 +17,7 @@
 #  SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-org.eclipse.tractusx.edc.iam.iatp.IatpDefaultScopeExtension
-org.eclipse.tractusx.edc.iam.iatp.IatpIdentityExtension
-org.eclipse.tractusx.edc.iam.iatp.IatpScopeExtractorExtension
+org.factoryx.edc.iam.iatp.IatpDefaultScopeExtension
+org.factoryx.edc.iam.iatp.IatpIdentityExtension
+org.factoryx.edc.iam.iatp.IatpScopeExtractorExtension
 
