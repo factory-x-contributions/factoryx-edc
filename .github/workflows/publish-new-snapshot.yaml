@@ -77,7 +77,7 @@ jobs:
       docker_tag: ${{ needs.determine-version.outputs.VERSION }}
 
   publish-maven-artifacts:
-    name: "Publish artefacts to OSSRH Snapshots / MavenCentral"
+    name: "Publish artifacts"
     permissions:
       contents: read
     needs: [ secret-presence, determine-version ]
