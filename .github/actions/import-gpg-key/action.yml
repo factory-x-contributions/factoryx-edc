@@ -32,6 +32,7 @@ runs:
   steps:
     - run: |
         mkdir -p ~/.gnupg
+        echo "$ORG_GPG_PRIVATE_KEY" | gpg --batch --import --no-tty --quiet
         echo "use-agent" >> ~/.gnupg/gpg.conf
         echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
         echo "${{ inputs.ORG_GPG_PRIVATE_KEY }}" | gpg --import --batch
@@ -40,3 +41,5 @@ runs:
           echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
         done
       shell: bash
+      env:
+        ORG_GPG_PRIVATE_KEY: ${{ inputs.ORG_GPG_PRIVATE_KEY }}
