@@ -22,6 +22,11 @@ name: "Import GPG Key"
 
 description: "Imports GPG private key and configures trust settings"
 
+inputs:
+  gpg-private-key:
+    description: "The GPG private key to import"
+    required: true
+
 runs:
   using: "composite"
   steps:
