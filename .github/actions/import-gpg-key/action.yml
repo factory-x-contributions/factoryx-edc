@@ -36,7 +36,7 @@ runs:
 
     - name: Import GPG Key
       run: |
-        echo "${{ secrets.ORG_GPG_PRIVATE_KEY }}" | gpg --import --batch
+        echo "${{ inputs.ORG_GPG_PRIVATE_KEY }}" | gpg --import --batch
         echo "use-agent" >> ~/.gnupg/gpg.conf
         echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
         for fpr in $(gpg --list-keys --with-colons | awk -F: '/fpr:/ {print $10}' | sort -u); do
