@@ -35,16 +35,17 @@ runs:
         chmod 700 ~/.gnupg  # Ensure the directory has secure permissions
         touch ~/.gnupg/gpg.conf
         chmod 600 ~/.gnupg/gpg.conf  # Secure configuration file permissions
-      shell: bash  # Specify the shell to be used for this step
+        echo "use-agent" >> ~/.gnupg/gpg.conf
+        echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf  # Ensure this line is in the config
+      shell: bash
 
     - name: Import GPG private key
       run: |
         echo "$ORG_GPG_PRIVATE_KEY" | gpg --batch --import --no-tty --quiet
-        echo "use-agent" >> ~/.gnupg/gpg.conf
-        echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+        gpg --batch --pinentry-mode loopback --no-tty --import "$ORG_GPG_PRIVATE_KEY"
         for fpr in $(gpg --list-keys --with-colons | awk -F: '/fpr:/ {print $10}' | sort -u); do
           echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust
         done
-      shell: bash  # Specify the shell to be used for this step
+      shell: bash
       env:
         ORG_GPG_PRIVATE_KEY: ${{ inputs.gpg-private-key }}  # Passing GPG key as an environment variable
