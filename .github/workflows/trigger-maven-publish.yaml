@@ -18,19 +18,12 @@
 #################################################################################
 
 
----
 name: "Publish Maven Artifacts"
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        required: false
-        description: 'a semver string denoting the version. Append -SNAPSHOT for snapshots. If omitted, the version is taken from gradle.properties'
-  workflow_call:
-    inputs:
-      version:
-        type: string
         required: false
         description: 'a semver string denoting the version. Append -SNAPSHOT for snapshots. If omitted, the version is taken from gradle.properties'
 
@@ -40,44 +33,35 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: write # Ensure this permission is set for GitHub Packages
+
     steps:
-      # Set-Up
+      # Checkout the repository
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-java
 
-#      # Import GPG Key
-#      - uses: ./.github/actions/import-gpg-key
-#        name: "Import GPG Key"
-#        with:
-#          gpg-private-key: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
+      # Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-      # publish releases
-      - name: Publish version
+      # Publish version to GitHub Packages
+      - name: Publish version to GitHub Packages
         env:
-          OSSRH_PASSWORD: ${{ secrets.ORG_OSSRH_PASSWORD }}
-          OSSRH_USER: ${{ secrets.ORG_OSSRH_USERNAME }}
+          GITHUB_PACKAGE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |-
-          
           echo "Input Version: ${{ inputs.version }}"
 
-          # check if version input was specified, else read from gradle.properties 
-          
-          if [ ! -z ${{ inputs.version }} ];
-          then
+          # Check if version input was specified, else read from gradle.properties
+          if [ ! -z ${{ inputs.version }} ]; then
             VERSION=${{ inputs.version }}
             echo "Publishing using version from parameter: $VERSION"
           else
             VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
             echo "Publishing using version from gradle.properties: $VERSION"
           fi
-          
-          # check if the version is a SNAPSHOT, and if not, append command to close staging repo
-          
-#          cmd=""
-#          if [[ $VERSION != *-SNAPSHOT ]]
-#          then
-#            cmd="closeAndReleaseSonatypeStagingRepository";
-#          fi
-#          echo "Publishing Version $VERSION to Sonatype"
-#
-#          ./gradlew publishToSonatype ${cmd} --no-parallel -Pversion=$VERSION -Psigning.gnupg.executable=gpg -Psigning.gnupg.passphrase="${{ secrets.ORG_GPG_PASSPHRASE }}"
+
+          echo "Publishing Version $VERSION to GitHub Packages"
+          ./gradlew publish -Pversion=$VERSION
