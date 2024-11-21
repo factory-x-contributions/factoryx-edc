@@ -73,11 +73,11 @@ jobs:
           
           # check if the version is a SNAPSHOT, and if not, append command to close staging repo
           
-          cmd=""
-          if [[ $VERSION != *-SNAPSHOT ]]
-          then
-            cmd="closeAndReleaseSonatypeStagingRepository";
-          fi
-          echo "Publishing Version $VERSION to Sonatype"
-          
-          ./gradlew publishToSonatype ${cmd} --no-parallel -Pversion=$VERSION -Psigning.gnupg.executable=gpg -Psigning.gnupg.passphrase="${{ secrets.ORG_GPG_PASSPHRASE }}"
+#          cmd=""
+#          if [[ $VERSION != *-SNAPSHOT ]]
+#          then
+#            cmd="closeAndReleaseSonatypeStagingRepository";
+#          fi
+#          echo "Publishing Version $VERSION to Sonatype"
+#
+#          ./gradlew publishToSonatype ${cmd} --no-parallel -Pversion=$VERSION -Psigning.gnupg.executable=gpg -Psigning.gnupg.passphrase="${{ secrets.ORG_GPG_PASSPHRASE }}"
