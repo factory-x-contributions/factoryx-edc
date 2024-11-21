@@ -125,7 +125,7 @@ allprojects {
                 }
             }
         }
-
+    }
 }
 
 subprojects {

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2024 T-Systems International GmbH
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,25 +23,8 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.eclipse.tractusx.coreutils)
-    implementation(libs.eclipse.tractusx.spi.bdrs.client)
+    implementation(libs.eclipse.tractusx.bdrs.client) {
+        exclude("org.eclipse.tractusx.edc", "core-spi")
+    }
     implementation(project(":spi:core-spi"))
-    implementation(libs.edc.spi.boot)
-    implementation(libs.edc.spi.core)
-    implementation(libs.edc.spi.http)
-    implementation(libs.edc.spi.identitytrust)
-    implementation(libs.edc.spi.identity.did)
-    implementation(libs.edc.spi.jwt) //JwtRegisteredClaimNames
-
-    implementation(libs.edc.identity.trust.service)
-
-    testImplementation(libs.netty.mockserver)
-    testImplementation(libs.edc.junit)
-    testImplementation(libs.awaitility)
-    testImplementation(libs.edc.identity.trust.sts.embedded)
-    testImplementation(libs.edc.core.token)
-    testImplementation(libs.edc.lib.cryptocommon)
-    testImplementation(libs.edc.lib.token)
-    testImplementation(libs.testcontainers.junit)
-    testImplementation(testFixtures(libs.edc.identity.vc.jwt)) // JwtCreationUtils
 }
