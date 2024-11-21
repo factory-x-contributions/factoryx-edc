@@ -25,7 +25,7 @@ on:
     inputs:
       version:
         required: false
-        description: 'A semver string denoting the version. Append -SNAPSHOT for snapshots. If omitted, the version is taken from gradle.properties'
+        description: 'a semver string denoting the version. Append -SNAPSHOT for snapshots. If omitted, the version is taken from gradle.properties'
 
 jobs:
   maven-release:
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write  # Ensure this permission is set for GitHub Packages
+      packages: write # Ensure this permission is set for GitHub Packages
 
     steps:
       # Checkout the repository
@@ -47,22 +47,27 @@ jobs:
           distribution: 'temurin'
 
       # Import GPG Key
-      - name: Import GPG Key
-        uses: ./.github/actions/import-gpg-key
+      - uses: ./.github/actions/import-gpg-key
+        name: "Import GPG Key"
         with:
-          gpg-private-key: ${{ secrets.ORG_GPG_PRIVATE_KEY }}  # Assuming the GPG key is stored as a secret
+          gpg-private-key: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
+
+      # Set GPG Passphrase for signing
+      - name: Set up GPG Passphrase
+        run: echo "GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}" >> $GITHUB_ENV
 
       # Publish version to GitHub Packages
       - name: Publish version to GitHub Packages
         env:
           GITHUB_PACKAGE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}  # Use the passphrase securely from GitHub Secrets
         run: |-
           echo "Input Version: ${{ inputs.version }}"
 
           # Check if version input was specified, else read from gradle.properties
-          if [ -n "${{ inputs.version }}" ]; then
-            VERSION="${{ inputs.version }}"
+          if [ ! -z ${{ inputs.version }} ]; then
+            VERSION=${{ inputs.version }}
             echo "Publishing using version from parameter: $VERSION"
           else
             VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
