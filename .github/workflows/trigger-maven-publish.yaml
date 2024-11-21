@@ -61,7 +61,7 @@ jobs:
         env:
           GITHUB_PACKAGE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}  # Use the passphrase securely from GitHub Secrets
+          GPG_PASSPHRASE: ${{ inputs.GPG_PASSPHRASE }}  # Use the passphrase securely from GitHub Secrets
         run: |-
           echo "Input Version: ${{ inputs.version }}"
 
