@@ -46,6 +46,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # Import GPG Key
+      - uses: ./.github/actions/import-gpg-key
+        name: "Import GPG Key"
+        with:
+          gpg-private-key: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
+
       # Publish version to GitHub Packages
       - name: Publish version to GitHub Packages
         env:
