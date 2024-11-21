@@ -45,6 +45,10 @@ inputs:
   GHCR_USERNAME:
     required: true
     description: "GitHub username for GHCR authentication"
+  ORG_GPG_PRIVATE_KEY:
+    required: true
+    description: "GitHub GPG Key"
+
 
 runs:
   using: "composite"
