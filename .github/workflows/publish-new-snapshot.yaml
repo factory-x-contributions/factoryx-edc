@@ -64,17 +64,17 @@ jobs:
         id: get-version
         run: |
           IFS=.- read -r RELEASE_VERSION_MAJOR RELEASE_VERSION_MINOR RELEASE_VERSION_PATCH SNAPSHOT <<<$(grep "version" gradle.properties | awk -F= '{print $2}')
-#  publish-docker-images:
-#    name: "Create Docker Images"
-#    needs: [ secret-presence, determine-version]
-#    permissions:
-#      packages: write
-#      contents: write
-#    uses: ./.github/workflows/trigger-docker-publish.yaml
-#    secrets: inherit
-#    with:
-#      namespace: "ghcr.io/factory-x-contributions"
-#      docker_tag: ${{ needs.determine-version.outputs.VERSION }}
+  publish-docker-images:
+    name: "Create Docker Images"
+    needs: [ secret-presence, determine-version]
+    permissions:
+      packages: write
+      contents: write
+    uses: ./.github/workflows/trigger-docker-publish.yaml
+    secrets: inherit
+    with:
+      namespace: "ghcr.io/factory-x-contributions"
+      docker_tag: ${{ needs.determine-version.outputs.VERSION }}
 
   publish-maven-artifacts:
     name: "Publish artifacts"
