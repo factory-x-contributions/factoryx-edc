@@ -27,4 +27,21 @@ dependencies {
         exclude("org.eclipse.tractusx.edc", "core-spi")
     }
     implementation(project(":spi:core-spi"))
+    implementation(libs.edc.spi.core)
+    implementation(libs.edc.spi.http)
+    implementation(libs.edc.spi.identity.did)
+    implementation(libs.eclipse.tractusx.coreutils)
+    implementation(libs.eclipse.tractusx.spi.bdrs.client)
+
+    implementation(libs.edc.identity.trust.service)
+
+    testImplementation(libs.netty.mockserver)
+    testImplementation(libs.edc.junit)
+    testImplementation(libs.awaitility)
+    testImplementation(libs.edc.identity.trust.sts.embedded)
+    testImplementation(libs.edc.core.token)
+    testImplementation(libs.edc.lib.cryptocommon)
+    testImplementation(libs.edc.lib.token)
+    testImplementation(libs.testcontainers.junit)
+    testImplementation(testFixtures(libs.edc.identity.vc.jwt))
 }
