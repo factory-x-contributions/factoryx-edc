@@ -26,6 +26,7 @@ runs:
   using: "composite"
   steps:
     - run: |
+        mkdir -p ~/.gnupg
         echo "use-agent" >> ~/.gnupg/gpg.conf
         echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
         echo "${{ inputs.ORG_GPG_PRIVATE_KEY }}" | gpg --import --batch
