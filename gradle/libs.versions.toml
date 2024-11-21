@@ -2,7 +2,7 @@
 format.version = "1.1"
 
 [versions]
-edc = "0.10.0"
+edc = "0.10.1"
 assertj = "3.26.3"
 awaitility = "4.2.2"
 aws = "2.28.12"
@@ -21,7 +21,7 @@ restAssured = "5.5.0"
 rsApi = "4.0.0"
 testcontainers = "1.20.2"
 titanium = "1.4.1"
-tractusx = "0.8.0-rc5"
+tractusx = "0.8.0-rc6"
 
 [libraries]
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
