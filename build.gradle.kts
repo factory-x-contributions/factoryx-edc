@@ -114,21 +114,6 @@ allprojects {
         this.isShowViolations = System.getProperty("checkstyle.verbose", "true").toBoolean()
     }
 
-    // publishing to OSSRH is handled by the build plugin, but publishing to GH packages
-    // must be configured separately
-//    publishing {
-//        repositories {
-//            maven {
-//                name = "GitHubPackages"
-//                url = uri("https://maven.pkg.github.com/${System.getenv("REPO")}")
-//                credentials {
-//                    username = System.getenv("GITHUB_PACKAGE_USERNAME")
-//                    password = System.getenv("GITHUB_PACKAGE_PASSWORD")
-//                }
-//            }
-//        }
-//    }
-
     publishing {
         repositories {
             maven {
@@ -141,7 +126,6 @@ allprojects {
             }
         }
     }
-
 }
 
 subprojects {
