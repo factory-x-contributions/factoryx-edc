@@ -18,61 +18,46 @@
 #################################################################################
 
 
-name: "Publish Maven Artifacts"
-
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        required: false
-        description: 'a semver string denoting the version. Append -SNAPSHOT for snapshots. If omitted, the version is taken from gradle.properties'
-
 jobs:
   maven-release:
     name: 'Publish all artifacts'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write # Ensure this permission is set for GitHub Packages
+      packages: write
 
     steps:
-      # Checkout the repository
       - uses: actions/checkout@v4
 
-      # Set up Java
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Import GPG Key
-      - uses: ./.github/actions/import-gpg-key
-        name: "Import GPG Key"
-        with:
-          gpg-private-key: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
+      - name: Import GPG Key
         run: |
           echo "$GPG_PRIVATE_KEY" | base64 --decode | gpg --import
           gpg --list-secret-keys --keyid-format=long
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
 
-      # Set GPG Passphrase for signing
       - name: Set up GPG Passphrase
+        run: |
           echo "default-cache-ttl 600" >> ~/.gnupg/gpg-agent.conf
           echo "max-cache-ttl 7200" >> ~/.gnupg/gpg-agent.conf
           echo RELOADAGENT | gpg-connect-agent
           export GPG_TTY=$(tty)
           echo ${{ secrets.GPG_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --sign
 
-      # Publish version to GitHub Packages
       - name: Publish version to GitHub Packages
         env:
           GITHUB_PACKAGE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          GPG_PASSPHRASE: ${{ inputs.GPG_PASSPHRASE }}  # Use the passphrase securely from GitHub Secrets
+          GPG_PASSPHRASE: ${{ inputs.GPG_PASSPHRASE }}
         run: |-
           echo "Input Version: ${{ inputs.version }}"
 
-          # Check if version input was specified, else read from gradle.properties
           if [ ! -z ${{ inputs.version }} ]; then
             VERSION=${{ inputs.version }}
             echo "Publishing using version from parameter: $VERSION"
