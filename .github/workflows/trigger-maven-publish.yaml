@@ -51,10 +51,17 @@ jobs:
         name: "Import GPG Key"
         with:
           gpg-private-key: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | base64 --decode | gpg --import
+          gpg --list-secret-keys --keyid-format=long
 
       # Set GPG Passphrase for signing
       - name: Set up GPG Passphrase
-        run: echo "GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}" >> $GITHUB_ENV
+          echo "default-cache-ttl 600" >> ~/.gnupg/gpg-agent.conf
+          echo "max-cache-ttl 7200" >> ~/.gnupg/gpg-agent.conf
+          echo RELOADAGENT | gpg-connect-agent
+          export GPG_TTY=$(tty)
+          echo ${{ secrets.GPG_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --sign
 
       # Publish version to GitHub Packages
       - name: Publish version to GitHub Packages
