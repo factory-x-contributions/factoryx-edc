@@ -109,27 +109,22 @@ allprojects {
             this.source = project.sourceSets.test.get().allSource
         }
 
-        // Create a method that handles task disabling
+        // Create a method that handles task disabling for Sonatype tasks
         fun disableSonatypeTasks(task: Task) {
-            try {
-                // Check and disable initializeSonatypeStagingRepository, controlplanePublicationToSonatypeRepository  task
-                if (task.name == "initializeSonatypeStagingRepository"
-                    || task.name == "controlplanePublicationToSonatypeRepository") {
-                    task.enabled = false
-                    println("Disabled task: ${task.group}:${task.project}:${task.name} ")
-                }
-            } catch (type: Exception) {
-                // Optional: log or handle the exception
-                println("Couldn't disable task: ${task.name}")
+            // Check if the task name contains "sonatype" (case insensitive)
+            if (task.name.contains("sonatype", ignoreCase = true)) {
+                task.enabled = false
+                println("Disabled task: ${task.name}")
             }
         }
 
-// Adding the task disabling logic without using a lambda
-        tasks.whenTaskAdded(object : Action<Task> {
-            override fun execute(task: Task) {
+// Ensure to disable all Sonatype-related tasks after task evaluation
+        afterEvaluate {
+            tasks.forEach { task ->
                 disableSonatypeTasks(task)
             }
-        })
+        }
+
 
         //checkstyle violations are reported at the WARN level
         this.isShowViolations = System.getProperty("checkstyle.verbose", "true").toBoolean()
