@@ -52,7 +52,7 @@ jobs:
       # Import GPG Key
       - name: Import GPG Key
         run: |
-          echo "$GPG_PRIVATE_KEY" | base64 --decode | gpg --import
+          echo "$GPG_PRIVATE_KEY" | base64 --decode | gpg --batch --import
           gpg --list-secret-keys --keyid-format=long
         env:
           GPG_PRIVATE_KEY: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
@@ -64,7 +64,9 @@ jobs:
           echo "max-cache-ttl 7200" >> ~/.gnupg/gpg-agent.conf
           echo RELOADAGENT | gpg-connect-agent
           export GPG_TTY=$(tty)
-          echo ${{ inputs.gpg_passphrase }} | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback
+          echo ${{ secrets.GPG_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --sign
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       # Publish version to GitHub Packages
       - name: Publish version to GitHub Packages
