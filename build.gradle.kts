@@ -109,6 +109,10 @@ allprojects {
             this.source = project.sourceSets.test.get().allSource
         }
 
+        tasks.named("initializeSonatypeStagingRepository") {
+            enabled = false
+        }
+
         //checkstyle violations are reported at the WARN level
         this.isShowViolations = System.getProperty("checkstyle.verbose", "true").toBoolean()
     }
