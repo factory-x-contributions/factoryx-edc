@@ -118,7 +118,7 @@ allprojects {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://github.com/factory-x-contributions/factoryx-edc")
+                url = uri("https://maven.pkg.github.com/factory-x-contributions/factoryx-edc")
                 credentials {
                     username = System.getenv("GITHUB_PACKAGE_USERNAME") // GitHub username or PAT
                     password = System.getenv("GITHUB_PACKAGE_PASSWORD") // GitHub token or PAT
