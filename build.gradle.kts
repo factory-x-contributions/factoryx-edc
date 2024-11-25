@@ -109,8 +109,14 @@ allprojects {
             this.source = project.sourceSets.test.get().allSource
         }
 
-        tasks.named("initializeSonatypeStagingRepository") {
-            enabled = false
+        tasks.whenTaskAdded {
+            try {
+                val task = tasks.getByName("initializeSonatypeStagingRepository")
+                task.enabled = false
+                println("found initializeSonatypeStagingRepository.")
+            } catch (type:Exception) {
+                //println("Couldn't find initializeSonatypeStagingRepository.")
+            }
         }
 
         //checkstyle violations are reported at the WARN level
