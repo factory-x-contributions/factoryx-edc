@@ -208,13 +208,6 @@ subprojects {
 
 }
 
-nexusPublishing {
-    transitionCheckOptions {
-        maxRetries.set(120)
-        delayBetween.set(Duration.ofSeconds(10))
-    }
-}
-
 tasks.check {
     dependsOn(tasks.named<JacocoReport>("testCodeCoverageReport"))
 }
