@@ -71,8 +71,8 @@ jobs:
       # Publish version to GitHub Packages
       - name: Publish version to GitHub Packages
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PACKAGE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
           GPG_PASSPHRASE: ${{ inputs.gpg_passphrase }}
         run: |-
           echo "Input Version: ${{ inputs.version }}"
