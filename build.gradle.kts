@@ -112,18 +112,12 @@ allprojects {
         // Create a method that handles task disabling
         fun disableSonatypeTasks(task: Task) {
             try {
-                // Check and disable initializeSonatypeStagingRepository task
-                if (task.name == "initializeSonatypeStagingRepository") {
+                // Check and disable initializeSonatypeStagingRepository, controlplanePublicationToSonatypeRepository  task
+                if (task.name == "initializeSonatypeStagingRepository"
+                    || task.name == "controlplanePublicationToSonatypeRepository") {
                     task.enabled = false
-                    println("Disabled task: ${task.name}")
+                    println("Disabled task: ${task.group}:${task.project}:${task.name} ")
                 }
-
-                // Check and disable controlplanePublicationToSonatypeRepository task
-                if (task.name == "controlplanePublicationToSonatypeRepository") {
-                    task.enabled = false
-                    println("Disabled task: ${task.name}")
-                }
-
             } catch (type: Exception) {
                 // Optional: log or handle the exception
                 println("Couldn't disable task: ${task.name}")
