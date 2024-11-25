@@ -55,7 +55,7 @@ jobs:
           echo "$GPG_PRIVATE_KEY" | base64 --decode | gpg --import
           gpg --list-secret-keys --keyid-format=long
         env:
-          GPG_PRIVATE_KEY: ${{ inputs.ORG_GPG_PRIVATE_KEY }}
+          GPG_PRIVATE_KEY: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
 
       # Set up GPG Passphrase
       - name: Set up GPG Passphrase
@@ -64,13 +64,13 @@ jobs:
           echo "max-cache-ttl 7200" >> ~/.gnupg/gpg-agent.conf
           echo RELOADAGENT | gpg-connect-agent
           export GPG_TTY=$(tty)
-          echo ${{ inputs.ORG_GPG_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --sign
+          echo ${{ inputs.gpg_passphrase }} | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback
 
       # Publish version to GitHub Packages
       - name: Publish version to GitHub Packages
         env:
-          GITHUB_PACKAGE_USERNAME: ${{ inputs.GITHUB_ACTOR }}
-          GITHUB_PACKAGE_PASSWORD: ${{ inputs.GITHUB_TOKEN }}
+          GITHUB_PACKAGE_USERNAME: ${{ github.actor }}
+          GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           GPG_PASSPHRASE: ${{ inputs.gpg_passphrase }}
         run: |-
           echo "Input Version: ${{ inputs.version }}"
@@ -81,6 +81,10 @@ jobs:
             echo "Publishing using version from parameter: $VERSION"
           else
             VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+            if [ -z "$VERSION" ]; then
+              echo "Error: Version could not be determined."
+              exit 1
+            fi
             echo "Publishing using version from gradle.properties: $VERSION"
           fi
 
