@@ -55,8 +55,11 @@ jobs:
           fail_on_restricted: false
 
       - name: print generated file
-        if: failure()
         run: |
-          echo "=== Please copy the following content back to DEPENDENCIES ==="
-          cat DEPENDENCIES
-          echo "=== end of content ==="
+          if [ -f DEPENDENCIES ]; then
+            echo "=== Generated DEPENDENCIES File ==="
+            cat DEPENDENCIES
+            echo "=== End of DEPENDENCIES File ==="
+          else
+            echo "DEPENDENCIES file was not generated or is missing!"
+          fi
