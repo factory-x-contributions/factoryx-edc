@@ -31,6 +31,7 @@ dependencies {
     }
 
     runtimeOnly(project(":edc-extensions:bdrs-client"))
+    runtimeOnly(project(":edc-extensions:contract-validation"))
     // Credentials FX policies
     runtimeOnly(project(":edc-extensions:fx-policy"))
 
