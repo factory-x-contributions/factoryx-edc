@@ -1,6 +1,9 @@
 # factoryx-connector-memory
 
-![Version: 0.8.0-rc4](https://img.shields.io/badge/Version-0.8.0--rc4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.0-rc4](https://img.shields.io/badge/AppVersion-0.8.0--rc4-informational?style=flat-square)
+
+
+
+![Version: 0.8.0-rc4](https://img.shields.io/badge/Version-0.8.0--rc4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.0-rc4](https://img.shields.io/badge/AppVersion-0.8.0--rc4-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector based on memory. Please only use this for development or testing purposes, never in production workloads!
 
@@ -20,6 +23,7 @@ A Helm chart for Factory-X Eclipse Data Space Connector based on memory. Please 
 - store client secret in the HashiCorp vault using an alias. The exact procedure will depend on your deployment of HashiCorp Vault and
   is out of scope of this document. But by default, Factory-X EDC expects to find the secret under `secret/client-secret`. The alias must be configured
   using the `iatp.sts.oauth.client.secret_alias` Helm value.
+
 
 ### Configure the chart
 
@@ -46,9 +50,13 @@ helm install my-release tractusx-edc/tractusx-connector-memory --version 0.8.0-r
      --set vault.secrets="client-secret:$YOUR_CLIENT_SECRET"
 ```
 
+
+
 ## Source Code
 
-* <https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector-memory>
+* <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector-memory>
+
+
 
 ## Values
 
@@ -58,14 +66,14 @@ helm install my-release tractusx-edc/tractusx-connector-memory --version 0.8.0-r
 | customLabels | object | `{}` | Add some custom labels |
 | fullnameOverride | string | `""` |  |
 | iatp.id | string | `"did:web:changeme"` | Decentralized IDentifier (DID) of the connector |
-| iatp.sts.dim.url | string | `nil` | URL where connectors can request SI tokens |
-| iatp.sts.oauth.client.id | string | `nil` | Client ID for requesting OAuth2 access token for DIM access |
-| iatp.sts.oauth.client.secret_alias | string | `nil` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
-| iatp.sts.oauth.token_url | string | `nil` | URL where connectors can request OAuth2 access tokens for DIM access |
+| iatp.sts.dim.url | string | `"http://localhost:8080/"` | URL where connectors can request SI tokens |
+| iatp.sts.oauth.client.id | string | `"test-client-id"` | Client ID for requesting OAuth2 access token for DIM access |
+| iatp.sts.oauth.client.secret_alias | string | `"test-alias"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
+| iatp.sts.oauth.token_url | string | `"https://changeme.org"` | URL where connectors can request OAuth2 access tokens for DIM access |
 | iatp.trustedIssuers | list | `[]` | Configures the trusted issuers for this runtime |
 | imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
 | nameOverride | string | `""` |  |
-| participant.id | string | `"BPNLCHANGEME"` | BPN Number |
+| participant.id | string | `"did:web:changeme"` | Participant DID Identifier |
 | runtime.affinity | object | `{}` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on |
 | runtime.autoscaling.enabled | bool | `false` | Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | runtime.autoscaling.maxReplicas | int | `100` | Maximum replicas if resource consumption exceeds resource threshholds |
