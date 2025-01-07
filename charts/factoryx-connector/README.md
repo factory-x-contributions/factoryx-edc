@@ -1,11 +1,15 @@
 # factoryx-connector
 
-![Version: 0.8.0-rc4](https://img.shields.io/badge/Version-0.8.0--rc4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.0-rc4](https://img.shields.io/badge/AppVersion-0.8.0--rc4-informational?style=flat-square)
+
+
+
+![Version: 0.8.0-rc4](https://img.shields.io/badge/Version-0.8.0--rc4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.0-rc4](https://img.shields.io/badge/AppVersion-0.8.0--rc4-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector. The connector deployment consists of two runtimes of a
 Control Plane and a Data Plane. Note that _no_ external dependencies such as a PostgreSQL database and HashiCorp Vault are included.
 
 This chart is intended for use with an _existing_ PostgreSQL database and an _existing_ HashiCorp Vault.
+
 
 **Homepage:** <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector>
 
@@ -23,6 +27,7 @@ This chart is intended for use with an _existing_ PostgreSQL database and an _ex
 - store client secret in the HashiCorp vault using an alias. The exact procedure will depend on your deployment of HashiCorp Vault and
   is out of scope of this document. But by default, Tractus-X EDC expects to find the secret under `secret/client-secret`. The alias must be configured
   using the `iatp.sts.oauth.client.secret_alias` Helm value.
+
 
 ### Configure the chart
 
@@ -48,9 +53,11 @@ helm install my-release tractusx-edc/tractusx-connector --version 0.8.0-rc4 \
      -f <path-to>/tractusx-connector-test.yaml
 ```
 
+
+
 ## Source Code
 
-* <https://github.com/eclipse-tractusx/tractusx-edc/tree/main/charts/tractusx-connector>
+* <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector>
 
 ## Requirements
 
@@ -281,7 +288,7 @@ helm install my-release tractusx-edc/tractusx-connector --version 0.8.0-rc4 \
 | networkPolicy.dataplane | object | `{"from":[{"namespaceSelector":{}}]}` | Configuration of the dataplane component |
 | networkPolicy.dataplane.from | list | `[{"namespaceSelector":{}}]` | Specify from rule network policy for dp (defaults to all namespaces) |
 | networkPolicy.enabled | bool | `false` | If `true` network policy will be created to restrict access to control- and dataplane |
-| participant.id | string | `"BPNLCHANGEME"` | BPN Number |
+| participant.id | string | `"did:web:changeme"` | Participant DID Identifier |
 | postgresql.auth.database | string | `"edc"` |  |
 | postgresql.auth.password | string | `"password"` |  |
 | postgresql.auth.username | string | `"user"` |  |
