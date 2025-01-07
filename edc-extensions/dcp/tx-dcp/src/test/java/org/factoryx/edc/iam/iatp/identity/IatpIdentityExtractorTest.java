@@ -65,7 +65,7 @@ class IatpIdentityExtractorTest {
     void attributesFor_fails_WhenCredentialNotFound() {
         assertThatThrownBy(() -> extractor.attributesFor(ClaimToken.Builder.newInstance().claim("vc", List.of(vc("FooCredential", Map.of("foo", "bar")))).build()))
                 .isInstanceOf(EdcException.class)
-                .hasMessage("Required credential type 'MembershipCredential' not present in ClaimToken, cannot extract property 'holderIdentifier'");
+                .hasMessage("Required credential type 'MembershipCredential' not present in ClaimToken, cannot extract property 'id'");
     }
 
     @Test
@@ -101,9 +101,9 @@ class IatpIdentityExtractorTest {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
             return Stream.of(
-                    Arguments.of(vc("MembershipCredential", Map.of("holderIdentifier", IDENTITY))),
-                    Arguments.of(vc(FX_CREDENTIAL_NS + "MembershipCredential", Map.of("holderIdentifier", IDENTITY))),
-                    Arguments.of(vc(FX_CREDENTIAL_NS + "MembershipCredential", Map.of(FX_CREDENTIAL_NS + "holderIdentifier", IDENTITY))));
+                    Arguments.of(vc("MembershipCredential", Map.of("id", IDENTITY))),
+                    Arguments.of(vc(FX_CREDENTIAL_NS + "MembershipCredential", Map.of("id", IDENTITY))),
+                    Arguments.of(vc(FX_CREDENTIAL_NS + "MembershipCredential", Map.of(FX_CREDENTIAL_NS + "id", IDENTITY))));
         }
 
     }

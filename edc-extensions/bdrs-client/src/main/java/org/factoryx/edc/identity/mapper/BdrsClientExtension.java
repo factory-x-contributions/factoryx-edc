@@ -111,8 +111,8 @@ public class BdrsClientExtension implements ServiceExtension {
             };
 
         }
-
-        return new BdrsClientImpl(baseUrl, cacheValidity, ownDid, urlSupplier, httpClient, monitor, typeManager.getMapper(), secureTokenService, credentialServiceClient);
+        return did -> did;
+//        return new BdrsClientImpl(baseUrl, cacheValidity, ownDid, urlSupplier, httpClient, monitor, typeManager.getMapper(), secureTokenService, credentialServiceClient);
     }
 
 }

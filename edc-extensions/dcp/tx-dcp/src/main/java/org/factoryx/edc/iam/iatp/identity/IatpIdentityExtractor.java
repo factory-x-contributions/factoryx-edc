@@ -43,7 +43,7 @@ public class IatpIdentityExtractor implements DcpParticipantAgentServiceExtensio
 
     private static final String VC_CLAIM = "vc";
     private static final String IDENTITY_CREDENTIAL = "MembershipCredential";
-    private static final String IDENTITY_PROPERTY = "holderIdentifier";
+    private static final String IDENTITY_PROPERTY = "id";
 
     private final CredentialTypePredicate typePredicate = new CredentialTypePredicate(FX_CREDENTIAL_NS, IDENTITY_CREDENTIAL);
 
