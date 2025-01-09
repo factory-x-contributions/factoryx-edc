@@ -27,6 +27,7 @@ include(":spi:core-spi")
 
 // extensions - control plane
 include(":edc-extensions:fx-policy")
+include(":edc-extensions:data-flow-properties-provider")
 include(":edc-extensions:dcp:tx-dcp")
 include(":edc-extensions:bdrs-client")
 include(":edc-extensions:contract-validation")

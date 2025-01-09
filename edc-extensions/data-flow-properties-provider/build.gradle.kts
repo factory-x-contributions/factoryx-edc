@@ -18,26 +18,13 @@
  ********************************************************************************/
 
 plugins {
+    `maven-publish`
     `java-library`
-    id(libs.plugins.swagger.get().pluginId)
 }
 
 dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.base) {
-        exclude("org.eclipse.tractusx.edc", "cx-policy")
-        exclude("org.eclipse.tractusx.edc", "json-ld-core")
-        exclude("org.eclipse.tractusx.edc", "tx-dcp")
-        exclude("org.eclipse.tractusx.edc", "bdrs-client")
-        exclude("org.eclipse.tractusx.edc", "data-flow-properties-provider")
-    }
+    implementation(libs.edc.spi.transfer)
+    implementation(libs.eclipse.tractusx.spi.core)
 
-    runtimeOnly(project(":edc-extensions:bdrs-client"))
-    runtimeOnly(project(":edc-extensions:contract-validation"))
-    runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
-    // Credentials FX policies
-    runtimeOnly(project(":edc-extensions:fx-policy"))
-
-    // needed for DCP integration
-    runtimeOnly(project(":core:json-ld-core"))
-    runtimeOnly(project(":edc-extensions:dcp:tx-dcp"))
+    testImplementation(libs.edc.junit)
 }
