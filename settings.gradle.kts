@@ -1,5 +1,6 @@
 /**
  * Copyright (c) 2024 Contributors to the Factory-X project
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
