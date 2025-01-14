@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,25 +20,18 @@
 package org.factoryx.edc.identity.mapper;
 
 import org.eclipse.edc.spi.types.domain.message.RemoteMessage;
-import org.eclipse.tractusx.edc.spi.identity.mapper.BdrsClient;
 import org.junit.jupiter.api.Test;
 
 import static org.eclipse.edc.junit.assertions.AbstractResultAssert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-class BdrsClientAudienceMapperTest {
+class FxAudienceMapperTest {
 
-    private final BdrsClient client = mock();
-
-    private final BdrsClientAudienceMapper clientAudienceMapper = new BdrsClientAudienceMapper(client);
+    private final FxAudienceMapper clientAudienceMapper = new FxAudienceMapper();
 
     @Test
     void resolve() {
 
-        when(client.resolve("bpn1")).thenReturn("did:web:did1");
-
-        var did = clientAudienceMapper.resolve(new TestMessage("bpn1"));
+        var did = clientAudienceMapper.resolve(new TestMessage("did:web:did1"));
 
         assertThat(did).isSucceeded().isEqualTo("did:web:did1");
 
@@ -47,15 +40,13 @@ class BdrsClientAudienceMapperTest {
     @Test
     void resolve_notFound() {
 
-        when(client.resolve("bpn1")).thenReturn(null);
-
-        var did = clientAudienceMapper.resolve(new TestMessage("bpn1"));
+        var did = clientAudienceMapper.resolve(new TestMessage(null));
 
         assertThat(did).isFailed();
 
     }
 
-    private record TestMessage(String bpn) implements RemoteMessage {
+    private record TestMessage(String did) implements RemoteMessage {
         @Override
         public String getProtocol() {
             return "test-proto";
@@ -68,7 +59,7 @@ class BdrsClientAudienceMapperTest {
 
         @Override
         public String getCounterPartyId() {
-            return bpn;
+            return did;
         }
     }
 }

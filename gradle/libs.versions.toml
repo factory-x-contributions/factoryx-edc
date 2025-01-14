@@ -200,7 +200,6 @@ eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", v
 eclipse-tractusx-core-json-ld = { module = "org.eclipse.tractusx.edc:json-ld-core", version.ref = "tractusx"}
 eclipse-tractusx-agreements = { module = "org.eclipse.tractusx.edc:agreements", version.ref = "tractusx"}
 eclipse-tractusx-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation", version.ref = "tractusx"}
-eclipse-tractusx-bdrs-client = { module = "org.eclipse.tractusx.edc:bdrs-client", version.ref = "tractusx"}
 eclipse-tractusx-dataplane-migration = { module = "org.eclipse.tractusx.edc:data-plane-migration", version.ref = "tractusx"}
 eclipse-tractusx-dataflow-properties-provider = { module = "org.eclipse.tractusx.edc:data-flow-properties-provider", version.ref = "tractusx"}
 eclipse-tractusx-edr-callback = { module = "org.eclipse.tractusx.edc:edr-callback", version.ref = "tractusx"}
@@ -217,7 +216,6 @@ eclipse-tractusx-dataplane-proxy-consumer-api = { module = "org.eclipse.tractusx
 eclipse-tractusx-dataplane-selector-configuration = { module = "org.eclipse.tractusx.edc:dataplane-selector-configuration", version.ref = "tractusx"}
 eclipse-tractusx-provision-additional-headers = { module = "org.eclipse.tractusx.edc:provision-additional-headers", version.ref = "tractusx"}
 eclipse-tractusx-spi-tokenrefresh = { module = "org.eclipse.tractusx.edc:tokenrefresh-spi", version.ref = "tractusx"}
-eclipse-tractusx-spi-bdrs-client = { module = "org.eclipse.tractusx.edc:bdrs-client-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-core = { module = "org.eclipse.tractusx.edc:core-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-retirement-evaluation = { module = "org.eclipse.tractusx.edc:retirement-evaluation-spi", version.ref = "tractusx"}

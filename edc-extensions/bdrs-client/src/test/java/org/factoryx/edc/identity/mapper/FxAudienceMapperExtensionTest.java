@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,27 +19,28 @@
 
 package org.factoryx.edc.identity.mapper;
 
-import org.eclipse.edc.spi.iam.AudienceResolver;
-import org.eclipse.edc.spi.result.Result;
-import org.eclipse.edc.spi.types.domain.message.RemoteMessage;
-import org.eclipse.tractusx.edc.spi.identity.mapper.BdrsClient;
+import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
+import org.eclipse.edc.spi.monitor.Monitor;
+import org.eclipse.edc.spi.system.ServiceExtensionContext;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
-/**
- * An incoming {@link RemoteMessage} is mapped to a DID by calling {@link BdrsClient#resolve(String)} with the {@link RemoteMessage#getCounterPartyId()}
- */
-class BdrsClientAudienceMapper implements AudienceResolver {
+@ExtendWith(DependencyInjectionExtension.class)
+class FxAudienceMapperExtensionTest {
 
-    private final BdrsClient client;
+    private final Monitor monitor = mock();
 
-    BdrsClientAudienceMapper(BdrsClient client) {
-        this.client = client;
+    @BeforeEach
+    void setup(ServiceExtensionContext context) {
+        context.registerService(Monitor.class, monitor);
     }
 
-    @Override
-    public Result<String> resolve(RemoteMessage remoteMessage) {
-        return Result.from(Optional.ofNullable(client.resolve(remoteMessage.getCounterPartyId())));
+    @Test
+    void createMapper(FxAudienceMapperExtension extension) {
+        assertThat(extension.fxAudienceResolver()).isInstanceOf(FxAudienceMapper.class);
     }
-
 }

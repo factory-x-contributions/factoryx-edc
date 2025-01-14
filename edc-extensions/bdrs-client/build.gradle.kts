@@ -1,5 +1,6 @@
 /********************************************************************************
  * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,15 +24,11 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.eclipse.tractusx.bdrs.client) {
-        exclude("org.eclipse.tractusx.edc", "core-spi")
-    }
     implementation(project(":spi:core-spi"))
     implementation(libs.edc.spi.core)
     implementation(libs.edc.spi.http)
     implementation(libs.edc.spi.identity.did)
     implementation(libs.eclipse.tractusx.coreutils)
-    implementation(libs.eclipse.tractusx.spi.bdrs.client)
 
     implementation(libs.edc.identity.trust.service)
 
