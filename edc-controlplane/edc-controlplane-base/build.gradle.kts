@@ -31,8 +31,8 @@ dependencies {
         exclude("org.eclipse.tractusx.edc", "bdrs-client")
         exclude("org.eclipse.tractusx.edc", "data-flow-properties-provider")
     }
+    runtimeOnly(project(":edc-extensions:fx-audience-mapper"))
 
-    runtimeOnly(project(":edc-extensions:bdrs-client"))
     runtimeOnly(project(":edc-extensions:contract-validation"))
     runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
     // Credentials FX policies

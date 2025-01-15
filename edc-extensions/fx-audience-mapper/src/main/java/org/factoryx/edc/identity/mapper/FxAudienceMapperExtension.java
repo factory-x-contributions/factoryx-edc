@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,28 +19,27 @@
 
 package org.factoryx.edc.identity.mapper;
 
-import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
-import org.eclipse.edc.spi.monitor.Monitor;
-import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.eclipse.edc.runtime.metamodel.annotation.Extension;
+import org.eclipse.edc.runtime.metamodel.annotation.Provider;
+import org.eclipse.edc.spi.iam.AudienceResolver;
+import org.eclipse.edc.spi.system.ServiceExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.factoryx.edc.identity.mapper.FxAudienceMapperExtension.NAME;
 
-@ExtendWith(DependencyInjectionExtension.class)
-class BdrsClientMapperExtensionTest {
 
-    private final Monitor monitor = mock();
+@Extension(value = NAME)
+public class FxAudienceMapperExtension implements ServiceExtension {
 
-    @BeforeEach
-    void setup(ServiceExtensionContext context) {
-        context.registerService(Monitor.class, monitor);
+    public static final String NAME = "FX Audience Mapper Extension";
+
+    @Override
+    public String name() {
+        return NAME;
     }
 
-    @Test
-    void createMapper(BdrsClientMapperExtension extension) {
-        assertThat(extension.getBdrsAudienceResolver()).isInstanceOf(BdrsClientAudienceMapper.class);
+    @Provider
+    public AudienceResolver fxAudienceResolver() {
+        return new FxAudienceMapper();
     }
+
 }

@@ -17,5 +17,4 @@
 #  SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-org.factoryx.edc.identity.mapper.BdrsClientExtension
-org.factoryx.edc.identity.mapper.BdrsClientMapperExtension
+org.factoryx.edc.identity.mapper.FxAudienceMapperExtension

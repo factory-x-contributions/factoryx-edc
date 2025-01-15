@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,29 +19,20 @@
 
 package org.factoryx.edc.identity.mapper;
 
-import org.eclipse.edc.runtime.metamodel.annotation.Extension;
-import org.eclipse.edc.runtime.metamodel.annotation.Inject;
-import org.eclipse.edc.runtime.metamodel.annotation.Provider;
 import org.eclipse.edc.spi.iam.AudienceResolver;
-import org.eclipse.edc.spi.system.ServiceExtension;
-import org.eclipse.tractusx.edc.spi.identity.mapper.BdrsClient;
+import org.eclipse.edc.spi.result.Result;
+import org.eclipse.edc.spi.types.domain.message.RemoteMessage;
 
-import static org.factoryx.edc.identity.mapper.BdrsClientExtension.NAME;
+import java.util.Optional;
 
-@Extension(value = NAME)
-public class BdrsClientMapperExtension implements ServiceExtension {
-
-    @Inject
-    private BdrsClient bdrsClient;
+/**
+ * An incoming {@link RemoteMessage} is mapped to a DID by calling {@link RemoteMessage#getCounterPartyId()}
+ */
+class FxAudienceMapper implements AudienceResolver {
 
     @Override
-    public String name() {
-        return NAME;
-    }
-
-    @Provider
-    public AudienceResolver getBdrsAudienceResolver() {
-        return new BdrsClientAudienceMapper(bdrsClient);
+    public Result<String> resolve(RemoteMessage remoteMessage) {
+        return Result.from(Optional.ofNullable(remoteMessage.getCounterPartyId()));
     }
 
 }
