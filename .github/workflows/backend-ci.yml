@@ -1,4 +1,4 @@
-name: CI for Embedded Connector Backend
+name: CI for FactoryX EDC
 run-name: ${{ github.actor }} is testing out backend build
 
 permissions:
