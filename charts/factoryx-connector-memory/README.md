@@ -65,7 +65,6 @@ helm install my-release tractusx-edc/tractusx-connector-memory --version 0.8.0-r
 | customCaCerts | object | `{}` | Add custom ca certificates to the truststore |
 | customLabels | object | `{}` | Add some custom labels |
 | fullnameOverride | string | `""` |  |
-| iatp.id | string | `"did:web:changeme"` | Decentralized IDentifier (DID) of the connector |
 | iatp.sts.dim.url | string | `"http://localhost:8080/"` | URL where connectors can request SI tokens |
 | iatp.sts.oauth.client.id | string | `"test-client-id"` | Client ID for requesting OAuth2 access token for DIM access |
 | iatp.sts.oauth.client.secret_alias | string | `"test-alias"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
@@ -73,7 +72,7 @@ helm install my-release tractusx-edc/tractusx-connector-memory --version 0.8.0-r
 | iatp.trustedIssuers | list | `[]` | Configures the trusted issuers for this runtime |
 | imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
 | nameOverride | string | `""` |  |
-| participant.id | string | `"did:web:changeme"` | Participant DID Identifier |
+| participant.id | string | `"did:web:changeme"` | Participant DID Identifier of the connector |
 | runtime.affinity | object | `{}` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on |
 | runtime.autoscaling.enabled | bool | `false` | Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | runtime.autoscaling.maxReplicas | int | `100` | Maximum replicas if resource consumption exceeds resource threshholds |
