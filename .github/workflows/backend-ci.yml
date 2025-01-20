@@ -69,5 +69,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dependency-report
-          path: ./backend/dependency-report.txt 
+          path: ./dependency-report.txt
 
