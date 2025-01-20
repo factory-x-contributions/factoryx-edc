@@ -20,9 +20,6 @@
 name: CI for FactoryX Backend
 run-name: ${{ github.actor }} is testing out backend build
 
-permissions:
-  contents: write
-
 on:
   push:
     branches: [ "main" ]
