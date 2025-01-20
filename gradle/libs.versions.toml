@@ -3,7 +3,7 @@ format.version = "1.1"
 
 [versions]
 edc = "0.10.1"
-assertj = "3.26.3"
+assertj = "3.27.3"
 awaitility = "4.2.2"
 aws = "2.28.12"
 azure-identity = "1.14.0"
