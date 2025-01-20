@@ -40,12 +40,10 @@ imagePullSecrets: []
 customLabels: {}
 
 participant:
-  # -- Participant DID Identifier
+  # -- Participant DID Identifier of the connector
   id: "did:web:changeme"
 
 iatp:
-  # -- Decentralized IDentifier (DID) of the connector
-  id: "did:web:changeme"
   # -- Configures the trusted issuers for this runtime
   trustedIssuers: []
   sts:

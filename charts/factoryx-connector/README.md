@@ -273,7 +273,6 @@ helm install my-release tractusx-edc/tractusx-connector --version 0.8.0-rc4 \
 | dataplane.volumeMounts | string | `nil` | declare where to mount [volumes](https://kubernetes.io/docs/concepts/storage/volumes/) into the container |
 | dataplane.volumes | string | `nil` | [volume](https://kubernetes.io/docs/concepts/storage/volumes/) directories |
 | fullnameOverride | string | `""` |  |
-| iatp.id | string | `"did:web:changeme"` | Decentralized IDentifier (DID) of the connector |
 | iatp.sts.dim.url | string | `nil` | URL where connectors can request SI tokens |
 | iatp.sts.oauth.client.id | string | `nil` | Client ID for requesting OAuth2 access token for DIM access |
 | iatp.sts.oauth.client.secret_alias | string | `nil` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
@@ -288,7 +287,7 @@ helm install my-release tractusx-edc/tractusx-connector --version 0.8.0-rc4 \
 | networkPolicy.dataplane | object | `{"from":[{"namespaceSelector":{}}]}` | Configuration of the dataplane component |
 | networkPolicy.dataplane.from | list | `[{"namespaceSelector":{}}]` | Specify from rule network policy for dp (defaults to all namespaces) |
 | networkPolicy.enabled | bool | `false` | If `true` network policy will be created to restrict access to control- and dataplane |
-| participant.id | string | `"did:web:changeme"` | Participant DID Identifier |
+| participant.id | string | `"did:web:changeme"` | Participant DID Identifier of the connector |
 | postgresql.auth.database | string | `"edc"` |  |
 | postgresql.auth.password | string | `"password"` |  |
 | postgresql.auth.username | string | `"user"` |  |
