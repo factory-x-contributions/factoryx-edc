@@ -155,13 +155,6 @@ controlplane:
       # -- authentication key, must be attached to each request as `X-Api-Key` header
       authKey: "password"
 
-  bdrs:
-    # -- Time that a cached BPN/DID resolution map is valid in seconds, default is 600 seconds (10 min)
-    cache_validity_seconds: 600
-    server:
-      # -- URL of the BPN/DID Resolution Service
-      url:
-
   # -- configuration for the built-in federated catalog crawler
   catalog:
     # -- Flag to globally enable/disable the FC feature

@@ -37,9 +37,6 @@ Be sure to provide the following configuration entries to your Tractus-X EDC Hel
 - `iatp.sts.oauth.client.secret_alias`: alias under which you saved your DIM client secret in the vault
 - `iatp.sts.dim.url`: the base URL for DIM
 
-In addition, in order to map BPNs to DIDs, a new service is required, called the BPN-DID Resolution Service, which
-must be configured:
-- `controlplane.bdrs.server.url`: base URL of the BPN-DID Resolution Service ("BDRS")
 
 ### Launching the application
 
@@ -76,8 +73,6 @@ helm install my-release tractusx-edc/tractusx-connector --version 0.8.0-rc4 \
 | controlplane.autoscaling.minReplicas | int | `1` | Minimal replicas if resource consumption falls below resource threshholds |
 | controlplane.autoscaling.targetCPUUtilizationPercentage | int | `80` | targetAverageUtilization of cpu provided to a pod |
 | controlplane.autoscaling.targetMemoryUtilizationPercentage | int | `80` | targetAverageUtilization of memory provided to a pod |
-| controlplane.bdrs.cache_validity_seconds | int | `600` | Time that a cached BPN/DID resolution map is valid in seconds, default is 600 seconds (10 min) |
-| controlplane.bdrs.server.url | string | `nil` | URL of the BPN/DID Resolution Service |
 | controlplane.catalog | object | `{"crawler":{"initialDelay":null,"num":null,"period":null,"targetsFile":null},"enabled":false}` | configuration for the built-in federated catalog crawler |
 | controlplane.catalog.crawler.initialDelay | string | `nil` | Initial delay for the crawling to start. Leave blank for a random delay |
 | controlplane.catalog.crawler.num | string | `nil` | Number of desired crawlers. Final number might be different, based on number of crawl targets |
