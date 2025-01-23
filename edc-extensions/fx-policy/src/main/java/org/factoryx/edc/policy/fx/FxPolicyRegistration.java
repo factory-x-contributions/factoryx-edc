@@ -61,8 +61,8 @@ public class FxPolicyRegistration {
      */
     public static void registerFunctions(PolicyEngine engine) {
         FUNCTION_SCOPES.forEach(scope -> {
-            engine.registerFunction(scope, Permission.class, new MembershipCredentialConstraintFunction());
-            engine.registerFunction(scope, Permission.class, new CertificationTypeCredentialConstraintFunction());
+            engine.registerFunction(scope, Permission.class, new MembershipCredentialConstraintFunction<>());
+            engine.registerFunction(scope, Permission.class, new CertificationTypeCredentialConstraintFunction<>());
         });
     }
 
