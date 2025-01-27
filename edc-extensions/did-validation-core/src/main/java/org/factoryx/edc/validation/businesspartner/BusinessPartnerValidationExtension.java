@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.edc.validation.businesspartner;
+package org.factoryx.edc.validation.businesspartner;
 
 import org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyContext;
 import org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext;
@@ -31,64 +31,61 @@ import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.eclipse.tractusx.edc.validation.businesspartner.functions.BusinessPartnerDIDPermissionFunction;
+import org.factoryx.edc.validation.businesspartner.functions.BusinessPartnerGroupFunction;
+import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
 
 import static org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyContext.CATALOG_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext.NEGOTIATION_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.TransferProcessPolicyContext.TRANSFER_SCOPE;
 import static org.eclipse.edc.policy.model.OdrlNamespace.ODRL_SCHEMA;
-import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.NAME;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
 
 /**
- * Business partner DID evaluation function.
+ * Registers a {@link BusinessPartnerGroupFunction} for the following scopes:
+ * <ul>
+ *     <li>{@code catalog}</li>
+ *     <li>{@code contract.negotiation}</li>
+ *     <li>{@code transfer.process}</li>
+ * </ul>
+ * The rule to which the function is bound is {@link BusinessPartnerGroupFunction#BUSINESS_PARTNER_CONSTRAINT_KEY}. That means, that policies that are bound to these scopes look
+ * like this:
+ * <pre>
+ * {
+ *     "constraint": {
+ *         "leftOperand": "https://w3id.org/tractusx/v0.0.1/ns/BusinessPartnerGroup",
+ *         "operator": "isAnyOf",
+ *         "rightOperand": ["gold_customer","platin_partner"]
+ *     }
+ * }
+ * </pre>
+ * <p>
+ * Note that the {@link BusinessPartnerGroupFunction} is an {@link org.eclipse.edc.policy.engine.spi.AtomicConstraintFunction}, thus it is registered with the {@link PolicyEngine}  for the {@link Permission} class.
  */
-@Extension(NAME)
-public class BusinessPartnerDIDValidationExtension implements ServiceExtension {
+@Extension(value = "Registers a function to evaluate whether a DID is covered by a certain policy or not", categories = { "policy", "contract" })
+public class BusinessPartnerValidationExtension implements ServiceExtension {
 
-    /**
-     * The key for business partner DIDs constraints. Must be used as left operand when declaring constraints.
-     * <p>Example:
-     *
-     * <pre>
-     * {
-     *     "constraint": {
-     *         "leftOperand": "BusinessPartnerDID",
-     *         "operator": "EQ",
-     *         "rightOperand": "did:web:example.com:BPNLCDQ90000X42KU"
-     *     }
-     * }
-     * </pre>
-     */
-    public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = "BusinessPartnerDID`";
-    public static final String FX_BUSINESS_PARTNER_CONSTRAINT_KEY = FX_NAMESPACE + BUSINESS_PARTNER_CONSTRAINT_KEY;
-    protected static final String NAME = "Business Partner Validation Extension";
+    private static final String USE = "USE";
+
     @Inject
     private RuleBindingRegistry ruleBindingRegistry;
     @Inject
     private PolicyEngine policyEngine;
-
-    @Override
-    public String name() {
-        return NAME;
-    }
+    @Inject
+    private BusinessPartnerStore store;
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-
-        bindToScope(TransferProcessPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), TRANSFER_SCOPE);
-        bindToScope(ContractNegotiationPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), NEGOTIATION_SCOPE);
-        bindToScope(CatalogPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), CATALOG_SCOPE);
+        var monitor = context.getMonitor().withPrefix("BusinessPartnerGroupFunction");
+        bindToScope(TRANSFER_SCOPE, TransferProcessPolicyContext.class, new BusinessPartnerGroupFunction<>(store, monitor));
+        bindToScope(NEGOTIATION_SCOPE, ContractNegotiationPolicyContext.class, new BusinessPartnerGroupFunction<>(store, monitor));
+        bindToScope(CATALOG_SCOPE, CatalogPolicyContext.class, new BusinessPartnerGroupFunction<>(store, monitor));
     }
 
-    private <C extends PolicyContext> void bindToScope(Class<C> contextType, AtomicConstraintRuleFunction<Permission, C> function, String scope) {
-        ruleBindingRegistry.bind("USE", scope);
+    private <C extends PolicyContext> void bindToScope(String scope, Class<C> contextType, AtomicConstraintRuleFunction<Permission, C> function) {
+        ruleBindingRegistry.bind(USE, scope);
         ruleBindingRegistry.bind(ODRL_SCHEMA + "use", scope);
-        ruleBindingRegistry.bind(BUSINESS_PARTNER_CONSTRAINT_KEY, scope);
-        ruleBindingRegistry.bind(FX_BUSINESS_PARTNER_CONSTRAINT_KEY, scope);
+        ruleBindingRegistry.bind(BusinessPartnerGroupFunction.BUSINESS_PARTNER_CONSTRAINT_KEY, scope);
 
-        policyEngine.registerFunction(contextType, Permission.class, BUSINESS_PARTNER_CONSTRAINT_KEY, function);
-        policyEngine.registerFunction(contextType, Permission.class, FX_BUSINESS_PARTNER_CONSTRAINT_KEY, function);
+        policyEngine.registerFunction(contextType, Permission.class, BusinessPartnerGroupFunction.BUSINESS_PARTNER_CONSTRAINT_KEY, function);
     }
 
 }

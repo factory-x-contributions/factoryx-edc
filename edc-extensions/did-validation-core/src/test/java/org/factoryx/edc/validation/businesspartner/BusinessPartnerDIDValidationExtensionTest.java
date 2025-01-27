@@ -17,19 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.edc.validation.businesspartner;
+package org.factoryx.edc.validation.businesspartner;
 
 import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
 import org.eclipse.edc.policy.engine.spi.PolicyEngine;
 import org.eclipse.edc.policy.engine.spi.RuleBindingRegistry;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
+import org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.BUSINESS_PARTNER_CONSTRAINT_KEY;
-import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.FX_BUSINESS_PARTNER_CONSTRAINT_KEY;
+import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.BUSINESS_PARTNER_CONSTRAINT_KEY;
+import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.FX_BUSINESS_PARTNER_CONSTRAINT_KEY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;

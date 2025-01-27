@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.edc.validation.businesspartner.defaults;
+package org.factoryx.edc.validation.businesspartner.defaults;
 
 import org.eclipse.edc.spi.result.StoreResult;
 import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;

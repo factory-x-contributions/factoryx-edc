@@ -17,11 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.edc.validation.businesspartner;
+package org.factoryx.edc.validation.businesspartner;
 
-import org.eclipse.tractusx.edc.validation.businesspartner.defaults.InMemoryBusinessPartnerStore;
+import org.factoryx.edc.validation.businesspartner.defaults.InMemoryBusinessPartnerStore;
 import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
-import org.eclipse.tractusx.edc.validation.businesspartner.store.BusinessPartnerStoreTestBase;
+import org.factoryx.edc.validation.businesspartner.store.BusinessPartnerStoreTestBase;
 
 class InMemoryBusinessPartnerStoreTest extends BusinessPartnerStoreTestBase {
 
