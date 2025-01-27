@@ -42,7 +42,7 @@ import static org.eclipse.edc.spi.result.Result.success;
 /**
  * AtomicConstraintFunction to validate business partner numbers for edc permissions.
  */
-public class BusinessPartnerNumberPermissionFunction<C extends ParticipantAgentPolicyContext> implements AtomicConstraintRuleFunction<Permission, C> {
+public class BusinessPartnerDIDPermissionFunction<C extends ParticipantAgentPolicyContext> implements AtomicConstraintRuleFunction<Permission, C> {
 
     private static final List<Operator> SUPPORTED_OPERATORS = Arrays.asList(
             EQ,
@@ -104,8 +104,8 @@ public class BusinessPartnerNumberPermissionFunction<C extends ParticipantAgentP
     }
 
     private Result<Boolean> checkStringContains(String identity, Object rightValue) {
-        if (rightValue instanceof String bpnString) {
-            return success(identity.contains(bpnString));
+        if (rightValue instanceof String didString) {
+            return success(identity.contains(didString));
         }
         return failure("Invalid right-value: operator '%s' requires a 'String' but got a '%s'"
                 .formatted(HAS_PART, Optional.of(rightValue).map(Object::getClass).map(Class::getName).orElse(null)));
@@ -113,10 +113,10 @@ public class BusinessPartnerNumberPermissionFunction<C extends ParticipantAgentP
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private Result<Boolean> checkEquality(String identity, Object rightValue, Operator operator) {
-        if (rightValue instanceof String bpnString) {
-            return success(Objects.equals(identity, bpnString));
-        } else if (rightValue instanceof List bpnList) {
-            return success(bpnList.stream().allMatch(bpn -> Objects.equals(identity, bpn)));
+        if (rightValue instanceof String didString) {
+            return success(Objects.equals(identity, didString));
+        } else if (rightValue instanceof List didList) {
+            return success(didList.stream().allMatch(did -> Objects.equals(identity, did)));
         }
         return failure("Invalid right-value: operator '%s' requires a 'String' or a 'List' but got a '%s'"
                 .formatted(operator, Optional.of(rightValue).map(Object::getClass).map(Class::getName).orElse(null)));

@@ -28,8 +28,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerNumberValidationExtension.BUSINESS_PARTNER_CONSTRAINT_KEY;
-import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerNumberValidationExtension.TX_BUSINESS_PARTNER_CONSTRAINT_KEY;
+import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.BUSINESS_PARTNER_CONSTRAINT_KEY;
+import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.FX_BUSINESS_PARTNER_CONSTRAINT_KEY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(DependencyInjectionExtension.class)
-class BusinessPartnerNumberValidationExtensionTest {
+class BusinessPartnerDIDValidationExtensionTest {
 
     private final PolicyEngine policyEngine = mock();
     private final RuleBindingRegistry ruleBindingRegistry = mock();
@@ -51,7 +51,7 @@ class BusinessPartnerNumberValidationExtensionTest {
     }
 
     @Test
-    void testRegisterPermissionFunction(ServiceExtensionContext context, BusinessPartnerNumberValidationExtension extension) {
+    void testRegisterPermissionFunction(ServiceExtensionContext context, BusinessPartnerDIDValidationExtension extension) {
         extension.initialize(context);
 
         verify(policyEngine, times(3))
@@ -64,7 +64,7 @@ class BusinessPartnerNumberValidationExtensionTest {
                 .registerFunction(
                         isA(Class.class),
                         eq(Permission.class),
-                        eq(TX_BUSINESS_PARTNER_CONSTRAINT_KEY),
+                        eq(FX_BUSINESS_PARTNER_CONSTRAINT_KEY),
                         any());
 
         verify(ruleBindingRegistry, times(3))
@@ -72,7 +72,7 @@ class BusinessPartnerNumberValidationExtensionTest {
                         anyString());
 
         verify(ruleBindingRegistry, times(3))
-                .bind(eq(TX_BUSINESS_PARTNER_CONSTRAINT_KEY),
+                .bind(eq(FX_BUSINESS_PARTNER_CONSTRAINT_KEY),
                         anyString());
     }
 

@@ -29,6 +29,8 @@ public final class CoreConstants {
     public static final String FX_CREDENTIAL_NS = "https://w3id.org/factoryx/credentials/";
     public static final String FX_POLICY_NS = "https://w3id.org/factoryx/policy/";
 
+    public static final String FX_NAMESPACE = "https://w3id.org/factoryx/v0.0.1/ns/";
+
     private CoreConstants() {
     }
 }

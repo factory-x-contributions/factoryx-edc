@@ -61,7 +61,7 @@ import static org.eclipse.tractusx.edc.validation.businesspartner.functions.Busi
  * <p>
  * Note that the {@link BusinessPartnerGroupFunction} is an {@link org.eclipse.edc.policy.engine.spi.AtomicConstraintFunction}, thus it is registered with the {@link PolicyEngine}  for the {@link Permission} class.
  */
-@Extension(value = "Registers a function to evaluate whether a BPN number is covered by a certain policy or not", categories = { "policy", "contract" })
+@Extension(value = "Registers a function to evaluate whether a DID is covered by a certain policy or not", categories = { "policy", "contract" })
 public class BusinessPartnerValidationExtension implements ServiceExtension {
 
     private static final String USE = "USE";

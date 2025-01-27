@@ -24,8 +24,9 @@ plugins {
 }
 
 dependencies {
-    api(project(":edc-extensions:bpn-validation:bpn-validation-spi"))
     implementation(project(":spi:core-spi"))
+    api(libs.eclipse.tractusx.spi.bpn.validation)
+    implementation(libs.eclipse.tractusx.spi.core)
     api(libs.edc.spi.core)
     implementation(libs.edc.spi.catalog)
     implementation(libs.edc.spi.contract)

@@ -31,37 +31,37 @@ import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.eclipse.tractusx.edc.validation.businesspartner.functions.BusinessPartnerNumberPermissionFunction;
+import org.eclipse.tractusx.edc.validation.businesspartner.functions.BusinessPartnerDIDPermissionFunction;
 
 import static org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyContext.CATALOG_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext.NEGOTIATION_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.TransferProcessPolicyContext.TRANSFER_SCOPE;
 import static org.eclipse.edc.policy.model.OdrlNamespace.ODRL_SCHEMA;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_NAMESPACE;
-import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerNumberValidationExtension.NAME;
+import static org.eclipse.tractusx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.NAME;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
 
 /**
- * Business partner number evaluation function.
+ * Business partner DID evaluation function.
  */
 @Extension(NAME)
-public class BusinessPartnerNumberValidationExtension implements ServiceExtension {
+public class BusinessPartnerDIDValidationExtension implements ServiceExtension {
 
     /**
-     * The key for business partner numbers constraints. Must be used as left operand when declaring constraints.
+     * The key for business partner DIDs constraints. Must be used as left operand when declaring constraints.
      * <p>Example:
      *
      * <pre>
      * {
      *     "constraint": {
-     *         "leftOperand": "BusinessPartnerNumber",
+     *         "leftOperand": "BusinessPartnerDID",
      *         "operator": "EQ",
-     *         "rightOperand": "BPNLCDQ90000X42KU"
+     *         "rightOperand": "did:web:example.com:BPNLCDQ90000X42KU"
      *     }
      * }
      * </pre>
      */
-    public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = "BusinessPartnerNumber";
-    public static final String TX_BUSINESS_PARTNER_CONSTRAINT_KEY = TX_NAMESPACE + BUSINESS_PARTNER_CONSTRAINT_KEY;
+    public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = "BusinessPartnerDID`";
+    public static final String FX_BUSINESS_PARTNER_CONSTRAINT_KEY = FX_NAMESPACE + BUSINESS_PARTNER_CONSTRAINT_KEY;
     protected static final String NAME = "Business Partner Validation Extension";
     @Inject
     private RuleBindingRegistry ruleBindingRegistry;
@@ -76,19 +76,19 @@ public class BusinessPartnerNumberValidationExtension implements ServiceExtensio
     @Override
     public void initialize(ServiceExtensionContext context) {
 
-        bindToScope(TransferProcessPolicyContext.class, new BusinessPartnerNumberPermissionFunction<>(), TRANSFER_SCOPE);
-        bindToScope(ContractNegotiationPolicyContext.class, new BusinessPartnerNumberPermissionFunction<>(), NEGOTIATION_SCOPE);
-        bindToScope(CatalogPolicyContext.class, new BusinessPartnerNumberPermissionFunction<>(), CATALOG_SCOPE);
+        bindToScope(TransferProcessPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), TRANSFER_SCOPE);
+        bindToScope(ContractNegotiationPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), NEGOTIATION_SCOPE);
+        bindToScope(CatalogPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), CATALOG_SCOPE);
     }
 
     private <C extends PolicyContext> void bindToScope(Class<C> contextType, AtomicConstraintRuleFunction<Permission, C> function, String scope) {
         ruleBindingRegistry.bind("USE", scope);
         ruleBindingRegistry.bind(ODRL_SCHEMA + "use", scope);
         ruleBindingRegistry.bind(BUSINESS_PARTNER_CONSTRAINT_KEY, scope);
-        ruleBindingRegistry.bind(TX_BUSINESS_PARTNER_CONSTRAINT_KEY, scope);
+        ruleBindingRegistry.bind(FX_BUSINESS_PARTNER_CONSTRAINT_KEY, scope);
 
         policyEngine.registerFunction(contextType, Permission.class, BUSINESS_PARTNER_CONSTRAINT_KEY, function);
-        policyEngine.registerFunction(contextType, Permission.class, TX_BUSINESS_PARTNER_CONSTRAINT_KEY, function);
+        policyEngine.registerFunction(contextType, Permission.class, FX_BUSINESS_PARTNER_CONSTRAINT_KEY, function);
     }
 
 }

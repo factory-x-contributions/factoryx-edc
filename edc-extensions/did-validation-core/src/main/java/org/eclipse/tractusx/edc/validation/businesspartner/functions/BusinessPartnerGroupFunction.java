@@ -48,10 +48,10 @@ import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_NAMESPACE;
 
 /**
  * This function evaluates, that a particular {@link ParticipantAgent} is a member of a particular group.
- * The {@link ParticipantAgent} is represented by its BPN, the {@link org.eclipse.edc.policy.model.Operator} and the {@code rightValue} determine the group(s) and
- * whether the BPN must part of it, or not be part of it.
+ * The {@link ParticipantAgent} is represented by its DID, the {@link Operator} and the {@code rightValue} determine the group(s) and
+ * whether the DID must part of it, or not be part of it.
  * <p>
- * For example, a {@link org.eclipse.edc.policy.model.Policy} that mandates the BPN be part of a group {@code "gold_customers"} or {@code "platin_partner} could look like this:
+ * For example, a {@link org.eclipse.edc.policy.model.Policy} that mandates the DID be part of a group {@code "gold_customers"} or {@code "platin_partner} could look like this:
  *
  * <pre>
  * {
@@ -63,7 +63,7 @@ import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_NAMESPACE;
  * }
  * </pre>
  * <p>
- * Upon evaluation, the {@link BusinessPartnerGroupFunction} will take the {@link ParticipantAgent}s BPN, use it to resolve the groups that the BPN is part of, and check, whether `"gold_partner"` and
+ * Upon evaluation, the {@link BusinessPartnerGroupFunction} will take the {@link ParticipantAgent}s DID, use it to resolve the groups that the DID is part of, and check, whether `"gold_partner"` and
  * `"platin_partner"` are amongst those groups.
  * <p>
  * The following operators are supported:
@@ -81,7 +81,7 @@ import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_NAMESPACE;
 public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContext> implements AtomicConstraintRuleFunction<Permission, C> {
     public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = TX_NAMESPACE + "BusinessPartnerGroup";
     private static final List<Operator> ALLOWED_OPERATORS = List.of(EQ, NEQ, IN, IS_ALL_OF, IS_ANY_OF, IS_NONE_OF);
-    private static final Map<Operator, Function<BpnGroupHolder, Boolean>> OPERATOR_EVALUATOR_MAP = new HashMap<>();
+    private static final Map<Operator, Function<DIDGroupHolder, Boolean>> OPERATOR_EVALUATOR_MAP = new HashMap<>();
     private final BusinessPartnerStore store;
     private final Monitor monitor;
 
@@ -106,12 +106,12 @@ public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContex
             return false;
         }
 
-        var bpn = participantAgent.getIdentity();
-        var groups = store.resolveForBpn(bpn);
+        var did = participantAgent.getIdentity();
+        var groups = store.resolveForBpn(did);
 
         var assignedGroups = groups.getContent();
 
-        // BPN not found in database
+        // DID not found in database
         if (groups.failed()) {
             context.reportProblem(groups.getFailureDetail());
             return false;
@@ -124,7 +124,7 @@ public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContex
         }
 
         //call evaluator function
-        return OPERATOR_EVALUATOR_MAP.get(operator).apply(new BpnGroupHolder(new HashSet<>(assignedGroups), parsedRightOperand));
+        return OPERATOR_EVALUATOR_MAP.get(operator).apply(new DIDGroupHolder(new HashSet<>(assignedGroups), parsedRightOperand));
     }
 
     private Set<String> parseRightOperand(Object rightValue, PolicyContext context) {
@@ -141,42 +141,42 @@ public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContex
     }
 
     @Deprecated(since = "0.9.0")
-    private Boolean evaluateNotEquals(BpnGroupHolder bpnGroupHolder) {
+    private Boolean evaluateNotEquals(DIDGroupHolder didGroupHolder) {
         monitor.warning("%s is a deprecated operator, in future please use %s operator.".formatted(NEQ, IS_NONE_OF));
-        return !bpnGroupHolder.allowedGroups.equals(bpnGroupHolder.assignedGroups);
+        return !didGroupHolder.allowedGroups.equals(didGroupHolder.assignedGroups);
     }
 
     @Deprecated(since = "0.9.0")
-    private Boolean evaluateEquals(BpnGroupHolder bpnGroupHolder) {
+    private Boolean evaluateEquals(DIDGroupHolder didGroupHolder) {
         monitor.warning("%s is a deprecated operator, in future please use %s operator.".formatted(EQ, IS_ALL_OF));
-        return bpnGroupHolder.allowedGroups.equals(bpnGroupHolder.assignedGroups);
+        return didGroupHolder.allowedGroups.equals(didGroupHolder.assignedGroups);
     }
 
-    private Boolean evaluateIsAllOf(BpnGroupHolder bpnGroupHolder) {
-        var assigned = bpnGroupHolder.assignedGroups;
-        var allowed = bpnGroupHolder.allowedGroups;
+    private Boolean evaluateIsAllOf(DIDGroupHolder didGroupHolder) {
+        var assigned = didGroupHolder.assignedGroups;
+        var allowed = didGroupHolder.allowedGroups;
         return (assigned.isEmpty() || !allowed.isEmpty()) && assigned.containsAll(allowed);
     }
 
-    private boolean evaluateIsAnyOf(BpnGroupHolder bpnGroupHolder) {
-        if (bpnGroupHolder.allowedGroups.isEmpty() && bpnGroupHolder.assignedGroups.isEmpty()) {
+    private boolean evaluateIsAnyOf(DIDGroupHolder didGroupHolder) {
+        if (didGroupHolder.allowedGroups.isEmpty() && didGroupHolder.assignedGroups.isEmpty()) {
             return true;
         }
 
-        var allowedGroups = bpnGroupHolder.allowedGroups;
-        return bpnGroupHolder.assignedGroups
+        var allowedGroups = didGroupHolder.allowedGroups;
+        return didGroupHolder.assignedGroups
                 .stream()
                 .anyMatch(allowedGroups::contains);
     }
 
-    private boolean evaluateIsNoneOf(BpnGroupHolder bpnGroupHolder) {
-        return !evaluateIsAnyOf(bpnGroupHolder);
+    private boolean evaluateIsNoneOf(DIDGroupHolder didGroupHolder) {
+        return !evaluateIsAnyOf(didGroupHolder);
     }
 
     /**
-     * Internal utility class to hold the collection of assigned groups for a BPN, and the collection of groups specified in the policy ("allowed groups").
+     * Internal utility class to hold the collection of assigned groups for a DID, and the collection of groups specified in the policy ("allowed groups").
      */
-    private record BpnGroupHolder(Set<String> assignedGroups, Set<String> allowedGroups) {
+    private record DIDGroupHolder(Set<String> assignedGroups, Set<String> allowedGroups) {
     }
 
 }

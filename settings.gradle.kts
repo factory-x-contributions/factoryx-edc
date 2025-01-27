@@ -30,6 +30,7 @@ include(":spi:core-spi")
 include(":edc-extensions:fx-policy")
 include(":edc-extensions:data-flow-properties-provider")
 include(":edc-extensions:dcp:tx-dcp")
+include(":edc-extensions:did-validation-core")
 include(":edc-extensions:fx-audience-mapper")
 include(":edc-extensions:contract-validation")
 
