@@ -1,5 +1,6 @@
 /********************************************************************************
  * Copyright (c) 2021,2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
