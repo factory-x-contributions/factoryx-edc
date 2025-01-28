@@ -43,7 +43,7 @@ import static org.eclipse.edc.spi.result.Result.success;
 /**
  * AtomicConstraintFunction to validate business partner numbers for edc permissions.
  */
-public class BusinessPartnerDIDPermissionFunction<C extends ParticipantAgentPolicyContext> implements AtomicConstraintRuleFunction<Permission, C> {
+public class BusinessPartnerDidPermissionFunction<C extends ParticipantAgentPolicyContext> implements AtomicConstraintRuleFunction<Permission, C> {
 
     private static final List<Operator> SUPPORTED_OPERATORS = Arrays.asList(
             EQ,

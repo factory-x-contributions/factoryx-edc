@@ -82,7 +82,7 @@ import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_NAMESPACE;
 public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContext> implements AtomicConstraintRuleFunction<Permission, C> {
     public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = TX_NAMESPACE + "BusinessPartnerGroup";
     private static final List<Operator> ALLOWED_OPERATORS = List.of(EQ, NEQ, IN, IS_ALL_OF, IS_ANY_OF, IS_NONE_OF);
-    private static final Map<Operator, Function<DIDGroupHolder, Boolean>> OPERATOR_EVALUATOR_MAP = new HashMap<>();
+    private static final Map<Operator, Function<DidGroupHolder, Boolean>> OPERATOR_EVALUATOR_MAP = new HashMap<>();
     private final BusinessPartnerStore store;
     private final Monitor monitor;
 
@@ -125,7 +125,7 @@ public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContex
         }
 
         //call evaluator function
-        return OPERATOR_EVALUATOR_MAP.get(operator).apply(new DIDGroupHolder(new HashSet<>(assignedGroups), parsedRightOperand));
+        return OPERATOR_EVALUATOR_MAP.get(operator).apply(new DidGroupHolder(new HashSet<>(assignedGroups), parsedRightOperand));
     }
 
     private Set<String> parseRightOperand(Object rightValue, PolicyContext context) {
@@ -142,24 +142,24 @@ public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContex
     }
 
     @Deprecated(since = "0.9.0")
-    private Boolean evaluateNotEquals(DIDGroupHolder didGroupHolder) {
+    private Boolean evaluateNotEquals(DidGroupHolder didGroupHolder) {
         monitor.warning("%s is a deprecated operator, in future please use %s operator.".formatted(NEQ, IS_NONE_OF));
         return !didGroupHolder.allowedGroups.equals(didGroupHolder.assignedGroups);
     }
 
     @Deprecated(since = "0.9.0")
-    private Boolean evaluateEquals(DIDGroupHolder didGroupHolder) {
+    private Boolean evaluateEquals(DidGroupHolder didGroupHolder) {
         monitor.warning("%s is a deprecated operator, in future please use %s operator.".formatted(EQ, IS_ALL_OF));
         return didGroupHolder.allowedGroups.equals(didGroupHolder.assignedGroups);
     }
 
-    private Boolean evaluateIsAllOf(DIDGroupHolder didGroupHolder) {
+    private Boolean evaluateIsAllOf(DidGroupHolder didGroupHolder) {
         var assigned = didGroupHolder.assignedGroups;
         var allowed = didGroupHolder.allowedGroups;
         return (assigned.isEmpty() || !allowed.isEmpty()) && assigned.containsAll(allowed);
     }
 
-    private boolean evaluateIsAnyOf(DIDGroupHolder didGroupHolder) {
+    private boolean evaluateIsAnyOf(DidGroupHolder didGroupHolder) {
         if (didGroupHolder.allowedGroups.isEmpty() && didGroupHolder.assignedGroups.isEmpty()) {
             return true;
         }
@@ -170,14 +170,14 @@ public class BusinessPartnerGroupFunction<C extends ParticipantAgentPolicyContex
                 .anyMatch(allowedGroups::contains);
     }
 
-    private boolean evaluateIsNoneOf(DIDGroupHolder didGroupHolder) {
+    private boolean evaluateIsNoneOf(DidGroupHolder didGroupHolder) {
         return !evaluateIsAnyOf(didGroupHolder);
     }
 
     /**
      * Internal utility class to hold the collection of assigned groups for a DID, and the collection of groups specified in the policy ("allowed groups").
      */
-    private record DIDGroupHolder(Set<String> assignedGroups, Set<String> allowedGroups) {
+    private record DidGroupHolder(Set<String> assignedGroups, Set<String> allowedGroups) {
     }
 
 }

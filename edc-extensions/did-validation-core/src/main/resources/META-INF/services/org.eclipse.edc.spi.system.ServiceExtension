@@ -21,4 +21,4 @@
 
 org.factoryx.edc.validation.businesspartner.BusinessPartnerValidationExtension
 org.factoryx.edc.validation.businesspartner.defaults.DefaultStoreProviderExtension
-org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension
+org.factoryx.edc.validation.businesspartner.BusinessPartnerDidValidationExtension

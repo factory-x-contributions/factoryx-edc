@@ -32,20 +32,20 @@ import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.factoryx.edc.validation.businesspartner.functions.BusinessPartnerDIDPermissionFunction;
+import org.factoryx.edc.validation.businesspartner.functions.BusinessPartnerDidPermissionFunction;
 
 import static org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyContext.CATALOG_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext.NEGOTIATION_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.TransferProcessPolicyContext.TRANSFER_SCOPE;
 import static org.eclipse.edc.policy.model.OdrlNamespace.ODRL_SCHEMA;
-import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.NAME;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
+import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDidValidationExtension.NAME;
 
 /**
  * Business partner DID evaluation function.
  */
 @Extension(NAME)
-public class BusinessPartnerDIDValidationExtension implements ServiceExtension {
+public class BusinessPartnerDidValidationExtension implements ServiceExtension {
 
     /**
      * The key for business partner DIDs constraints. Must be used as left operand when declaring constraints.
@@ -77,9 +77,9 @@ public class BusinessPartnerDIDValidationExtension implements ServiceExtension {
     @Override
     public void initialize(ServiceExtensionContext context) {
 
-        bindToScope(TransferProcessPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), TRANSFER_SCOPE);
-        bindToScope(ContractNegotiationPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), NEGOTIATION_SCOPE);
-        bindToScope(CatalogPolicyContext.class, new BusinessPartnerDIDPermissionFunction<>(), CATALOG_SCOPE);
+        bindToScope(TransferProcessPolicyContext.class, new BusinessPartnerDidPermissionFunction<>(), TRANSFER_SCOPE);
+        bindToScope(ContractNegotiationPolicyContext.class, new BusinessPartnerDidPermissionFunction<>(), NEGOTIATION_SCOPE);
+        bindToScope(CatalogPolicyContext.class, new BusinessPartnerDidPermissionFunction<>(), CATALOG_SCOPE);
     }
 
     private <C extends PolicyContext> void bindToScope(Class<C> contextType, AtomicConstraintRuleFunction<Permission, C> function, String scope) {

@@ -25,13 +25,12 @@ import org.eclipse.edc.policy.engine.spi.PolicyEngine;
 import org.eclipse.edc.policy.engine.spi.RuleBindingRegistry;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.BUSINESS_PARTNER_CONSTRAINT_KEY;
-import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDIDValidationExtension.FX_BUSINESS_PARTNER_CONSTRAINT_KEY;
+import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDidValidationExtension.BUSINESS_PARTNER_CONSTRAINT_KEY;
+import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDidValidationExtension.FX_BUSINESS_PARTNER_CONSTRAINT_KEY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -41,7 +40,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(DependencyInjectionExtension.class)
-class BusinessPartnerDIDValidationExtensionTest {
+class BusinessPartnerDidValidationExtensionTest {
 
     private final PolicyEngine policyEngine = mock();
     private final RuleBindingRegistry ruleBindingRegistry = mock();
@@ -53,7 +52,7 @@ class BusinessPartnerDIDValidationExtensionTest {
     }
 
     @Test
-    void testRegisterPermissionFunction(ServiceExtensionContext context, BusinessPartnerDIDValidationExtension extension) {
+    void testRegisterPermissionFunction(ServiceExtensionContext context, BusinessPartnerDidValidationExtension extension) {
         extension.initialize(context);
 
         verify(policyEngine, times(3))

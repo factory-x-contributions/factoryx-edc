@@ -39,12 +39,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class BusinessPartnerDIDPermissionFunctionTest {
+class BusinessPartnerDidPermissionFunctionTest {
 
     private final ParticipantAgent participantAgent = mock();
     private final Permission unusedPermission = Permission.Builder.newInstance().build();
     private final ParticipantAgentPolicyContext policyContext = new TestParticipantAgentPolicyContext(participantAgent);
-    private final BusinessPartnerDIDPermissionFunction<TestParticipantAgentPolicyContext> validation = new BusinessPartnerDIDPermissionFunction<>();
+    private final BusinessPartnerDidPermissionFunction<TestParticipantAgentPolicyContext> validation = new BusinessPartnerDidPermissionFunction<>();
 
     @ParameterizedTest(name = "Illegal Operator {0}")
     @ArgumentsSource(IllegalOperatorProvider.class)

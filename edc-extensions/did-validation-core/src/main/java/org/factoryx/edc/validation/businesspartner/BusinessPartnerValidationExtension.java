@@ -32,8 +32,8 @@ import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.factoryx.edc.validation.businesspartner.functions.BusinessPartnerGroupFunction;
 import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
+import org.factoryx.edc.validation.businesspartner.functions.BusinessPartnerGroupFunction;
 
 import static org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyContext.CATALOG_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext.NEGOTIATION_SCOPE;
