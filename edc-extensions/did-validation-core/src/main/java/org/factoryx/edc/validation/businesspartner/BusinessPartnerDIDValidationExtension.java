@@ -61,7 +61,7 @@ public class BusinessPartnerDIDValidationExtension implements ServiceExtension {
      * }
      * </pre>
      */
-    public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = "BusinessPartnerDID`";
+    public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = "BusinessPartnerDID";
     public static final String FX_BUSINESS_PARTNER_CONSTRAINT_KEY = FX_NAMESPACE + BUSINESS_PARTNER_CONSTRAINT_KEY;
     protected static final String NAME = "Business Partner Validation Extension";
     @Inject

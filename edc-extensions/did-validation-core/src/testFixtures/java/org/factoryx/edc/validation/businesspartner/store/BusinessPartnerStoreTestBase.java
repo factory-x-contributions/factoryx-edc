@@ -29,60 +29,59 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class BusinessPartnerStoreTestBase {
 
+    private static final String TEST_DID = "did:web:example.com:participantA";
+
     @Test
     void resolveForBpn() {
-        getStore().save("test-bpn", List.of("group1", "group2", "group3"));
-        assertThat(getStore().resolveForBpn("test-bpn").getContent()).containsExactly("group1", "group2", "group3");
+        getStore().save(TEST_DID, List.of("group1", "group2", "group3"));
+        assertThat(getStore().resolveForBpn(TEST_DID).getContent()).containsExactly("group1", "group2", "group3");
     }
 
     @Test
     void resolveForBpn_notExists() {
-        assertThat(getStore().resolveForBpn("test-bpn").succeeded()).isFalse();
+        assertThat(getStore().resolveForBpn(TEST_DID).succeeded()).isFalse();
     }
 
     @Test
     void resolveForBpn_existsNoGroups() {
-        getStore().save("test-bpn", List.of());
-        assertThat(getStore().resolveForBpn("test-bpn").getContent()).isNotNull().isEmpty();
+        getStore().save(TEST_DID, List.of());
+        assertThat(getStore().resolveForBpn(TEST_DID).getContent()).isNotNull().isEmpty();
     }
 
     @Test
     void save() {
-        getStore().save("test-bpn", List.of("group1", "group2", "group3"));
-        assertThat(getStore().resolveForBpn("test-bpn").getContent()).containsExactly("group1", "group2", "group3");
+        getStore().save(TEST_DID, List.of("group1", "group2", "group3"));
+        assertThat(getStore().resolveForBpn(TEST_DID).getContent()).containsExactly("group1", "group2", "group3");
     }
 
     @Test
     void save_exists() {
-        getStore().save("test-bpn", List.of("group1", "group2", "group3"));
-        assertThat(getStore().save("test-bpn", List.of("group4")).succeeded()).isFalse();
+        getStore().save(TEST_DID, List.of("group1", "group2", "group3"));
+        assertThat(getStore().save(TEST_DID, List.of("group4")).succeeded()).isFalse();
     }
 
     @Test
     void delete() {
-        var businessPartnerNumber = "test-bpn";
-        getStore().save(businessPartnerNumber, List.of("group1", "group2", "group3"));
-        var delete = getStore().delete(businessPartnerNumber);
+        getStore().save(TEST_DID, List.of("group1", "group2", "group3"));
+        var delete = getStore().delete(TEST_DID);
         assertThat(delete.succeeded()).withFailMessage(delete::getFailureDetail).isTrue();
     }
 
     @Test
     void delete_notExist() {
-        var businessPartnerNumber = "test-bpn";
-        getStore().delete(businessPartnerNumber);
-        assertThat(getStore().resolveForBpn(businessPartnerNumber).succeeded()).isFalse();
+        getStore().delete(TEST_DID);
+        assertThat(getStore().resolveForBpn(TEST_DID).succeeded()).isFalse();
     }
 
     @Test
     void update() {
-        var businessPartnerNumber = "test-bpn";
-        getStore().save(businessPartnerNumber, List.of("group1", "group2", "group3"));
-        assertThat(getStore().update(businessPartnerNumber, List.of("group4", "group5")).succeeded()).isTrue();
+        getStore().save(TEST_DID, List.of("group1", "group2", "group3"));
+        assertThat(getStore().update(TEST_DID, List.of("group4", "group5")).succeeded()).isTrue();
     }
 
     @Test
     void update_notExists() {
-        assertThat(getStore().update("test-bpn", List.of("foo", "bar")).succeeded()).isFalse();
+        assertThat(getStore().update(TEST_DID, List.of("foo", "bar")).succeeded()).isFalse();
     }
 
     protected abstract BusinessPartnerStore getStore();

@@ -59,7 +59,7 @@ class BusinessPartnerGroupFunctionTest {
 
     public static final String TEST_GROUP_1 = "test-group-1";
     public static final String TEST_GROUP_2 = "test-group-2";
-    private static final String TEST_BPN = "BPN000TEST";
+    private static final String TEST_DID = "did:web:example.com:participantA";
     private final BusinessPartnerStore store = mock();
     private final ParticipantAgent agent = mock();
     private final Monitor monitor = mock();
@@ -82,8 +82,8 @@ class BusinessPartnerGroupFunctionTest {
     @ArgumentsSource(RightOperandNotStringNorCollection.class)
     @DisplayName("Right-hand operand is not String or Collection<?>")
     void evaluate_rightOperandNotStringOrCollection(Object rightValue) {
-        when(store.resolveForBpn(TEST_BPN)).thenReturn(StoreResult.success(List.of("test-group")));
-        when(agent.getIdentity()).thenReturn(TEST_BPN);
+        when(store.resolveForBpn(TEST_DID)).thenReturn(StoreResult.success(List.of("test-group")));
+        when(agent.getIdentity()).thenReturn(TEST_DID);
 
         var result = function.evaluate(IS_ANY_OF, rightValue, unusedPermission, context);
 
@@ -94,10 +94,10 @@ class BusinessPartnerGroupFunctionTest {
     @ParameterizedTest(name = "{1} :: {0}")
     @ArgumentsSource(ValidOperatorProvider.class)
     @DisplayName("Valid operators, evaluating different circumstances")
-    void evaluate_validOperator(String ignored, Operator operator, List<String> assignedBpn, boolean expectedOutcome) {
+    void evaluate_validOperator(String ignored, Operator operator, List<String> assignedDidGroups, boolean expectedOutcome) {
         var allowedGroups = List.of(TEST_GROUP_1, TEST_GROUP_2);
-        when(store.resolveForBpn(TEST_BPN)).thenReturn(StoreResult.success(assignedBpn));
-        when(agent.getIdentity()).thenReturn(TEST_BPN);
+        when(store.resolveForBpn(TEST_DID)).thenReturn(StoreResult.success(assignedDidGroups));
+        when(agent.getIdentity()).thenReturn(TEST_DID);
 
         var result = function.evaluate(operator, allowedGroups, unusedPermission, context);
 
@@ -105,10 +105,10 @@ class BusinessPartnerGroupFunctionTest {
     }
 
     @Test
-    void evaluate_failedResolveForBpn_shouldBeFalse() {
+    void evaluate_failedResolveForDid_shouldBeFalse() {
         var allowedGroups = List.of(TEST_GROUP_1, TEST_GROUP_2);
-        when(agent.getIdentity()).thenReturn(TEST_BPN);
-        when(store.resolveForBpn(TEST_BPN)).thenReturn(StoreResult.notFound("foobar"));
+        when(agent.getIdentity()).thenReturn(TEST_DID);
+        when(store.resolveForBpn(TEST_DID)).thenReturn(StoreResult.notFound("foobar"));
 
         var result = function.evaluate(IS_ANY_OF, allowedGroups, unusedPermission, context);
 
@@ -118,11 +118,11 @@ class BusinessPartnerGroupFunctionTest {
 
     @ArgumentsSource(OperatorForEmptyGroupsProvider.class)
     @ParameterizedTest
-    void evaluate_groupsAssignedButNoGroupsSentToEvaluate(Operator operator, List<String> assignedBpnGroups,
+    void evaluate_groupsAssignedButNoGroupsSentToEvaluate(Operator operator, List<String> assignedDidGroups,
                                                           boolean expectedOutcome) {
         List<String> allowedGroups = List.of();
-        when(agent.getIdentity()).thenReturn(TEST_BPN);
-        when(store.resolveForBpn(TEST_BPN)).thenReturn(StoreResult.success(assignedBpnGroups));
+        when(agent.getIdentity()).thenReturn(TEST_DID);
+        when(store.resolveForBpn(TEST_DID)).thenReturn(StoreResult.success(assignedDidGroups));
 
         var result = function.evaluate(operator, allowedGroups, unusedPermission, context);
 
@@ -182,20 +182,20 @@ class BusinessPartnerGroupFunctionTest {
     private static class OperatorForEmptyGroupsProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            var assignedBpnGroups = List.of(TEST_GROUP_1, TEST_GROUP_2);
+            var assignedDidGroups = List.of(TEST_GROUP_1, TEST_GROUP_2);
 
             return Stream.of(
-                    Arguments.of(EQ, assignedBpnGroups, false),
+                    Arguments.of(EQ, assignedDidGroups, false),
                     Arguments.of(EQ, List.of(), true),
-                    Arguments.of(NEQ, assignedBpnGroups, true),
+                    Arguments.of(NEQ, assignedDidGroups, true),
                     Arguments.of(NEQ, List.of(), false),
-                    Arguments.of(IN, assignedBpnGroups, false),
+                    Arguments.of(IN, assignedDidGroups, false),
                     Arguments.of(IN, List.of(), true),
-                    Arguments.of(IS_ALL_OF, assignedBpnGroups, false),
+                    Arguments.of(IS_ALL_OF, assignedDidGroups, false),
                     Arguments.of(IS_ALL_OF, List.of(), true),
-                    Arguments.of(IS_ANY_OF, assignedBpnGroups, false),
+                    Arguments.of(IS_ANY_OF, assignedDidGroups, false),
                     Arguments.of(IS_ANY_OF, List.of(), true),
-                    Arguments.of(IS_NONE_OF, assignedBpnGroups, true),
+                    Arguments.of(IS_NONE_OF, assignedDidGroups, true),
                     Arguments.of(IS_NONE_OF, List.of(), false)
             );
         }
