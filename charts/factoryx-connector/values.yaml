@@ -52,7 +52,7 @@ iatp:
       url:
     oauth:
       # -- URL where connectors can request OAuth2 access tokens for DIM access
-      token_url:
+      token_url: http://centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
       client:
         # -- Client ID for requesting OAuth2 access token for DIM access
         id:
