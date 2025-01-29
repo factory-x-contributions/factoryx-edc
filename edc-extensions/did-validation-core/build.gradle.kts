@@ -1,6 +1,6 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
- * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2021,2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,19 +18,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.edr.spi;
+plugins {
+    `java-library`
+    `maven-publish`
+    `java-test-fixtures`
+}
 
-/**
- * Constants used across Factory-x EDC
- */
-public final class CoreConstants {
+dependencies {
+    implementation(project(":spi:core-spi"))
+    api(libs.eclipse.tractusx.spi.bpn.validation)
+    implementation(libs.eclipse.tractusx.spi.core)
+    api(libs.edc.spi.core)
+    implementation(libs.edc.spi.catalog)
+    implementation(libs.edc.spi.contract)
+    implementation(libs.edc.spi.participant)
+    implementation(libs.edc.spi.policy)
+    implementation(libs.edc.spi.policyengine)
 
-    public static final String FX_POLICY_PREFIX = "fx-policy";
-    public static final String FX_CREDENTIAL_NS = "https://w3id.org/factoryx/credentials/";
-    public static final String FX_POLICY_NS = "https://w3id.org/factoryx/policy/";
-
-    public static final String FX_NAMESPACE = "https://w3id.org/factoryx/v0.0.1/ns/";
-
-    private CoreConstants() {
-    }
+    testImplementation(libs.edc.junit)
+    testFixturesImplementation(libs.edc.junit)
+    testFixturesImplementation(libs.junit.jupiter.api)
+    testFixturesImplementation(libs.assertj)
 }

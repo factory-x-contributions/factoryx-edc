@@ -30,6 +30,7 @@ dependencies {
         exclude("org.eclipse.tractusx.edc", "tx-dcp")
         exclude("org.eclipse.tractusx.edc", "bdrs-client")
         exclude("org.eclipse.tractusx.edc", "data-flow-properties-provider")
+        exclude("org.eclipse.tractusx.edc", "bpn-validation-core")
     }
     runtimeOnly(project(":edc-extensions:fx-audience-mapper"))
 
@@ -41,4 +42,5 @@ dependencies {
     // needed for DCP integration
     runtimeOnly(project(":core:json-ld-core"))
     runtimeOnly(project(":edc-extensions:dcp:tx-dcp"))
+    runtimeOnly(project(":edc-extensions:did-validation-core"))
 }

@@ -1,6 +1,6 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
  * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,19 +18,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.edr.spi;
+package org.factoryx.edc.validation.businesspartner.defaults;
 
-/**
- * Constants used across Factory-x EDC
- */
-public final class CoreConstants {
+import org.eclipse.edc.runtime.metamodel.annotation.Extension;
+import org.eclipse.edc.runtime.metamodel.annotation.Provider;
+import org.eclipse.edc.spi.system.ServiceExtension;
+import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
 
-    public static final String FX_POLICY_PREFIX = "fx-policy";
-    public static final String FX_CREDENTIAL_NS = "https://w3id.org/factoryx/credentials/";
-    public static final String FX_POLICY_NS = "https://w3id.org/factoryx/policy/";
+@Extension("Provides a default BusinessPartnerGroupStore")
+public class DefaultStoreProviderExtension implements ServiceExtension {
 
-    public static final String FX_NAMESPACE = "https://w3id.org/factoryx/v0.0.1/ns/";
-
-    private CoreConstants() {
+    @Provider(isDefault = true)
+    public BusinessPartnerStore createInMemStore() {
+        return new InMemoryBusinessPartnerStore();
     }
 }
