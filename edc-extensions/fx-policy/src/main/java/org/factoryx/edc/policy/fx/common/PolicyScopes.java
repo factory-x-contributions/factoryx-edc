@@ -19,6 +19,10 @@
 
 package org.factoryx.edc.policy.fx.common;
 
+import org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogPolicyContext;
+import org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext;
+import org.eclipse.edc.connector.controlplane.contract.spi.policy.TransferProcessPolicyContext;
+
 /**
  * Defines standard EDC policy scopes.
  */
@@ -52,4 +56,19 @@ public interface PolicyScopes {
      * Scope for transfer of data
      */
     String TRANSFER_PROCESS_SCOPE = "transfer.process";
+
+    /**
+     * Scope class for catalog
+     */
+    Class<CatalogPolicyContext> CATALOG_SCOPE_CLASS = CatalogPolicyContext.class;
+
+    /**
+     * Scope for contract negotiation
+     */
+    Class<ContractNegotiationPolicyContext> NEGOTIATION_SCOPE_CLASS = ContractNegotiationPolicyContext.class;
+
+    /**
+     * Scope for transfer process
+     */
+    Class<TransferProcessPolicyContext> TRANSFER_PROCESS_SCOPE_CLASS = TransferProcessPolicyContext.class;
 }

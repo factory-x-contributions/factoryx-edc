@@ -33,10 +33,13 @@ import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 import static org.factoryx.edc.policy.fx.certification.CertificationTypeCredentialConstraintFunction.CERTIFICATION_LITERAL;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.CATALOG_REQUEST_SCOPE;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.CATALOG_SCOPE;
+import static org.factoryx.edc.policy.fx.common.PolicyScopes.CATALOG_SCOPE_CLASS;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.NEGOTIATION_REQUEST_SCOPE;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.NEGOTIATION_SCOPE;
+import static org.factoryx.edc.policy.fx.common.PolicyScopes.NEGOTIATION_SCOPE_CLASS;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.TRANSFER_PROCESS_REQUEST_SCOPE;
 import static org.factoryx.edc.policy.fx.common.PolicyScopes.TRANSFER_PROCESS_SCOPE;
+import static org.factoryx.edc.policy.fx.common.PolicyScopes.TRANSFER_PROCESS_SCOPE_CLASS;
 import static org.factoryx.edc.policy.fx.membership.MembershipCredentialConstraintFunction.MEMBERSHIP_LITERAL;
 
 /**
@@ -47,7 +50,7 @@ public class FxPolicyRegistration {
     /**
      * List of functional scopes in EDC where the FX-policy constraints are validated
      */
-    private static final Set<String> FUNCTION_SCOPES = Set.of(CATALOG_SCOPE, NEGOTIATION_SCOPE, TRANSFER_PROCESS_SCOPE);
+    private static final Set<Class> FUNCTION_SCOPES_CLASSES = Set.of(CATALOG_SCOPE_CLASS, NEGOTIATION_SCOPE_CLASS, TRANSFER_PROCESS_SCOPE_CLASS);
 
     /**
      * List of Rules to which FX-policy constraints are bound by.
@@ -60,9 +63,9 @@ public class FxPolicyRegistration {
      * @param engine holds all policies that EDC follows.
      */
     public static void registerFunctions(PolicyEngine engine) {
-        FUNCTION_SCOPES.forEach(scope -> {
-            engine.registerFunction(scope, Permission.class, new MembershipCredentialConstraintFunction());
-            engine.registerFunction(scope, Permission.class, new CertificationTypeCredentialConstraintFunction());
+        FUNCTION_SCOPES_CLASSES.forEach(scope -> {
+            engine.registerFunction(scope, Permission.class, new MembershipCredentialConstraintFunction<>());
+            engine.registerFunction(scope, Permission.class, new CertificationTypeCredentialConstraintFunction<>());
         });
     }
 
