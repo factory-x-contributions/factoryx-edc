@@ -3,7 +3,7 @@
 
 
 
-![Version: 0.8.0-rc4](https://img.shields.io/badge/Version-0.8.0--rc4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.0-rc4](https://img.shields.io/badge/AppVersion-0.8.0--rc4-informational?style=flat-square) 
+![Version: 0.0.1(https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector. The connector deployment consists of two runtimes of a
 Control Plane and a Data Plane. Note that _no_ external dependencies such as a PostgreSQL database and HashiCorp Vault are included.
@@ -46,7 +46,7 @@ Combined, run this shell command to start the in-memory Tractus-X EDC runtime:
 
 ```shell
 helm repo add tractusx-edc https://eclipse-tractusx.github.io/charts/dev
-helm install my-release tractusx-edc/tractusx-connector --version 0.8.0-rc4 \
+helm install my-release tractusx-edc/tractusx-connector --version 0.0.1 \
      -f <path-to>/tractusx-connector-test.yaml
 ```
 
