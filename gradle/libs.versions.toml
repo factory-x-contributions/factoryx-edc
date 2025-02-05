@@ -20,6 +20,7 @@ tractusx = "0.9.0-rc1"
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
 edc-spi-transfer = { module = "org.eclipse.edc:transfer-spi", version.ref = "edc" }
 edc-spi-core = { module = "org.eclipse.edc:core-spi", version.ref = "edc" }
+edc-spi-policy = { module = "org.eclipse.edc:policy-spi", version.ref = "edc" }
 edc-spi-contract = { module = "org.eclipse.edc:contract-spi", version.ref = "edc" }
 edc-spi-participant = { module = "org.eclipse.edc:participant-spi", version.ref = "edc" }
 edc-spi-policyengine = { module = "org.eclipse.edc:policy-engine-spi", version.ref = "edc" }
@@ -84,6 +85,7 @@ edc-micrometer-jetty = { module = "org.eclipse.edc:jetty-micrometer", version.re
 
 # tractusx modules
 eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", version.ref = "tractusx"}
+eclipse-tractusx-spi-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-core = { module = "org.eclipse.tractusx.edc:core-spi", version.ref = "tractusx"}
 
 #tractusx runtime modules
@@ -94,10 +96,12 @@ eclipse-tractusx-edc-controlplane-postgresql-hashicorp-vault = {module = "org.ec
 eclipse-tractusx-edc-dataplane-postgresql-vault = {module = "org.eclipse.tractusx.edc:edc-dataplane-hashicorp-vault", version.ref = "tractusx"}
 
 # other deps
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
 jacksonJsonP = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jakarta-jsonp", version.ref = "jackson" }
 jakarta-rsApi = { module = "jakarta.ws.rs:jakarta.ws.rs-api", version.ref = "rsApi" }
 jakartaJson = { module = "org.glassfish:jakarta.json", version.ref = "jakarta-json" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
 opentelemetry-javaagent = { module = "io.opentelemetry.javaagent:opentelemetry-javaagent", version.ref = "opentelemetry" }
 netty-mockserver = { module = "org.mock-server:mockserver-netty", version.ref = "netty-mockserver" }
 testcontainers-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
