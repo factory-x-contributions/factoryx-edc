@@ -41,6 +41,7 @@ edc-lib-cryptocommon = { module = "org.eclipse.edc:crypto-common-lib", version.r
 edc-lib-json = { module = "org.eclipse.edc:json-lib", version.ref = "edc" }
 edc-lib-token = { module = "org.eclipse.edc:token-lib", version.ref = "edc" }
 
+
 # DCP Modules
 edc-spi-identitytrust = { module = "org.eclipse.edc:identity-trust-spi", version.ref = "edc" }
 
@@ -50,6 +51,7 @@ edc-identity-trust-service = { module = "org.eclipse.edc:identity-trust-service"
 # DCP for Testing
 
 edc-identity-trust-sts-embedded = { module = "org.eclipse.edc:identity-trust-sts-embedded", version.ref = "edc" }
+
 
 # tractusx modules
 eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", version.ref = "tractusx"}
