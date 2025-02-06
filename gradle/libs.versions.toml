@@ -10,7 +10,6 @@ jakarta-json = "2.0.1"
 jupiter = "5.11.4"
 netty-mockserver = "5.15.0"
 opentelemetry = "2.11.0"
-restAssured = "5.5.0"
 rsApi = "4.0.0"
 testcontainers = "1.20.4"
 titanium = "1.4.1"
@@ -35,7 +34,6 @@ edc-core-controlplane = { module = "org.eclipse.edc:control-plane-core", version
 edc-core-token = { module = "org.eclipse.edc:token-core", version.ref = "edc" }
 edc-junit = { module = "org.eclipse.edc:junit", version.ref = "edc" }
 edc-iam-mock = { module = "org.eclipse.edc:iam-mock", version.ref = "edc" }
-edc-transaction-local = { module = "org.eclipse.edc:transaction-local", version.ref = "edc" }
 edc-controlplane-contract = { module = "org.eclipse.edc:control-plane-contract", version.ref = "edc" }
 
 # EDC lib dependencies
@@ -43,14 +41,6 @@ edc-lib-cryptocommon = { module = "org.eclipse.edc:crypto-common-lib", version.r
 edc-lib-json = { module = "org.eclipse.edc:json-lib", version.ref = "edc" }
 edc-lib-token = { module = "org.eclipse.edc:token-lib", version.ref = "edc" }
 
-# implementations
-edc-sql-assetindex = { module = "org.eclipse.edc:asset-index-sql", version.ref = "edc" }
-edc-sql-contract-definition = { module = "org.eclipse.edc:contract-definition-store-sql", version.ref = "edc" }
-edc-sql-contract-negotiation = { module = "org.eclipse.edc:contract-negotiation-store-sql", version.ref = "edc" }
-edc-sql-transferprocess = { module = "org.eclipse.edc:transfer-process-store-sql", version.ref = "edc" }
-edc-sql-policydef = { module = "org.eclipse.edc:policy-definition-store-sql", version.ref = "edc" }
-edc-sql-policy-monitor = { module = "org.eclipse.edc:policy-monitor-store-sql", version.ref = "edc" }
-edc-sql-edrindex = { module = "org.eclipse.edc:edr-index-sql", version.ref = "edc" }
 
 # DCP Modules
 edc-spi-identitytrust = { module = "org.eclipse.edc:identity-trust-spi", version.ref = "edc" }
@@ -61,27 +51,7 @@ edc-identity-trust-service = { module = "org.eclipse.edc:identity-trust-service"
 # DCP for Testing
 
 edc-identity-trust-sts-embedded = { module = "org.eclipse.edc:identity-trust-sts-embedded", version.ref = "edc" }
-edc-identity-trust-sts-core = { module = "org.eclipse.edc:identity-trust-sts-core", version.ref = "edc" }
-edc-identity-trust-sts-api = { module = "org.eclipse.edc:identity-trust-sts-api", version.ref = "edc" }
-edc-identity-trust-sts-client-configuration = { module = "org.eclipse.edc:identity-trust-sts-client-configuration", version.ref = "edc" }
-edc-sts-account-provisioner = { module = "org.eclipse.edc:sts-account-provisioner", version.ref = "edc" }
 
-# Federated Catalog modules
-edc-fc-sql-cache = { module = "org.eclipse.edc:federated-catalog-cache-sql", version.ref = "edc" }
-
-
-# Data plane selector
-edc-spi-dataplane-selector = { module = "org.eclipse.edc:data-plane-selector-spi", version.ref = "edc" }
-edc-dpf-selector-core = { module = "org.eclipse.edc:data-plane-selector-core", version.ref = "edc" }
-edc-data-plane-instance-store-sql = { module = "org.eclipse.edc:data-plane-instance-store-sql", version.ref = "edc" }
-
-# DPF modules
-edc-dpf-transfer-signaling = { module = "org.eclipse.edc:transfer-data-plane-signaling", version.ref = "edc" }
-
-# micrometer and other infra stuff
-edc-micrometer-core = { module = "org.eclipse.edc:micrometer-core", version.ref = "edc" }
-edc-micrometer-jersey = { module = "org.eclipse.edc:jersey-micrometer", version.ref = "edc" }
-edc-micrometer-jetty = { module = "org.eclipse.edc:jetty-micrometer", version.ref = "edc" }
 
 # tractusx modules
 eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", version.ref = "tractusx"}
