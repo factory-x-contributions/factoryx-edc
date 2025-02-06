@@ -32,7 +32,6 @@ dependencies {
         exclude("org.eclipse.tractusx.edc", "data-flow-properties-provider")
         exclude("org.eclipse.tractusx.edc", "bpn-validation-core")
     }
-    runtimeOnly(project(":edc-extensions:fx-audience-mapper"))
 
     runtimeOnly(project(":edc-extensions:contract-validation"))
     runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
