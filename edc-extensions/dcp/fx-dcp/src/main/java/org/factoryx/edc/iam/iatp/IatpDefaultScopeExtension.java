@@ -36,8 +36,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static org.factoryx.edc.FxIatpConstants.DEFAULT_SCOPES;
 import static org.factoryx.edc.iam.iatp.IatpDefaultScopeExtension.NAME;
+import static org.factoryx.edc.iam.iatp.constant.FxDcpConstants.DEFAULT_SCOPES;
+
 
 @Extension(NAME)
 public class IatpDefaultScopeExtension implements ServiceExtension {

@@ -34,8 +34,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import static java.util.Collections.emptySet;
-import static org.factoryx.edc.FxIatpConstants.CREDENTIAL_TYPE_NAMESPACE;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.iam.iatp.constant.FxDcpConstants.CREDENTIAL_TYPE_NAMESPACE;
+
 
 /**
  * Extract credentials from the policy constraints
