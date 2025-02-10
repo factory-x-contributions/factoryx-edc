@@ -78,8 +78,16 @@ jobs:
         run: |
           ./gradlew compileJava --no-daemon
 
+# removing as GHAS(GitHub Advanced Security) is not enabled on repo
+
+#      - name: Perform CodeQL Analysis
+#        uses: github/codeql-action/analyze@v3
+#        with:
+#          category: "/language:${{matrix.language}}"
+#          fail-on: error
+
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: actions/upload-artifact@v3
         with:
-          category: "/language:${{matrix.language}}"
-          fail-on: error
+          name: codeql-results
+          path: results.sarif

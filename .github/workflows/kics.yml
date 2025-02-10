@@ -53,8 +53,15 @@ jobs:
           output_path: kicsResults/
           output_formats: "json,sarif"
 
-      - name: Upload SARIF file for GitHub Advanced Security Dashboard
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
+# removing as GHAS(GitHub Advanced Security) is not enabled on repo
+#      - name: Upload SARIF file for GitHub Advanced Security Dashboard
+#        if: always()
+#        uses: github/codeql-action/upload-sarif@v3
+#        with:
+#          sarif_file: kicsResults/results.sarif
+
+      - name: Upload KICS Scan Results
+        uses: actions/upload-artifact@v3
         with:
-          sarif_file: kicsResults/results.sarif
+          name: kics-results
+          path: kicsResults/
