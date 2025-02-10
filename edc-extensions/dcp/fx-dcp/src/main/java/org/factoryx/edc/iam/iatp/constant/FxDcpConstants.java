@@ -17,13 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.factoryx.edc;
+package org.factoryx.edc.iam.iatp.constant;
 
 import java.util.Set;
 
 import static java.lang.String.format;
 
-public interface FxIatpConstants {
+public interface FxDcpConstants {
 
     String CREDENTIAL_TYPE_NAMESPACE = "org.factoryx.vc.type";
     String DEFAULT_CREDENTIAL = "MembershipCredential";

@@ -45,7 +45,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.factoryx.edc.FxIatpConstants.CREDENTIAL_TYPE_NAMESPACE;
+import static org.factoryx.edc.iam.iatp.constant.FxDcpConstants.CREDENTIAL_TYPE_NAMESPACE;
 import static org.factoryx.edc.iam.iatp.scope.CredentialScopeExtractor.CERTIFICATION_TYPE_PREFIX;
 import static org.mockito.Mockito.mock;
 
