@@ -71,11 +71,10 @@ jobs:
           format: "sarif"
           output: "trivy-results-config.sarif"
           severity: "CRITICAL,HIGH"
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          sarif_file: "trivy-results-config.sarif"
+#      - name: Upload Trivy scan results to GitHub Security tab
+#        uses: actions/upload-artifact@v4
+#        with:
+#          sarif_file: "trivy-results-${{ matrix.image }}.sarif"
 
   trivy:
     needs: [ git-sha7 ]
