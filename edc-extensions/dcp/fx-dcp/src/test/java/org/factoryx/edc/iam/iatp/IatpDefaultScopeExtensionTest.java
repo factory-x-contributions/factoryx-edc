@@ -37,8 +37,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.factoryx.edc.FxIatpConstants.DEFAULT_SCOPES;
 import static org.factoryx.edc.iam.iatp.IatpDefaultScopeExtension.TX_IATP_DEFAULT_SCOPE_PREFIX;
+import static org.factoryx.edc.iam.iatp.constant.FxDcpConstants.DEFAULT_SCOPES;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;

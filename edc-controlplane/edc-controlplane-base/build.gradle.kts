@@ -40,6 +40,6 @@ dependencies {
 
     // needed for DCP integration
     runtimeOnly(project(":core:json-ld-core"))
-    runtimeOnly(project(":edc-extensions:dcp:tx-dcp"))
+    runtimeOnly(project(":edc-extensions:dcp:fx-dcp"))
     runtimeOnly(project(":edc-extensions:did-validation-core"))
 }
