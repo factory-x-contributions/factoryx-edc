@@ -1,5 +1,6 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -34,56 +35,23 @@ import java.util.Map;
 
 import static java.lang.String.format;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.EDC_CONTEXT;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_AUTH_NS;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_AUTH_PREFIX;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_CONTEXT;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_NAMESPACE;
-import static org.eclipse.tractusx.edc.edr.spi.CoreConstants.TX_PREFIX;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_CONTEXT;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_CONTEXT;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_PREFIX;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_PREFIX;
 
 /**
  *  Provides JSON-LD structure for Factory-X policies.
  */
 public class JsonLdExtension implements ServiceExtension {
 
-    /**
-     * Credentials JSON-LD template json
-     */
-    public static final String CREDENTIALS_V_1 = "https://www.w3.org/2018/credentials/v1";
-
-    /**
-     * JWS security template json
-     */
-    public static final String SECURITY_JWS_V1 = "https://w3id.org/security/suites/jws-2020/v1";
-
-    /**
-     * ED25519 security template json
-     */
-    public static final String SECURITY_ED25519_V1 = "https://w3id.org/security/suites/ed25519-2020/v1";
-
-    /**
-     * FX policy context json
-     * *link to be updated later
-     */
-    public static final String FX_POLICY_CONTEXT = "https://w3id.org/factoryx/policy/v1.0.0";
-
-    /**
-     * FX authentication context json
-     * *link to be updated later
-     */
-    public static final String FX_AUTH_CONTEXT = "https://w3id.org/factoryx/auth/v1.0.0";
-
     private static final String PREFIX = "document" + File.separator;
     private static final Map<String, String> FILES = Map.of(
-            CREDENTIALS_V_1, PREFIX + "credential-v1.jsonld",
-            SECURITY_JWS_V1, PREFIX + "security-jws-2020.jsonld",
-            SECURITY_ED25519_V1, PREFIX + "security-ed25519-2020.jsonld",
-            TX_CONTEXT, PREFIX + "tx-v1.jsonld",
-            FX_POLICY_CONTEXT, PREFIX + "fx-policy-v1.jsonld",
-            FX_AUTH_CONTEXT, PREFIX + "fx-auth-v1.jsonld",
-            EDC_CONTEXT, PREFIX + "edc-v1.jsonld");
+            FX_CONTEXT, PREFIX + "fx-v1.jsonld",
+            FX_POLICY_CONTEXT, PREFIX + "fx-policy-v1.jsonld");
+
     @Inject
     private JsonLd jsonLdService;
 
@@ -92,8 +60,7 @@ public class JsonLdExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        jsonLdService.registerNamespace(TX_PREFIX, TX_NAMESPACE);
-        jsonLdService.registerNamespace(TX_AUTH_PREFIX, TX_AUTH_NS);
+        jsonLdService.registerNamespace(FX_PREFIX, FX_NAMESPACE);
         jsonLdService.registerNamespace(FX_POLICY_PREFIX, FX_POLICY_NS);
         FILES.entrySet().stream().map(this::mapToFile)
                 .forEach(result -> result.onSuccess(entry -> jsonLdService.registerCachedDocument(entry.getKey(), entry.getValue().toURI()))

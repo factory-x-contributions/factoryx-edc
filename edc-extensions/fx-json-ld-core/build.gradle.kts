@@ -1,5 +1,6 @@
 /********************************************************************************
  * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,7 +24,6 @@ plugins {
 
 dependencies {
     implementation(project(":spi:core-spi"))
-    implementation(libs.eclipse.tractusx.spi.core)
     implementation(libs.edc.spi.jsonld)
     testImplementation(testFixtures(libs.edc.junit))
 }

@@ -20,13 +20,11 @@
 
 rootProject.name = "factoryx-edc"
 
-// core modules
-include(":core:json-ld-core")
-
 // spi modules
 include(":spi:core-spi")
 
 // extensions - control plane
+include(":edc-extensions:fx-json-ld-core")
 include(":edc-extensions:fx-policy")
 include(":edc-extensions:data-flow-properties-provider")
 include(":edc-extensions:dcp:fx-dcp")
