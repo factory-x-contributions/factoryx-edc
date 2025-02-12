@@ -1,6 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2024 T-Systems International GmbH
  * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -29,10 +30,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.net.URI;
 
-import static org.factoryx.edc.jsonld.JsonLdExtension.CREDENTIALS_V_1;
-import static org.factoryx.edc.jsonld.JsonLdExtension.FX_POLICY_CONTEXT;
-import static org.factoryx.edc.jsonld.JsonLdExtension.SECURITY_ED25519_V1;
-import static org.factoryx.edc.jsonld.JsonLdExtension.SECURITY_JWS_V1;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_CONTEXT;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_CONTEXT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -50,10 +49,8 @@ public class JsonLdExtensionTest {
     @Test
     void initialize(ServiceExtensionContext context, JsonLdExtension extension) {
         extension.initialize(context);
-        jsonLdService.registerCachedDocument(eq(CREDENTIALS_V_1), any(URI.class));
+        jsonLdService.registerCachedDocument(eq(FX_CONTEXT), any(URI.class));
         jsonLdService.registerCachedDocument(eq(FX_POLICY_CONTEXT), any(URI.class));
-        jsonLdService.registerCachedDocument(eq(SECURITY_JWS_V1), any(URI.class));
-        jsonLdService.registerCachedDocument(eq(SECURITY_ED25519_V1), any(URI.class));
 
     }
 }

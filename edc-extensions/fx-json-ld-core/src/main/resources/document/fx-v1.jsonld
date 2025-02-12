@@ -1,0 +1,8 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "fx": "https://w3id.org/factoryx/v0.0.1/ns/",
+    "BusinessPartnerDID": "fx:BusinessPartnerDID"
+  }
+}
