@@ -36,6 +36,8 @@ jobs:
 
       - name: Label Dependabot PR
         if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'factory-x-contributions/factoryx-edc'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr edit "${{ github.event.pull_request.html_url }}" --add-label "dependency-update"
 
       - name: Set up Java 21
