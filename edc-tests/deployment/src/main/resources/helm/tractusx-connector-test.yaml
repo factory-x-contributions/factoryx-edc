@@ -52,9 +52,6 @@ controlplane:
   securityContext:
     # avoids some errors in the log: cannot write temp files of large multipart requests when R/O
     readOnlyRootFilesystem: false
-  bdrs:
-    server:
-      url: "https://bdrs.test.org"
 dataplane:
   debug:
     enabled: true
