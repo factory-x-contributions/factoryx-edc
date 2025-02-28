@@ -39,20 +39,19 @@ import static org.mockito.Mockito.when;
 
 class MembershipConstraintFunctionTest {
 
-    private final MembershipCredentialConstraintFunction function = new MembershipCredentialConstraintFunction();
+    private final MembershipCredentialConstraintFunction<ParticipantAgentPolicyContext> function = new MembershipCredentialConstraintFunction<>();
     private final ParticipantAgentPolicyContext context = mock();
-    private ParticipantAgent participantAgent;
+    private final ParticipantAgent participantAgent = mock();
 
     @BeforeEach
     void setup() {
-        participantAgent = mock(ParticipantAgent.class);
-        when(context.getContextData(eq(ParticipantAgent.class)))
+        when(context.participantAgent())
                 .thenReturn(participantAgent);
     }
 
     @Test
     void evaluate_noParticipantAgentOnContext() {
-        when(context.getContextData(eq(ParticipantAgent.class))).thenReturn(null);
+        when(context.participantAgent()).thenReturn(null);
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "active", null, context)).isFalse();
         verify(context).reportProblem("Required PolicyContext data not found: org.eclipse.edc.participant.spi.ParticipantAgent");
     }

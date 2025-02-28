@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.factoryx.edc.policy.fx.membership;
+package org.factoryx.edc.policy.fx.businesspartnerdid;
 
 import org.eclipse.edc.iam.verifiablecredentials.spi.model.VerifiableCredential;
 import org.eclipse.edc.participant.spi.ParticipantAgent;
@@ -32,23 +32,33 @@ import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
 
 /**
- * This constraint function checks that a MembershipCredential is present in a list of {@link VerifiableCredential}
+ * This constraint function checks that a BusinessPartnerDidCredential is present in a list of {@link VerifiableCredential}
  * objects extracted from a {@link ParticipantAgent} which is expected to be present on the {@link ParticipantAgentPolicyContext}.
  */
-public class MembershipCredentialConstraintFunction<C extends ParticipantAgentPolicyContext> extends AbstractDynamicCredentialConstraintFunction<C> {
+public class BusinessPartnerDidConstraintFunction<C extends ParticipantAgentPolicyContext> extends AbstractDynamicCredentialConstraintFunction<C> {
     /**
-     * key of the membership credential constraint
+     * key of the Business Partner Did credential constraint
      */
-    public static final String MEMBERSHIP_LITERAL = "Membership";
+    public static final String BUSINESS_PARTNER_DID_LITERAL = "BusinessPartnerDid";
 
     @Override
     public boolean evaluate(Object leftOperand, Operator operator, Object rightOperand, Permission permission, C context) {
-        if (!ACTIVE.equals(rightOperand)) {
-            context.reportProblem("Right-operand must be equal to '%s', but was '%s'".formatted(ACTIVE, rightOperand));
+
+        if (!checkOperator(operator, context, EQUALITY_OPERATORS)) {
             return false;
         }
 
-        // make sure the ParticipantAgent is there
+        // we support only string.
+        if (!(rightOperand instanceof String)) {
+            context.reportProblem("The right-operand must be of type String but was '%s'.".formatted(rightOperand.getClass()));
+            return false;
+        }
+
+        if (!(rightOperand.toString().toLowerCase()).startsWith("did:web")) {
+            context.reportProblem("The right-operand must start with did:web, but was '%s'".formatted(rightOperand));
+            return false;
+        }
+
         var participantAgent = extractParticipantAgent(context);
         if (participantAgent.failed()) {
             context.reportProblem(participantAgent.getFailureDetail());
@@ -62,11 +72,11 @@ public class MembershipCredentialConstraintFunction<C extends ParticipantAgentPo
         }
         return credentialResult.getContent()
                 .stream()
-                .anyMatch(new CredentialTypePredicate(FX_CREDENTIAL_NS, MEMBERSHIP_LITERAL + CREDENTIAL_LITERAL));
+                .anyMatch(new CredentialTypePredicate(FX_CREDENTIAL_NS, BUSINESS_PARTNER_DID_LITERAL + CREDENTIAL_LITERAL));
     }
 
     @Override
     public boolean canHandle(Object leftOperand) {
-        return leftOperand instanceof String && (FX_POLICY_NS + MEMBERSHIP_LITERAL).equalsIgnoreCase(leftOperand.toString());
+        return leftOperand instanceof String && (FX_POLICY_NS + BUSINESS_PARTNER_DID_LITERAL).equalsIgnoreCase(leftOperand.toString());
     }
 }
