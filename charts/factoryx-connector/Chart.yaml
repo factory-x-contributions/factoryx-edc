@@ -23,6 +23,7 @@
 
 
 ---
+##not changed to v2 to test whether helm lint is picking this issue
 apiVersion: v1
 name: factoryx-connector
 description: |
