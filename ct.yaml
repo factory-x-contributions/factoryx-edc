@@ -22,3 +22,6 @@
 validate-maintainers: false
 chart-dirs:
   - charts
+helm-extra-args: "--no-strict --values values.yaml"
+
+debug: true

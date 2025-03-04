@@ -23,9 +23,7 @@
 
 
 ---
-##not changed to v2 to test whether helm lint is picking this issue
-
-apiVersion: v1
+apiVersion: v2
 name: factoryx-connector
 description: |
   A Helm chart for Factory-X Eclipse Data Space Connector. The connector deployment consists of two runtimes of a

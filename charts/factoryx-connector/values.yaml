@@ -434,10 +434,10 @@ dataplane:
       refresh_endpoint:
     signer:
       # -- Alias under which the private key (JWK or PEM format) is stored in the vault
-      privatekey_alias: "abcdef"
+      privatekey_alias: ""
     verifier:
       # -- Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`
-      publickey_alias: "abcdef"
+      publickey_alias: ""
 
   aws:
     endpointOverride: ""

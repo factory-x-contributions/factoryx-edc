@@ -78,3 +78,7 @@ jobs:
           ct lint \
             --config ct.yaml \
             --all
+      - name: Debug Helm Values
+        run: |
+          echo "Checking values.yaml"
+          cat charts/factoryx-connector/values.yaml
