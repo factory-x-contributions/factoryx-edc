@@ -1,0 +1,50 @@
+package org.factoryx.edc.policy.fx.businesspartnerdid;
+
+import org.eclipse.edc.participant.spi.ParticipantAgent;
+import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
+import org.eclipse.edc.policy.model.Operator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+class BusinessPartnerDidConstraintFunctionTest {
+
+    private final BusinessPartnerDidConstraintFunction<ParticipantAgentPolicyContext> function = new BusinessPartnerDidConstraintFunction<>();
+    private final ParticipantAgentPolicyContext context = mock();
+    private final ParticipantAgent participantAgent = mock();
+
+    @BeforeEach
+    void setup() {
+        when(context.participantAgent())
+                .thenReturn(participantAgent);
+    }
+
+    @Test
+    void evaluate_noParticipantAgentOnContext() {
+        when(context.participantAgent()).thenReturn(null);
+        assertThat(function.evaluate(FX_POLICY_NS + "BusinessPartnerDid", Operator.EQ, "did:web:", null, context)).isFalse();
+        verify(context).reportProblem("Required PolicyContext data not found: org.eclipse.edc.participant.spi.ParticipantAgent");
+    }
+
+    @Test
+    void evaluate_noVcClaimOnParticipantAgent() {
+        assertThat(function.evaluate(FX_POLICY_NS + "BusinessPartnerDid", Operator.EQ, "did:web:", null, context)).isFalse();
+        verify(context).reportProblem(eq("ParticipantAgent did not contain a 'vc' claim."));
+    }
+
+    @Test
+    void evaluate_vcClaimEmpty() {
+        when(participantAgent.getClaims()).thenReturn(Map.of("vc", List.of()));
+        assertThat(function.evaluate(FX_POLICY_NS + "BusinessPartnerDid", Operator.EQ, "did:web:", null, context)).isFalse();
+        verify(context).reportProblem(eq("ParticipantAgent contains a 'vc' claim but it did not contain any VerifiableCredentials."));
+    }
+}
