@@ -24,4 +24,4 @@ chart-dirs:
   - charts
 helm-extra-args: "--no-strict --values values.yaml"
 
-debug: true
+#debug: true
