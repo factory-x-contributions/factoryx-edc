@@ -29,10 +29,7 @@ import org.eclipse.edc.spi.result.Failure;
 import org.eclipse.edc.spi.result.Result;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 import static org.eclipse.edc.policy.model.Operator.EQ;
@@ -55,6 +52,7 @@ public class BusinessPartnerDidPermissionFunction<C extends ParticipantAgentPoli
             Operator.IS_ALL_OF,
             Operator.HAS_PART
     );
+    public static final String DID_WEB = "did:web";
 
     @Override
     public boolean evaluate(Operator operator, Object rightOperand, Permission permission, ParticipantAgentPolicyContext context) {
@@ -70,6 +68,20 @@ public class BusinessPartnerDidPermissionFunction<C extends ParticipantAgentPoli
         if (identity == null) {
             context.reportProblem("Identity of the participant agent cannot be null");
             return false;
+        }
+
+        if (operator != HAS_PART) {
+            if (rightOperand instanceof String didString) {
+                if (!didString.toLowerCase().startsWith(DID_WEB)) {
+                    context.reportProblem("The right-operand must start with did:web, but was '%s'".formatted(rightOperand));
+                    return false;
+                }
+            } else if (rightOperand instanceof List didList) {
+                if (!didList.stream().allMatch(o -> o.toString().startsWith(DID_WEB))) {
+                    context.reportProblem("All the elements in the right-operand list must start with did:web, but was '%s'".formatted(didList.toString()));
+                    return false;
+                }
+            }
         }
 
         return switch (operator) {
