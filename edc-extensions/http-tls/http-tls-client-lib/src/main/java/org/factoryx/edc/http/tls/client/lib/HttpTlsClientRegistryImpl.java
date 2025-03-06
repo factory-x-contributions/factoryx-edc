@@ -27,13 +27,13 @@ import java.util.Map;
 
 public class HttpTlsClientRegistryImpl implements HttpTlsClientRegistry {
 
+    private final Map<String, OkHttpClient> clientMap = new HashMap<>();
+
     private final OkHttpClient defaultHttpClient;
 
     public HttpTlsClientRegistryImpl(OkHttpClient defaultHttpClient) {
         this.defaultHttpClient = defaultHttpClient;
     }
-
-    Map<String, OkHttpClient> clientMap = new HashMap<>();
 
     @Override
     public void register(String type, OkHttpClient okHttpClient) {
