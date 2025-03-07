@@ -10,7 +10,7 @@ jupiter = "5.11.4"
 opentelemetry = "2.12.0"
 rsApi = "4.0.0"
 titanium = "1.4.1"
-tractusx = "0.9.0-rc1"
+tractusx = "0.9.0-rc2"
 okhttp = "4.12.0"
 
 [libraries]
