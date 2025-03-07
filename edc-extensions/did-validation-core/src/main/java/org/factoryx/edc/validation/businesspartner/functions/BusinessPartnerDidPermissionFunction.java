@@ -29,7 +29,10 @@ import org.eclipse.edc.spi.result.Failure;
 import org.eclipse.edc.spi.result.Result;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static org.eclipse.edc.policy.model.Operator.EQ;
