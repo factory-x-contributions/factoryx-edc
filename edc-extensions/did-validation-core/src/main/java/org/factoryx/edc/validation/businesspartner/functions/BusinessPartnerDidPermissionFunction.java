@@ -52,7 +52,8 @@ public class BusinessPartnerDidPermissionFunction<C extends ParticipantAgentPoli
             Operator.IS_ALL_OF,
             Operator.HAS_PART
     );
-    public static final String DID_WEB = "did:web";
+
+    public static final String DID_WEB = "did:web:";
 
     @Override
     public boolean evaluate(Operator operator, Object rightOperand, Permission permission, ParticipantAgentPolicyContext context) {
@@ -68,20 +69,6 @@ public class BusinessPartnerDidPermissionFunction<C extends ParticipantAgentPoli
         if (identity == null) {
             context.reportProblem("Identity of the participant agent cannot be null");
             return false;
-        }
-
-        if (operator != HAS_PART) {
-            if (rightOperand instanceof String didString) {
-                if (!didString.toLowerCase().startsWith(DID_WEB)) {
-                    context.reportProblem("The right-operand must start with did:web, but was '%s'".formatted(rightOperand));
-                    return false;
-                }
-            } else if (rightOperand instanceof List didList) {
-                if (!didList.stream().allMatch(o -> o.toString().startsWith(DID_WEB))) {
-                    context.reportProblem("All the elements in the right-operand list must start with did:web, but was '%s'".formatted(didList.toString()));
-                    return false;
-                }
-            }
         }
 
         return switch (operator) {
@@ -133,5 +120,19 @@ public class BusinessPartnerDidPermissionFunction<C extends ParticipantAgentPoli
         }
         return failure("Invalid right-value: operator '%s' requires a 'String' or a 'List' but got a '%s'"
                 .formatted(operator, Optional.of(rightValue).map(Object::getClass).map(Class::getName).orElse(null)));
+    }
+
+    @Override
+    public Result<Void> validate(Operator operator, Object rightValue, Permission rule) {
+        if (rightValue instanceof String didString) {
+            if (!didString.toLowerCase().startsWith(DID_WEB)) {
+                return Result.failure("The right-operand must start with did:web, but was '%s'".formatted(rightValue));
+            }
+        } else if (rightValue instanceof List didList) {
+            if (!didList.stream().allMatch(o -> o.toString().startsWith(DID_WEB))) {
+                return Result.failure("All the elements in the right-operand list must start with did:web, but was '%s'".formatted(didList.toString()));
+            }
+        }
+        return Result.success();
     }
 }

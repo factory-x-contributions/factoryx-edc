@@ -32,6 +32,7 @@ edc-controlplane-contract = { module = "org.eclipse.edc:control-plane-contract",
 
 # EDC lib dependencies
 edc-lib-json = { module = "org.eclipse.edc:json-lib", version.ref = "edc" }
+edc-lib-validator = { module = "org.eclipse.edc:validator-lib", version.ref = "edc" }
 
 # DCP Modules
 edc-spi-identitytrust = { module = "org.eclipse.edc:identity-trust-spi", version.ref = "edc" }
