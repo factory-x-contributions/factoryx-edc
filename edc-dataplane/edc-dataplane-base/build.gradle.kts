@@ -24,4 +24,9 @@ plugins {
 
 dependencies {
     runtimeOnly(libs.eclipse.tractusx.edc.dataplane.base)
+
+    // http tls extensions
+    runtimeOnly(project(":edc-extensions:http-tls:data-plane-http-tls"))
+    runtimeOnly(project(":edc-extensions:http-tls:http-tls-client"))
+    runtimeOnly(project(":edc-extensions:http-tls:http-tls-client-lib"))
 }

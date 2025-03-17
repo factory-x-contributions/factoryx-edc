@@ -19,11 +19,11 @@
 
 package org.factoryx.edc.http.tls.client.lib.client.spi;
 
-import okhttp3.OkHttpClient;
+import org.eclipse.edc.http.spi.EdcHttpClient;
 
 public interface HttpTlsClientRegistry {
 
-    void register(String type, OkHttpClient okHttpClient);
+    void register(String type, EdcHttpClient edcHttpClient);
 
-    OkHttpClient clientFor(String type);
+    EdcHttpClient clientFor(String type);
 }

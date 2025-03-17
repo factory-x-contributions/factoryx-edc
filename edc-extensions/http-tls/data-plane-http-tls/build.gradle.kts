@@ -17,31 +17,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.http.tls.client.lib;
+plugins {
+    `java-library`
+}
 
-import org.eclipse.edc.http.spi.EdcHttpClient;
-import org.factoryx.edc.http.tls.client.lib.client.spi.HttpTlsClientRegistry;
+dependencies {
+    implementation(libs.edc.spi.core)
+    implementation(libs.edc.dataplane.http)
+    implementation(libs.edc.dataplane.util)
+    implementation(project(":spi:http-tls:http-tls-client-spi"))
+    implementation(project(":spi:http-tls:http-tls-data-address-spi"))
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class HttpTlsClientRegistryImpl implements HttpTlsClientRegistry {
-
-    private final Map<String, EdcHttpClient> clientMap = new HashMap<>();
-
-    private final EdcHttpClient defaultHttpClient;
-
-    public HttpTlsClientRegistryImpl(EdcHttpClient defaultHttpClient) {
-        this.defaultHttpClient = defaultHttpClient;
-    }
-
-    @Override
-    public void register(String type, EdcHttpClient edcHttpClient) {
-        clientMap.put(type, edcHttpClient);
-    }
-
-    @Override
-    public EdcHttpClient clientFor(String type) {
-        return clientMap.getOrDefault(type, defaultHttpClient);
-    }
+    testImplementation(libs.edc.junit)
+    testImplementation(libs.edc.dataplane.core)
+    testImplementation(libs.mockserver.netty)
+    testImplementation(libs.edc.spi.controlplane.api.client)
+    testImplementation(project(":edc-extensions:http-tls:http-tls-client"))
+    testImplementation(project(":edc-extensions:http-tls:http-tls-client-lib"))
 }

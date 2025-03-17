@@ -19,7 +19,11 @@
 
 package org.factoryx.edc.http.tls.client.lib;
 
+import dev.failsafe.RetryPolicy;
 import okhttp3.OkHttpClient;
+import org.eclipse.edc.http.client.EdcHttpClientImpl;
+import org.eclipse.edc.http.spi.EdcHttpClient;
+import org.eclipse.edc.spi.monitor.ConsoleMonitor;
 import org.factoryx.edc.http.tls.client.lib.client.spi.HttpTlsClientRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,20 +36,21 @@ class HttpTlsClientRegistryImplTest {
 
     HttpTlsClientRegistry httpTlsClientRegistry;
 
-    OkHttpClient defaultHttpClient;
+    EdcHttpClient defaultHttpClient;
 
     @BeforeEach
     void setup() {
-        defaultHttpClient = new OkHttpClient.Builder().build();
+        defaultHttpClient = new EdcHttpClientImpl(new OkHttpClient.Builder().build(), RetryPolicy.ofDefaults(), new ConsoleMonitor());
         httpTlsClientRegistry = new HttpTlsClientRegistryImpl(defaultHttpClient);
     }
 
     @Test
     void test_register_success() {
         OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS).build();
-        httpTlsClientRegistry.register("example.com", httpClient);
+        EdcHttpClient edcHttpClient = new EdcHttpClientImpl(httpClient, RetryPolicy.ofDefaults(), new ConsoleMonitor());
+        httpTlsClientRegistry.register("example.com", edcHttpClient);
 
-        assertThat(httpTlsClientRegistry.clientFor("example.com")).isEqualTo(httpClient);
+        assertThat(httpTlsClientRegistry.clientFor("example.com")).isEqualTo(edcHttpClient);
     }
 
     @Test

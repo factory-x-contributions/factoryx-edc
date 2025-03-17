@@ -22,5 +22,6 @@ plugins {
 }
 
 dependencies {
-    api(libs.okhttp)
+    implementation(libs.edc.spi.http)
+    implementation(libs.okhttp)
 }

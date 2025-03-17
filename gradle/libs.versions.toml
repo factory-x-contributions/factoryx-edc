@@ -12,6 +12,7 @@ rsApi = "4.0.0"
 titanium = "1.4.1"
 tractusx = "0.9.0-rc1"
 okhttp = "4.12.0"
+httpMockServer = "5.15.0"
 
 [libraries]
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
@@ -24,6 +25,8 @@ edc-spi-policyengine = { module = "org.eclipse.edc:policy-engine-spi", version.r
 edc-spi-request-policy-context = { module = "org.eclipse.edc:request-policy-context-spi", version.ref = "edc" }
 edc-spi-jsonld = { module = "org.eclipse.edc:json-ld-spi", version.ref = "edc" }
 edc-spi-vc = { module = "org.eclipse.edc:verifiable-credentials-spi", version.ref = "edc" }
+edc-spi-http = { module = "org.eclipse.edc:http-spi", version.ref = "edc" }
+edc-spi-controlplane-api-client = { module = "org.eclipse.edc:control-plane-api-client-spi", version.ref = "edc" }
 edc-boot = { module = "org.eclipse.edc:boot", version.ref = "edc" }
 edc-build-plugin = { module = "org.eclipse.edc.edc-build:org.eclipse.edc.edc-build.gradle.plugin", version.ref = "edc" }
 edc-core-controlplane = { module = "org.eclipse.edc:control-plane-core", version.ref = "edc" }
@@ -31,6 +34,12 @@ edc-junit = { module = "org.eclipse.edc:junit", version.ref = "edc" }
 edc-iam-mock = { module = "org.eclipse.edc:iam-mock", version.ref = "edc" }
 edc-controlplane-contract = { module = "org.eclipse.edc:control-plane-contract", version.ref = "edc" }
 edc-core-connector = { module = "org.eclipse.edc:connector-core", version.ref = "edc" }
+edc-dataplane-core = { module = "org.eclipse.edc:data-plane-core", version.ref = "edc" }
+edc-dataplane-http = { module = "org.eclipse.edc:data-plane-http", version.ref = "edc" }
+edc-dataplane-util = { module = "org.eclipse.edc:data-plane-util", version.ref = "edc" }
+edc-http-lib = { module = "org.eclipse.edc:http-lib", version.ref = "edc" }
+mockserver-netty = { module = "org.mock-server:mockserver-netty", version.ref = "httpMockServer" }
+
 
 # EDC lib dependencies
 edc-lib-json = { module = "org.eclipse.edc:json-lib", version.ref = "edc" }

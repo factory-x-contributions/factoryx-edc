@@ -23,6 +23,7 @@ plugins {
 
 dependencies {
     implementation(libs.edc.spi.core)
+    implementation(libs.edc.http.lib)
     implementation(project(":spi:http-tls:http-tls-client-spi"))
     implementation(project(":edc-extensions:http-tls:http-tls-client-lib"))
 

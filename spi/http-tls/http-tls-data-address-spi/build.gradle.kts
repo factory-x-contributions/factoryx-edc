@@ -17,31 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.http.tls.client.lib;
+plugins {
+    `java-library`
+}
 
-import org.eclipse.edc.http.spi.EdcHttpClient;
-import org.factoryx.edc.http.tls.client.lib.client.spi.HttpTlsClientRegistry;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class HttpTlsClientRegistryImpl implements HttpTlsClientRegistry {
-
-    private final Map<String, EdcHttpClient> clientMap = new HashMap<>();
-
-    private final EdcHttpClient defaultHttpClient;
-
-    public HttpTlsClientRegistryImpl(EdcHttpClient defaultHttpClient) {
-        this.defaultHttpClient = defaultHttpClient;
-    }
-
-    @Override
-    public void register(String type, EdcHttpClient edcHttpClient) {
-        clientMap.put(type, edcHttpClient);
-    }
-
-    @Override
-    public EdcHttpClient clientFor(String type) {
-        return clientMap.getOrDefault(type, defaultHttpClient);
-    }
+dependencies {
 }
