@@ -50,14 +50,6 @@ iatp:
     dim:
       # -- URL where connectors can request SI tokens
       url:
-    oauth:
-      # -- URL where connectors can request OAuth2 access tokens for DIM access
-      token_url:
-      client:
-        # -- Client ID for requesting OAuth2 access token for DIM access
-        id:
-        # -- Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access
-        secret_alias:
 
 # -- Add custom ca certificates to the truststore
 customCaCerts: {}
@@ -434,10 +426,10 @@ dataplane:
       refresh_endpoint:
     signer:
       # -- Alias under which the private key (JWK or PEM format) is stored in the vault
-      privatekey_alias:
+      privatekey_alias: "abcdef"
     verifier:
       # -- Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`
-      publickey_alias:
+      publickey_alias: "abcdef"
 
   aws:
     endpointOverride: ""

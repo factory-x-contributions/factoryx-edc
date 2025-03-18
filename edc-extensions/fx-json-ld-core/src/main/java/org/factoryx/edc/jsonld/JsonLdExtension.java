@@ -35,12 +35,9 @@ import java.util.Map;
 
 import static java.lang.String.format;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_CONTEXT;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_CONTEXT;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_PREFIX;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_PREFIX;
 
 /**
  *  Provides JSON-LD structure for Factory-X policies.
@@ -49,7 +46,6 @@ public class JsonLdExtension implements ServiceExtension {
 
     private static final String PREFIX = "document" + File.separator;
     private static final Map<String, String> FILES = Map.of(
-            FX_CONTEXT, PREFIX + "fx-v1.jsonld",
             FX_POLICY_CONTEXT, PREFIX + "fx-policy-v1.jsonld");
 
     @Inject
@@ -60,7 +56,6 @@ public class JsonLdExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        jsonLdService.registerNamespace(FX_PREFIX, FX_NAMESPACE);
         jsonLdService.registerNamespace(FX_POLICY_PREFIX, FX_POLICY_NS);
         FILES.entrySet().stream().map(this::mapToFile)
                 .forEach(result -> result.onSuccess(entry -> jsonLdService.registerCachedDocument(entry.getKey(), entry.getValue().toURI()))

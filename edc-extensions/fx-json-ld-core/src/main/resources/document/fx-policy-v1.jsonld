@@ -6,6 +6,7 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "fx-policy": "https://w3id.org/factoryx/policy/",
     "Membership": "fx-policy:Membership",
-    "CertificationType": "fx-policy:CertificationType"
+    "CertificationType": "fx-policy:CertificationType",
+    "BusinessPartnerDID": "fx-policy:BusinessPartnerDID"
   }
 }

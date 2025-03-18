@@ -23,7 +23,7 @@
 
 
 ---
-apiVersion: v1
+apiVersion: v2
 name: factoryx-connector
 description: |
   A Helm chart for Factory-X Eclipse Data Space Connector. The connector deployment consists of two runtimes of a
