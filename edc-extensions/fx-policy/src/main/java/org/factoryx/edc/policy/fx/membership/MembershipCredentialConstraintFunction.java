@@ -49,13 +49,13 @@ public class MembershipCredentialConstraintFunction<C extends ParticipantAgentPo
         }
 
         // make sure the ParticipantAgent is there
-        var participantAgent = context.getContextData(ParticipantAgent.class);
-        if (participantAgent == null) {
-            context.reportProblem("Required PolicyContext data not found: " + ParticipantAgent.class.getName());
+        var participantAgent = extractParticipantAgent(context);
+        if (participantAgent.failed()) {
+            context.reportProblem(participantAgent.getFailureDetail());
             return false;
         }
 
-        var credentialResult = getCredentialList(participantAgent);
+        var credentialResult = getCredentialList(participantAgent.getContent());
         if (credentialResult.failed()) {
             context.reportProblem(credentialResult.getFailureDetail());
             return false;

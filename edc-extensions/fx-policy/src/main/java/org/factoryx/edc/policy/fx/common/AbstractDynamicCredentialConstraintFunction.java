@@ -78,9 +78,9 @@ public abstract class AbstractDynamicCredentialConstraintFunction<C extends Part
      * @param context policy context from which participant is extracted.
      * @return participant agent needed to validate policies.
      */
-    protected Result<ParticipantAgent> extractParticipantAgent(PolicyContext context) {
+    protected Result<ParticipantAgent> extractParticipantAgent(C context) {
         // make sure the ParticipantAgent is there
-        var participantAgent = context.getContextData(ParticipantAgent.class);
+        var participantAgent = context.participantAgent();
         if (participantAgent == null) {
             return Result.failure("Required PolicyContext data not found: " + ParticipantAgent.class.getName());
         }

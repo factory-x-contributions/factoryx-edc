@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.edc.spi.participant)
     implementation(libs.edc.spi.policy)
     implementation(libs.edc.spi.policyengine)
+    implementation(libs.edc.lib.validator)
 
     testImplementation(libs.edc.junit)
     testFixturesImplementation(libs.edc.junit)

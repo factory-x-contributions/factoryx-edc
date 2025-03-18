@@ -10,7 +10,7 @@ jupiter = "5.11.4"
 opentelemetry = "2.12.0"
 rsApi = "4.0.0"
 titanium = "1.4.1"
-tractusx = "0.9.0-rc1"
+tractusx = "0.9.0-rc2"
 okhttp = "4.12.0"
 
 [libraries]
@@ -34,6 +34,7 @@ edc-core-connector = { module = "org.eclipse.edc:connector-core", version.ref = 
 
 # EDC lib dependencies
 edc-lib-json = { module = "org.eclipse.edc:json-lib", version.ref = "edc" }
+edc-lib-validator = { module = "org.eclipse.edc:validator-lib", version.ref = "edc" }
 
 # DCP Modules
 edc-spi-identitytrust = { module = "org.eclipse.edc:identity-trust-spi", version.ref = "edc" }
@@ -61,4 +62,4 @@ titaniumJsonLd = { module = "com.apicatalog:titanium-json-ld", version.ref = "ti
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 [plugins]
-swagger = { id = "io.swagger.core.v3.swagger-gradle-plugin", version = "2.2.24" }
+swagger = { id = "io.swagger.core.v3.swagger-gradle-plugin", version = "2.2.28" }

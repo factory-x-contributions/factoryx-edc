@@ -176,6 +176,15 @@ class BusinessPartnerDidPermissionFunctionTest {
         assertThat(policyContext.getProblems()).containsOnly("Invalid right-value: operator 'IS_NONE_OF' requires a 'List' but got a 'java.lang.String'");
     }
 
+    @Test
+    void validate_String() {
+        assertThat(validation.validate(Operator.EQ, "did:web:abc", unusedPermission).succeeded()).isTrue();
+        assertThat(validation.validate(Operator.EQ, List.of("did:web:abc"), unusedPermission).succeeded()).isTrue();
+        assertThat(validation.validate(Operator.EQ, "did:w", unusedPermission).succeeded()).isFalse();
+        assertThat(validation.validate(Operator.EQ, List.of("did:w"), unusedPermission).succeeded()).isFalse();
+        assertThat(validation.validate(Operator.EQ, List.of("did:web:foo", "bar"), unusedPermission).succeeded()).isFalse();
+    }
+
     private static class IllegalOperatorProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
