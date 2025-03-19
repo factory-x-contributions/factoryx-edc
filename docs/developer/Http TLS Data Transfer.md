@@ -1,9 +1,9 @@
 # HTTP TLS Data Transfer
-FactoryX has added support for TLS authentication while doing HTTP to HTTP data transfer between Provider EDC and Consumer EDC.
+Factory-X has added support for TLS authentication while doing HTTP to HTTP data transfer between Provider EDC and Consumer EDC.
 An EDC Provider can now create an asset with a base url which supports TLS authentication.
 
 ## `HttpTlsData` Data Address Type
-FactoryX defines a new data address type `HttpTlsData` which is an extension of existing data address type `HttpData`. Hence, `HttpTlsData` type along with TLS, it supports all existing attributes of `HttpData` type such as custom authentication, additional headers etc.
+Factory-X defines a new data address type `HttpTlsData` which is an extension of existing data address type `HttpData`. Hence, `HttpTlsData` type along with TLS supports all existing attributes of `HttpData` type such as custom authentication, additional headers etc.
 
 ## Management APIs Changes
 - While creating an HTTP asset, we provide a source data address with `baseUrl`. If `baseUrl` which supports TLS, we just need to change data address type from `HttpData` to `HttpTlsData`.
