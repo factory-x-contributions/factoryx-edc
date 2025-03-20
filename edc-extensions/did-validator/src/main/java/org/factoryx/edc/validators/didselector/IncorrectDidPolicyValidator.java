@@ -19,23 +19,23 @@
 
 package org.factoryx.edc.validators.didselector;
 
-import org.eclipse.edc.spi.query.CriterionOperatorRegistry;
 import org.eclipse.edc.validator.jsonobject.JsonObjectValidator;
-import org.eclipse.edc.validator.jsonobject.validators.OptionalIdNotBlank;
-import org.eclipse.edc.validator.jsonobject.validators.model.CriterionValidator;
-import org.factoryx.edc.validators.didselector.validator.IdStartsWith;
-
-import static org.eclipse.edc.connector.controlplane.policy.spi.PolicyDefinition.EDC_POLICY_DEFINITION_PRIVATE_PROPERTIES;
+import org.eclipse.edc.validator.jsonobject.validators.MandatoryArray;
+import org.eclipse.edc.validator.jsonobject.validators.MandatoryIdNotBlank;
+import org.eclipse.edc.validator.jsonobject.validators.MandatoryObject;
+import org.factoryx.edc.validators.didselector.validator.OptionalConstraintPresent;
 
 public class IncorrectDidPolicyValidator {
 
     public static final String DID_WEB = "did:web:";
+    public static final String EDC_POLICY_BUSINESS_PARTNER_DID = "BusinessPartnerDID";
 
-    public static JsonObjectValidator instance(CriterionOperatorRegistry criterionOperatorRegistry) {
+    public static JsonObjectValidator instance() {
         return JsonObjectValidator.newValidator()
-                .verifyId(OptionalIdNotBlank::new)
-                .verifyId((path) -> new IdStartsWith(path, DID_WEB))
-                .verifyArrayItem(EDC_POLICY_DEFINITION_PRIVATE_PROPERTIES, path -> CriterionValidator.instance(path, criterionOperatorRegistry))
+                .verifyId(MandatoryIdNotBlank::new)
+                .verify("policy", MandatoryObject::new)
+                .verifyObject("policy", v -> v.verify("permission", MandatoryObject::new).verify("permission", MandatoryArray.min(1))
+                        .verify("permission", (path) -> new OptionalConstraintPresent(path, EDC_POLICY_BUSINESS_PARTNER_DID)))
                 .build();
     }
 }

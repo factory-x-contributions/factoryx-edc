@@ -23,7 +23,6 @@ import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.runtime.metamodel.annotation.Setting;
 import org.eclipse.edc.spi.monitor.Monitor;
-import org.eclipse.edc.spi.query.CriterionOperatorRegistry;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry;
 
@@ -43,9 +42,6 @@ public class IncorrectDidPolicyBlockerExtension implements ServiceExtension {
     JsonObjectValidatorRegistry validatorRegistry;
 
     @Inject
-    CriterionOperatorRegistry criterionOperatorRegistry;
-
-    @Inject
     Monitor monitor;
 
     @Override
@@ -57,7 +53,7 @@ public class IncorrectDidPolicyBlockerExtension implements ServiceExtension {
     public void prepare() {
         if (blockerEnabled) {
             monitor.info("Validator that blocks incorrect DID selector has been enabled");
-            validatorRegistry.register(EDC_POLICY_DEFINITION_TYPE, IncorrectDidPolicyValidator.instance(criterionOperatorRegistry));
+            validatorRegistry.register(EDC_POLICY_DEFINITION_TYPE, IncorrectDidPolicyValidator.instance());
         }
     }
 

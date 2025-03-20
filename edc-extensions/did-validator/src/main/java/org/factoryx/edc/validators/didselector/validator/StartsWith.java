@@ -25,17 +25,18 @@ import org.eclipse.edc.validator.spi.ValidationResult;
 import org.eclipse.edc.validator.spi.Validator;
 import org.eclipse.edc.validator.spi.Violation;
 
-public class IdStartsWith implements Validator<JsonString> {
+public class StartsWith implements Validator<JsonString> {
     private final JsonLdPath path;
     private final String startsWith;
 
-    public IdStartsWith(JsonLdPath path, String startsWith) {
+    public StartsWith(JsonLdPath path, String startsWith) {
         this.path = path;
         this.startsWith = startsWith;
     }
 
-    public ValidationResult validate(JsonString id) {
-        return id != null && id.getString().startsWith(startsWith) ? ValidationResult.success() : ValidationResult.failure(Violation.violation(String.format("%s should start with %s", this.path, this.startsWith), this.path.toString()));
+    @Override
+    public ValidationResult validate(JsonString jsonObject) {
+        return jsonObject.getString().startsWith(startsWith) ? ValidationResult.success() : ValidationResult.failure(Violation.violation(String.format("%s should start with %s", this.path, this.startsWith), this.path.toString()));
     }
 }
 

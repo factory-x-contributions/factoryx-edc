@@ -31,13 +31,14 @@ import org.junit.jupiter.api.Test;
 import static jakarta.json.Json.createArrayBuilder;
 import static jakarta.json.Json.createObjectBuilder;
 import static org.assertj.core.api.InstanceOfAssertFactories.list;
-import static org.eclipse.edc.connector.controlplane.policy.spi.PolicyDefinition.EDC_POLICY_DEFINITION_PRIVATE_PROPERTIES;
+import static org.eclipse.edc.connector.controlplane.policy.spi.PolicyDefinition.EDC_POLICY_DEFINITION_TYPE;
+import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.CONTEXT;
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
+import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.TYPE;
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.VALUE;
+import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.VOCAB;
 import static org.eclipse.edc.junit.assertions.AbstractResultAssert.assertThat;
-import static org.eclipse.edc.spi.query.Criterion.CRITERION_OPERAND_LEFT;
-import static org.eclipse.edc.spi.query.Criterion.CRITERION_OPERAND_RIGHT;
-import static org.eclipse.edc.spi.query.Criterion.CRITERION_OPERATOR;
+import static org.eclipse.edc.spi.constants.CoreConstants.EDC_NAMESPACE;
 import static org.factoryx.edc.validators.didselector.IncorrectDidPolicyValidator.DID_WEB;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,26 +47,64 @@ class IncorrectDidPolicyValidatorTest {
 
     CriterionOperatorRegistry criterionOperatorRegistry = mock();
 
-    private final JsonObjectValidator validator = IncorrectDidPolicyValidator.instance(criterionOperatorRegistry);
+    private final JsonObjectValidator validator = IncorrectDidPolicyValidator.instance();
 
     @Test
     void shouldPass_whenPolicyDefinitionIsCorrect() {
 
-        var criterion = createObjectBuilder()
-                .add(CRITERION_OPERAND_LEFT, value("operandLeft"))
-                .add(CRITERION_OPERATOR, value("="))
-                .add(CRITERION_OPERAND_RIGHT, value("operandRight"));
+        var constraint = createObjectBuilder()
+                .add("leftOperand", "BusinessPartnerDID")
+                .add("operator", "eq")
+                .add("rightOperand", "did:web:mycorp.com:mypath");
+
+        var constraint2 = createObjectBuilder()
+                .add("leftOperand", "foo")
+                .add("operator", "eq")
+                .add("rightOperand", "bar");
 
         var policyDefinition = createObjectBuilder()
-                .add(ID, DID_WEB)
-                .add(EDC_POLICY_DEFINITION_PRIVATE_PROPERTIES, createArrayBuilder().add(criterion))
+                .add(ID, "validation-success")
+                .add(TYPE, EDC_POLICY_DEFINITION_TYPE)
+                .add(CONTEXT, createArrayBuilder().add(createObjectBuilder().add("http://www.w3.org/ns/odrl.jsonld", createObjectBuilder().add(VOCAB, EDC_NAMESPACE))))
+                .add("policy", createArrayBuilder().add(createObjectBuilder().add("permission",
+                        createArrayBuilder().add(createObjectBuilder().add("constraint", constraint2).add("action", value("USE"))).add(createObjectBuilder().add("constraint", constraint).add("action", value("USE")))).add(TYPE, "Set")))
                 .build();
 
-        when(criterionOperatorRegistry.isSupported("=")).thenReturn(true);
+        when(criterionOperatorRegistry.isSupported("eq")).thenReturn(true);
 
         var result = validator.validate(policyDefinition);
 
         assertThat(result).isSucceeded();
+    }
+
+    @Test
+    void shouldFail_whenPolicyDefinitionIsIncorrect() {
+
+        var constraint = createObjectBuilder()
+                .add("leftOperand", "BusinessPartnerDID")
+                .add("operator", "eq")
+                .add("rightOperand", "some-arbitrary-id");
+
+        var constraint2 = createObjectBuilder()
+                .add("leftOperand", "foo")
+                .add("operator", "eq")
+                .add("rightOperand", "bar");
+
+        var policyDefinition = createObjectBuilder()
+                .add(ID, "validation-failure")
+                .add(TYPE, EDC_POLICY_DEFINITION_TYPE)
+                .add(CONTEXT, createArrayBuilder().add(createObjectBuilder().add("http://www.w3.org/ns/odrl.jsonld", createObjectBuilder().add(VOCAB, EDC_NAMESPACE))))
+                .add("policy", createArrayBuilder().add(createObjectBuilder().add("permission",
+                        createArrayBuilder().add(createObjectBuilder().add("constraint", constraint2).add("action", value("USE"))).add(createObjectBuilder().add("constraint", constraint).add("action", value("USE")))).add(TYPE, "Set")))
+                .build();
+
+        when(criterionOperatorRegistry.isSupported("eq")).thenReturn(true);
+
+        var result = validator.validate(policyDefinition);
+
+        assertThat(result).isFailed().extracting(ValidationFailure::getViolations).asInstanceOf(list(Violation.class))
+                .isNotEmpty()
+                .anySatisfy(violation -> Assertions.assertThat(violation.message()).contains(DID_WEB));
     }
 
     /**
