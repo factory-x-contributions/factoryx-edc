@@ -21,6 +21,7 @@
 package org.factoryx.edc.http.tls.client.lib.client;
 
 import okhttp3.OkHttpClient;
+import org.eclipse.edc.http.spi.EdcHttpClient;
 import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.security.Vault;
@@ -73,15 +74,14 @@ class HttpTlsClientExtensionTest {
         OkHttpClient exampleComClient = new OkHttpClient.Builder().build();
         OkHttpClient factoryxComClient = new OkHttpClient.Builder().build();
 
-
         when(context.getConfig("fx.edc.http.tls")).thenReturn(getConfig());
         when(httpTlsClientFactory.create(eq(baseHttpClient), any(HttpTlsConfiguration.class))).thenReturn(exampleComClient, factoryxComClient);
 
         extension.initialize(context);
 
         verify(httpTlsClientFactory, times(2)).create(eq(baseHttpClient), any(HttpTlsConfiguration.class));
-        verify(httpTlsClientRegistry).register(eq("example.com"), eq(exampleComClient));
-        verify(httpTlsClientRegistry).register(eq("factoryx.com"), eq(factoryxComClient));
+        verify(httpTlsClientRegistry).register(eq("example.com"), any(EdcHttpClient.class));
+        verify(httpTlsClientRegistry).register(eq("factoryx.com"), any(EdcHttpClient.class));
     }
 
     Config getConfig() {

@@ -19,7 +19,11 @@
 
 package org.factoryx.edc.http.tls.client.lib.client;
 
+import dev.failsafe.RetryPolicy;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import org.eclipse.edc.http.client.EdcHttpClientImpl;
+import org.eclipse.edc.http.spi.EdcHttpClient;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.security.Vault;
@@ -46,6 +50,8 @@ public class HttpTlsClientExtension implements ServiceExtension {
     private Vault vault;
 
     @Inject
+    private EdcHttpClient baseEdcHttpClient;
+    @Inject
     private OkHttpClient baseHttpClient;
 
     @Inject
@@ -57,6 +63,9 @@ public class HttpTlsClientExtension implements ServiceExtension {
     @Inject
     private Monitor monitor;
 
+    @Inject
+    private RetryPolicy<Response> retryPolicy;
+
     @Override
     public void initialize(ServiceExtensionContext context) {
 
@@ -66,7 +75,7 @@ public class HttpTlsClientExtension implements ServiceExtension {
             var tlsConfiguration = getTlsConfiguration(config);
             tlsConfiguration.ifPresent((configuration -> {
                 OkHttpClient httpClient = httpTlsClientFactory.create(baseHttpClient, tlsConfiguration.get());
-                httpTlsClientRegistry.register(configuration.getTlsHost(), httpClient);
+                httpTlsClientRegistry.register(configuration.getTlsHost(), createEdcHttpClient(httpClient, context));
             }));
         });
     }
@@ -104,5 +113,13 @@ public class HttpTlsClientExtension implements ServiceExtension {
                     monitor.warning("TLS configuration value '%s' not found in vault, will fall back to Config. Please consider putting TLS configuration into the vault.".formatted(fullKey));
                     return Optional.ofNullable(config.getString(key, null));
                 });
+    }
+
+    private EdcHttpClient createEdcHttpClient(OkHttpClient okHttpClient, ServiceExtensionContext context) {
+        return new EdcHttpClientImpl(
+                okHttpClient,
+                retryPolicy,
+                context.getMonitor()
+        );
     }
 }

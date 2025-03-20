@@ -23,6 +23,7 @@ rootProject.name = "factoryx-edc"
 // spi modules
 include(":spi:core-spi")
 include(":spi:http-tls:http-tls-client-spi")
+include(":spi:http-tls:http-tls-data-address-spi")
 
 // extensions - control plane
 include(":edc-extensions:fx-json-ld-core")
@@ -33,6 +34,7 @@ include(":edc-extensions:did-validation-core")
 include(":edc-extensions:contract-validation")
 include(":edc-extensions:http-tls:http-tls-client")
 include(":edc-extensions:http-tls:http-tls-client-lib")
+include(":edc-extensions:http-tls:data-plane-http-tls")
 
 // modules for controlplane artifacts
 include(":edc-controlplane")

@@ -19,7 +19,7 @@
 
 package org.factoryx.edc.http.tls.client.lib.client;
 
-import okhttp3.OkHttpClient;
+import org.eclipse.edc.http.spi.EdcHttpClient;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.runtime.metamodel.annotation.Provider;
 import org.eclipse.edc.spi.system.ServiceExtension;
@@ -31,7 +31,7 @@ import org.factoryx.edc.http.tls.client.lib.client.spi.OkHttpTlsClientFactory;
 public class HttpTlsExtension implements ServiceExtension {
 
     @Inject
-    private OkHttpClient baseHttpClient;
+    private EdcHttpClient baseHttpClient;
 
     @Provider(isDefault = true)
     public OkHttpTlsClientFactory okHttpTlsClientFactory() {

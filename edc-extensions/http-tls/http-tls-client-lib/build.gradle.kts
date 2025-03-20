@@ -23,6 +23,6 @@ plugins {
 
 dependencies {
     implementation(project(":spi:http-tls:http-tls-client-spi"))
-
+    implementation(libs.edc.spi.http)
     testImplementation(libs.edc.junit)
 }
