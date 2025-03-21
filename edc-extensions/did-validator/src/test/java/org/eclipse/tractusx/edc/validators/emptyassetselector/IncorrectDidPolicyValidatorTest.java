@@ -21,7 +21,6 @@ package org.eclipse.tractusx.edc.validators.emptyassetselector;
 
 import jakarta.json.JsonArrayBuilder;
 import org.assertj.core.api.Assertions;
-import org.eclipse.edc.spi.query.CriterionOperatorRegistry;
 import org.eclipse.edc.validator.jsonobject.JsonObjectValidator;
 import org.eclipse.edc.validator.spi.ValidationFailure;
 import org.eclipse.edc.validator.spi.Violation;
@@ -40,12 +39,8 @@ import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.VOCAB;
 import static org.eclipse.edc.junit.assertions.AbstractResultAssert.assertThat;
 import static org.eclipse.edc.spi.constants.CoreConstants.EDC_NAMESPACE;
 import static org.factoryx.edc.validators.didselector.IncorrectDidPolicyValidator.DID_WEB;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class IncorrectDidPolicyValidatorTest {
-
-    CriterionOperatorRegistry criterionOperatorRegistry = mock();
 
     private final JsonObjectValidator validator = IncorrectDidPolicyValidator.instance();
 
@@ -69,8 +64,6 @@ class IncorrectDidPolicyValidatorTest {
                 .add("policy", createArrayBuilder().add(createObjectBuilder().add("permission",
                         createArrayBuilder().add(createObjectBuilder().add("constraint", constraint2).add("action", value("USE"))).add(createObjectBuilder().add("constraint", constraint).add("action", value("USE")))).add(TYPE, "Set")))
                 .build();
-
-        when(criterionOperatorRegistry.isSupported("eq")).thenReturn(true);
 
         var result = validator.validate(policyDefinition);
 
@@ -98,7 +91,6 @@ class IncorrectDidPolicyValidatorTest {
                         createArrayBuilder().add(createObjectBuilder().add("constraint", constraint2).add("action", value("USE"))).add(createObjectBuilder().add("constraint", constraint).add("action", value("USE")))).add(TYPE, "Set")))
                 .build();
 
-        when(criterionOperatorRegistry.isSupported("eq")).thenReturn(true);
 
         var result = validator.validate(policyDefinition);
 
