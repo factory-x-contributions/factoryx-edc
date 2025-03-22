@@ -2,15 +2,15 @@
 format.version = "1.1"
 
 [versions]
-edc = "0.11.0"
+edc = "0.12.0"
 assertj = "3.27.3"
 jackson = "2.18.2"
 jakarta-json = "2.0.1"
-jupiter = "5.11.4"
-opentelemetry = "2.12.0"
+jupiter = "5.12.1"
+opentelemetry = "2.13.3"
 rsApi = "4.0.0"
 titanium = "1.4.1"
-tractusx = "0.9.0-rc2"
+tractusx = "0.9.0"
 okhttp = "4.12.0"
 httpMockServer = "5.15.0"
 
@@ -72,4 +72,4 @@ titaniumJsonLd = { module = "com.apicatalog:titanium-json-ld", version.ref = "ti
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 [plugins]
-swagger = { id = "io.swagger.core.v3.swagger-gradle-plugin", version = "2.2.28" }
+swagger = { id = "io.swagger.core.v3.swagger-gradle-plugin", version = "2.2.29" }
