@@ -18,6 +18,5 @@
 #################################################################################
 
 org.factoryx.edc.iam.iatp.IatpDefaultScopeExtension
-org.factoryx.edc.iam.iatp.IatpIdentityExtension
 org.factoryx.edc.iam.iatp.IatpScopeExtractorExtension
 
