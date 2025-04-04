@@ -10,9 +10,11 @@ jupiter = "5.11.4"
 opentelemetry = "2.14.0"
 rsApi = "4.0.0"
 titanium = "1.6.0"
+swagger = "2.2.29"
 tractusx = "0.9.0"
 okhttp = "4.12.0"
 httpMockServer = "5.15.0"
+restAssured = "5.5.0"
 
 [libraries]
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
@@ -26,6 +28,7 @@ edc-spi-policyengine = { module = "org.eclipse.edc:policy-engine-spi", version.r
 edc-spi-request-policy-context = { module = "org.eclipse.edc:request-policy-context-spi", version.ref = "edc" }
 edc-spi-jsonld = { module = "org.eclipse.edc:json-ld-spi", version.ref = "edc" }
 edc-spi-vc = { module = "org.eclipse.edc:verifiable-credentials-spi", version.ref = "edc" }
+edc-spi-web = { module = "org.eclipse.edc:web-spi", version.ref = "edc" }
 edc-spi-http = { module = "org.eclipse.edc:http-spi", version.ref = "edc" }
 edc-spi-controlplane-api-client = { module = "org.eclipse.edc:control-plane-api-client-spi", version.ref = "edc" }
 edc-boot = { module = "org.eclipse.edc:boot", version.ref = "edc" }
@@ -40,7 +43,9 @@ edc-dataplane-http = { module = "org.eclipse.edc:data-plane-http", version.ref =
 edc-dataplane-util = { module = "org.eclipse.edc:data-plane-util", version.ref = "edc" }
 edc-http-lib = { module = "org.eclipse.edc:http-lib", version.ref = "edc" }
 mockserver-netty = { module = "org.mock-server:mockserver-netty", version.ref = "httpMockServer" }
-
+restAssured = { module = "io.rest-assured:rest-assured", version.ref = "restAssured" }
+edc-core-jersey = { module = "org.eclipse.edc:jersey-core", version.ref = "edc" }
+swagger-annotations-jakarta = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version.ref = "swagger" }
 
 # EDC lib dependencies
 edc-lib-json = { module = "org.eclipse.edc:json-lib", version.ref = "edc" }
