@@ -54,6 +54,9 @@ jobs:
       - name: Run Backend Component Tests
         run: ./gradlew test -DincludeTags="ComponentTest"
 
+      - name: Run Backend API Tests
+        run: ./gradlew test -DincludeTags="ApiTest"
+
       - name: Generate Dependency Report
         working-directory: ./
         run: ./gradlew dependencies > dependency-report.txt

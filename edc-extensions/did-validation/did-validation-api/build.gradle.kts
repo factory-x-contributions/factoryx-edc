@@ -1,5 +1,4 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
  * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -20,26 +19,22 @@
 
 plugins {
     `java-library`
+    `maven-publish`
     id(libs.plugins.swagger.get().pluginId)
 }
 
 dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.base) {
-        exclude("org.eclipse.tractusx.edc", "cx-policy")
-        exclude("org.eclipse.tractusx.edc", "tx-dcp")
-        exclude("org.eclipse.tractusx.edc", "bdrs-client")
-        exclude("org.eclipse.tractusx.edc", "data-flow-properties-provider")
-        exclude("org.eclipse.tractusx.edc", "bpn-validation-core")
-    }
+    implementation(project(":spi:core-spi"))
+    api(libs.eclipse.tractusx.spi.bpn.validation)
+    implementation(libs.eclipse.tractusx.spi.core)
+    implementation(libs.edc.lib.validator)
+    implementation(libs.jakarta.rsApi)
+    implementation(libs.edc.spi.web)
+    implementation(libs.swagger.annotations.jakarta)
 
-    // fx-edc extensions
-    runtimeOnly(project(":edc-extensions:fx-json-ld-core"))
-    runtimeOnly(project(":edc-extensions:contract-validation"))
-    runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
-    // Credentials FX policies
-    runtimeOnly(project(":edc-extensions:fx-policy"))
+    testImplementation(libs.edc.junit)
+    testImplementation(libs.restAssured)
+    testImplementation(testFixtures(libs.edc.core.jersey))
+    testImplementation(libs.edc.core.connector)
 
-    // needed for DCP integration
-    runtimeOnly(project(":edc-extensions:dcp:fx-dcp"))
-    runtimeOnly(project(":edc-extensions:did-validation"))
 }
