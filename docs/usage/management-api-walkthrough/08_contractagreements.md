@@ -37,15 +37,15 @@ A Contract Agreement looks like this:
     },
     "odrl:prohibition": [],
     "odrl:obligation": [],
-    "odrl:assignee": "<BPN_CONSUMER>",
-    "odrl:assigner": "<BPN_PROVIDER>",
+    "odrl:assignee": "<DID_CONSUMER>",
+    "odrl:assigner": "<DID_PROVIDER>",
     "odrl:target": {
       "@id": "{{ASSET_ID}}"
     }
   },
   "contractSigningDate": 1713441910,
-  "consumerId": "{{BPN_CONSUMER}}",
-  "providerId": "{{BPN_PROVIDER}}",
+  "consumerId": "{{DID_CONSUMER}}",
+  "providerId": "{{DID_PROVIDER}}",
   "@context": {
     "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
     "edc": "https://w3id.org/edc/v0.0.1/ns/",

@@ -52,7 +52,7 @@ Content-Type: application/json
     "policy": {
         "@id": "{{OFFER_ID}}",
         "@type": "Offer",
-        "assigner": "{{PROVIDER_BPN}}",
+        "assigner": "{{PROVIDER_DID}}",
         "permission": [
             {
                 "action": "use",
@@ -79,7 +79,7 @@ Content-Type: application/json
 - In the `policy` section, the Data Consumer specifies the Data Offer for the negotiation. As there may be multiple
   Data Offers for the same DataSet, the Data Consumer must choose one. 
   It must hold an identical copy of the Data Offer's contract policy as provided via the catalog-API in the `odrl:hasPolicy` field plus:
-    - `assigner` must hold the BPN of the Provider
+    - `assigner` must hold the DID of the Provider
     - `target` must be the id of the EDC-Asset/dcat:DataSet that the offer was made for.
 
 This request synchronously returns a server-generated `negotiationId` that could be used to get the state of the negotiation.
@@ -291,7 +291,7 @@ Content-Type: application/json
 ```json
 {
   "assetId": "1",
-  "providerId": "BPNL000000000001"
+  "providerId": "did:web:provider.com:dataspace"
 }
 ```
 
@@ -311,7 +311,7 @@ Content-Type: application/json
 ```json
 {
   "assetId": "1",
-  "providerId": "BPNL000000000001",
+  "providerId": "did:web:provider.com:dataspace",
   "pathSegments": "/sub",
   "queryParams": "foo=bar"
 }

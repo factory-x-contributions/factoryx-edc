@@ -33,14 +33,12 @@ Content-Type: application/json
 
 The `@id` parameter will identify the configured endpoint access permanently. This is the same id that a
 data consumer will see when being presented the corresponding data offers when retrieving the [catalog](04_catalog.md).
-However, there it won't be styled as an `edc:asset` but as a `dcat:DataSet`. Additionally, there is the possibility to
+However, there it won't be styled as an `edc:asset` but as a `dcat:Dataset`. Additionally, there is the possibility to
 add `properties` to the Asset, which are exposed in the catalog to potential Data Consumers.
-There are conventions in the Factory-X Dataspace how Data Providers should set properties.
-This enables
-Data Consumers to decide what Data Offers they want to negotiate for. This matters especially when the Data Consumer has
-to add URL-segements or
-HTTP bodies to its requests. The value entered as the Asset's `@id` will automatically be added as a redundant `edc:id`
-property.
+There are conventions in the Factory-X Dataspace how Data Providers should set properties. This enables Data Consumers
+to decide what Data Offers they want to negotiate for. This matters especially when the Data Consumer has to add
+URL-segements or HTTP bodies to its requests. The value entered as the Asset's `@id` will automatically be added as a 
+redundant `edc:id` property.
 
 Most consequential however is the `dataAddress` section of the asset-APIs payload. It configures the Data Plane's
 behavior. Depending on the protocol used for data exchange, an EDC will use different Data Planes. This is manifested by
@@ -50,21 +48,15 @@ examples are not complete but should rather be viewed as archetypes of establish
 
 The effects of each parameter will be explained by the following examples.
 
-```
-#WORK_IN_PROGRESS_BELOW
-```
-
 ## HTTP Data Plane
 
 The HTTP Data Plane of the EDC will proxy an HTTP request that a Data Consumer sends via HTTP. However, the incoming
-request will be manipulated by the Data Plane - to what degree depends on the configuration. Let's look at an example:
+request will be manipulated by the Data Plane - to what degree depends on the configuration.
 
 ```json
 {
   "@context": {
     "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "fx-common": "https://w3id.org/catenax/ontology/common#",
-    "fx-taxo": "https://w3id.org/catenax/taxonomy#",
     "dct": "http://purl.org/dc/terms/"
   },
   "@type": "Asset",
@@ -72,16 +64,15 @@ request will be manipulated by the Data Plane - to what degree depends on the co
   "properties": {
     "dct:type": {
       "@id": "{{ _.asset_type }}"
-    },
-    "fx-common:version": "{{ _.asset_version }}"
+    }
   },
   "dataAddress": {
     "@type": "DataAddress",
     "type": "HttpData",
     "baseUrl": "https://mycorp.org/api",
-    "oauth2:tokenUrl": "{{ _.url_keycl_backend }}",
-    "oauth2:clientId": "{{ _.client_id_backend }}",
-    "oauth2:clientSecretKey": "{{ _.sec_name_vault }}",
+    "oauth2:tokenUrl": "https://accounts.mycorp.org/path/oauth/token",
+    "oauth2:clientId": "client-id",
+    "oauth2:clientSecretKey": "client-secret-alias",
     "proxyQueryParams": "true",
     "proxyPath": "false",
     "proxyMethod": "true",
@@ -121,3 +112,7 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-License-Identifier: CC-BY-4.0
 - SPDX-FileCopyrightText: 2023 Contributors of the Eclipse Foundation
 - Source URL: [https://github.com/eclipse-tractusx/tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc)
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors of Factory-X
+- Source URL: [https://github.com/factory-x-contributions/factoryx-edc](https://github.com/factory-x-contributions/factoryx-edc)

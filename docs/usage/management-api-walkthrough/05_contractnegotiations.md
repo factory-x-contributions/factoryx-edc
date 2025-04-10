@@ -29,7 +29,7 @@ Content-Type: application/json
     "@type": "Offer",
     "@id": "{{OFFER_ID}}",
     "target": "{{ASSET_ID}}",
-    "assigner": "{{PROVIDER_BPN}}",
+    "assigner": "{{PROVIDER_DID}}",
     "permission": [],
     "prohibition": [],
     "obligation": []
@@ -53,7 +53,7 @@ Content-Type: application/json
 - In the `policy` section, the Data Consumer specifies the Data Offer for the negotiation. As there may be multiple
   Data Offers for the same DataSet, the Data Consumer must choose one.
   It must hold an identical copy of the Data Offer's contract policy as provided via the catalog-API in the `odrl:hasPolicy` field plus:
-    - `assigner` must hold the BPN of the Provider
+    - `assigner` must hold the DID of the Provider
     - `target` must be the id of the EDC-Asset/dcat:DataSet that the offer was made for.
 - `callbackAddresses` is a list of Consumer-side endpoints that the Provider's Data Plane writes events to.
     - `uri` is the http endpoint of the token repository. Mandatory.
@@ -108,7 +108,7 @@ that will look like this:
   "type": "CONSUMER",
   "protocol": "dataspace-protocol-http",
   "state": "REQUESTING",
-  "counterPartyId": "{{PROVIDER_BPN}}",
+  "counterPartyId": "{{PROVIDER_DID}}",
   "counterPartyAddress": "https://provider-control.plane/api/v1/dsp",
   "callbackAddresses": [
     {
@@ -154,7 +154,7 @@ Here's an example:
   "payload": {
     "contractNegotiationId": "019488e0-f242-4c12-8314-610927b09e96",
     "counterPartyAddress": "{{PROVIDER_CONTROLPLANE_DSP_ENDPOINT}}",
-    "counterPartyId": "{{PROVIDER_BPN}}",
+    "counterPartyId": "{{PROVIDER_DID}}",
     "callbackAddresses": [
       {
         "transactional": false,
@@ -246,3 +246,8 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-License-Identifier: CC-BY-4.0
 - SPDX-FileCopyrightText: 2023 Contributors of the Eclipse Foundation
 - Source URL: [https://github.com/eclipse-tractusx/tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc)
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors of Factory-X
+- Source
+  URL: [https://github.com/factory-x-contributions/factoryx-edc](https://github.com/factory-x-contributions/factoryx-edc)
