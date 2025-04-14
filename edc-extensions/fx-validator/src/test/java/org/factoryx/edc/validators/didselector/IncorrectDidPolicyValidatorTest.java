@@ -17,14 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.edc.validators.emptyassetselector;
+package org.factoryx.edc.validators.didselector;
 
 import jakarta.json.JsonArrayBuilder;
 import org.assertj.core.api.Assertions;
 import org.eclipse.edc.validator.jsonobject.JsonObjectValidator;
 import org.eclipse.edc.validator.spi.ValidationFailure;
 import org.eclipse.edc.validator.spi.Violation;
-import org.factoryx.edc.validators.didselector.IncorrectDidPolicyValidator;
 import org.junit.jupiter.api.Test;
 
 import static jakarta.json.Json.createArrayBuilder;

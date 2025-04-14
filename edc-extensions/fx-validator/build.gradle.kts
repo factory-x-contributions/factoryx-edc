@@ -25,6 +25,7 @@ plugins {
 dependencies {
     api(libs.edc.spi.controlplane)
     implementation(libs.edc.lib.validator)
+    implementation(libs.edc.spi.jsonld)
 
     testImplementation(libs.edc.junit)
 }

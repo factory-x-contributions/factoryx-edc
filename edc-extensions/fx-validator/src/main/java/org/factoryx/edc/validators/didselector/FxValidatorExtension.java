@@ -26,16 +26,17 @@ import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry;
 
+import static org.eclipse.edc.connector.controlplane.asset.spi.domain.Asset.EDC_ASSET_TYPE;
 import static org.eclipse.edc.connector.controlplane.policy.spi.PolicyDefinition.EDC_POLICY_DEFINITION_TYPE;
 
-@Extension(value = IncorrectDidPolicyBlockerExtension.NAME)
-public class IncorrectDidPolicyBlockerExtension implements ServiceExtension {
+@Extension(value = FxValidatorExtension.NAME)
+public class FxValidatorExtension implements ServiceExtension {
 
     public static final String NAME = "Incorrect DID Policy Selector Blocker extension";
 
     private static final String BLOCKER_ENABLED = "true";
 
-    @Setting(description = "Block management APIs with from being created/updated with an incorrect DID selector.", defaultValue = BLOCKER_ENABLED, key = "tx.edc.validator.incorrect-did-selector")
+    @Setting(description = "Block management APIs with from being created/updated with an incorrect DID selector.", defaultValue = BLOCKER_ENABLED, key = "fx.edc.validator.incorrect-did-selector")
     private boolean blockerEnabled;
 
     @Inject
@@ -54,6 +55,7 @@ public class IncorrectDidPolicyBlockerExtension implements ServiceExtension {
         if (blockerEnabled) {
             monitor.info("Validator that blocks incorrect DID selector has been enabled");
             validatorRegistry.register(EDC_POLICY_DEFINITION_TYPE, IncorrectDidPolicyValidator.instance());
+            validatorRegistry.register(EDC_ASSET_TYPE, AssetTypeValidator.instance());
         }
     }
 
