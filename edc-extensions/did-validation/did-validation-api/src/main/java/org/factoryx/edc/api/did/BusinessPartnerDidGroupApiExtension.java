@@ -33,8 +33,6 @@ import org.factoryx.edc.api.did.v1.BusinessPartnerDidGroupApiV1Controller;
 import org.factoryx.edc.api.did.validation.BusinessPartnerDidValidator;
 
 import static org.factoryx.edc.api.did.BusinessPartnerDidSchema.BUSINESS_PARTNER_DID_TYPE;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_PREFIX;
 
 @Extension(value = "Registers the Business Partner DID Group API")
 public class BusinessPartnerDidGroupApiExtension implements ServiceExtension {
@@ -50,7 +48,6 @@ public class BusinessPartnerDidGroupApiExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        jsonLdService.registerNamespace(FX_PREFIX, FX_NAMESPACE);
 
         validatorRegistry.register(BUSINESS_PARTNER_DID_TYPE, BusinessPartnerDidValidator.instance());
         webService.registerResource(ApiContext.MANAGEMENT, new BusinessPartnerDidGroupApiV1Controller(businessPartnerStore, validatorRegistry));

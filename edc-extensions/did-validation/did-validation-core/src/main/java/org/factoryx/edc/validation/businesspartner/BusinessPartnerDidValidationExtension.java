@@ -38,7 +38,7 @@ import static org.eclipse.edc.connector.controlplane.catalog.spi.policy.CatalogP
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.ContractNegotiationPolicyContext.NEGOTIATION_SCOPE;
 import static org.eclipse.edc.connector.controlplane.contract.spi.policy.TransferProcessPolicyContext.TRANSFER_SCOPE;
 import static org.eclipse.edc.policy.model.OdrlNamespace.ODRL_SCHEMA;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 import static org.factoryx.edc.validation.businesspartner.BusinessPartnerDidValidationExtension.NAME;
 
 /**
@@ -62,7 +62,7 @@ public class BusinessPartnerDidValidationExtension implements ServiceExtension {
      * </pre>
      */
     public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = "BusinessPartnerDID";
-    public static final String FX_BUSINESS_PARTNER_CONSTRAINT_KEY = FX_NAMESPACE + BUSINESS_PARTNER_CONSTRAINT_KEY;
+    public static final String FX_BUSINESS_PARTNER_CONSTRAINT_KEY = FX_POLICY_NS + BUSINESS_PARTNER_CONSTRAINT_KEY;
     protected static final String NAME = "Business Partner Validation Extension";
     @Inject
     private RuleBindingRegistry ruleBindingRegistry;
@@ -83,7 +83,7 @@ public class BusinessPartnerDidValidationExtension implements ServiceExtension {
     }
 
     private <C extends PolicyContext> void bindToScope(Class<C> contextType, AtomicConstraintRuleFunction<Permission, C> function, String scope) {
-        ruleBindingRegistry.bind("USE", scope);
+        ruleBindingRegistry.bind("use", scope);
         ruleBindingRegistry.bind(ODRL_SCHEMA + "use", scope);
         ruleBindingRegistry.bind(BUSINESS_PARTNER_CONSTRAINT_KEY, scope);
         ruleBindingRegistry.bind(FX_BUSINESS_PARTNER_CONSTRAINT_KEY, scope);

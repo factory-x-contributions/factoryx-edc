@@ -19,10 +19,10 @@
 
 package org.factoryx.edc.api.did;
 
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
 public interface BusinessPartnerDidSchema {
 
-    String BUSINESS_PARTNER_DID_TYPE = FX_NAMESPACE + "BusinessPartnerDID";
-    String DID_GROUP_TYPE = FX_NAMESPACE + "groups";
+    String BUSINESS_PARTNER_DID_TYPE = FX_POLICY_NS + "BusinessPartnerDID";
+    String DID_GROUP_TYPE = FX_POLICY_NS + "groups";
 }

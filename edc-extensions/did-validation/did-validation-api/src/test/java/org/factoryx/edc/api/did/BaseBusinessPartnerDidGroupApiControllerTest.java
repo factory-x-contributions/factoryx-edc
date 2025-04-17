@@ -37,8 +37,8 @@ import static io.restassured.http.ContentType.JSON;
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.CONTEXT;
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 import static org.eclipse.edc.spi.constants.CoreConstants.EDC_NAMESPACE;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_PREFIX;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_PREFIX;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -53,7 +53,8 @@ public abstract class BaseBusinessPartnerDidGroupApiControllerTest extends RestC
     @BeforeEach
     void setUp() {
         jsonLdService.registerNamespace("edc", EDC_NAMESPACE);
-        jsonLdService.registerNamespace("fx", FX_NAMESPACE);
+        jsonLdService.registerNamespace(FX_POLICY_PREFIX, FX_POLICY_NS);
+
     }
 
     @Test
@@ -182,16 +183,16 @@ public abstract class BaseBusinessPartnerDidGroupApiControllerTest extends RestC
     private JsonObject createJsonObject() {
         return jsonLdService.expand(Json.createObjectBuilder()
                 .add(ID, "did:web:example.com:participantA")
-                .add(CONTEXT, Json.createObjectBuilder().add(FX_PREFIX, FX_NAMESPACE).build())
-                .add(FX_NAMESPACE + "groups", String.join(",", "group1", "group2", "group3"))
+                .add(CONTEXT, Json.createObjectBuilder().add(FX_POLICY_PREFIX, FX_POLICY_NS).build())
+                .add(FX_POLICY_NS + "groups", String.join(",", "group1", "group2", "group3"))
                 .build()).orElseThrow(f -> new RuntimeException(f.getFailureDetail()));
     }
 
     private JsonObject createInvalidDidJsonObject() {
         return jsonLdService.expand(Json.createObjectBuilder()
                 .add(ID, "invalid-did")
-                .add(CONTEXT, Json.createObjectBuilder().add(FX_PREFIX, FX_NAMESPACE).build())
-                .add(FX_NAMESPACE + "groups", String.join(",", "group1", "group2", "group3"))
+                .add(CONTEXT, Json.createObjectBuilder().add(FX_POLICY_PREFIX, FX_POLICY_NS).build())
+                .add(FX_POLICY_NS + "groups", String.join(",", "group1", "group2", "group3"))
                 .build()).orElseThrow(f -> new RuntimeException(f.getFailureDetail()));
     }
 
