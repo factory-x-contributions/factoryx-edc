@@ -30,6 +30,7 @@ edc-spi-jsonld = { module = "org.eclipse.edc:json-ld-spi", version.ref = "edc" }
 edc-spi-vc = { module = "org.eclipse.edc:verifiable-credentials-spi", version.ref = "edc" }
 edc-spi-web = { module = "org.eclipse.edc:web-spi", version.ref = "edc" }
 edc-spi-http = { module = "org.eclipse.edc:http-spi", version.ref = "edc" }
+edc-spi-validator = { module = "org.eclipse.edc:validator-spi", version.ref = "edc" }
 edc-spi-controlplane-api-client = { module = "org.eclipse.edc:control-plane-api-client-spi", version.ref = "edc" }
 edc-boot = { module = "org.eclipse.edc:boot", version.ref = "edc" }
 edc-build-plugin = { module = "org.eclipse.edc.edc-build:org.eclipse.edc.edc-build.gradle.plugin", version.ref = "edc" }
@@ -46,6 +47,7 @@ mockserver-netty = { module = "org.mock-server:mockserver-netty", version.ref = 
 restAssured = { module = "io.rest-assured:rest-assured", version.ref = "restAssured" }
 edc-core-jersey = { module = "org.eclipse.edc:jersey-core", version.ref = "edc" }
 swagger-annotations-jakarta = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version.ref = "swagger" }
+edc-validator-data-address-http-data = { module = "org.eclipse.edc:validator-data-address-http-data", version.ref = "edc" }
 
 # EDC lib dependencies
 edc-lib-json = { module = "org.eclipse.edc:json-lib", version.ref = "edc" }

@@ -38,7 +38,7 @@ import java.util.List;
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.VALUE;
 import static org.factoryx.edc.api.did.BusinessPartnerDidSchema.BUSINESS_PARTNER_DID_TYPE;
-import static org.factoryx.edc.edr.spi.CoreConstants.FX_NAMESPACE;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
 
 public abstract class BaseBusinessPartnerDidGroupApiController {
@@ -88,7 +88,7 @@ public abstract class BaseBusinessPartnerDidGroupApiController {
     private JsonObject createObject(String did, List<String> list) {
         return Json.createObjectBuilder()
                 .add(ID, did)
-                .add(FX_NAMESPACE + "groups", Json.createArrayBuilder(list))
+                .add(FX_POLICY_NS + "groups", Json.createArrayBuilder(list))
                 .build();
     }
 
@@ -103,7 +103,7 @@ public abstract class BaseBusinessPartnerDidGroupApiController {
     @NotNull
     private List<String> getGroups(JsonObject object) {
         try {
-            return object.getJsonArray(FX_NAMESPACE + "groups")
+            return object.getJsonArray(FX_POLICY_NS + "groups")
                     .stream()
                     .map(jv -> ((JsonString) jv.asJsonObject().get(VALUE)).getString())
                     .toList();
