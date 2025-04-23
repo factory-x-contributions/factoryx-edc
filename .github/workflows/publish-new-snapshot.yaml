@@ -24,7 +24,7 @@ run-name: "Publish new snapshot from ${{github.ref_name}}"
 
 on:
   workflow_run:
-    workflows: [ "Run-All-Tests" ]
+    workflows: [ "CI for FactoryX Backend" ]
     branches:
       - main
       - bugfix/*
