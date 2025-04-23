@@ -88,6 +88,7 @@ jobs:
     name: "Publish artifacts"
     permissions:
       contents: read
+      packages: write
     needs: [ secret-presence, determine-version ]
 
     # do not run on PR branches, do not run on releases
