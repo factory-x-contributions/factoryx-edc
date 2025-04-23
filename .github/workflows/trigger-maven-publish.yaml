@@ -26,9 +26,12 @@ on:
         description: "A semver string denoting the version to publish."
         required: false
         default: ""
-      gpg_passphrase:
-        description: "The GPG passphrase for signing artifacts."
-        required: true
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: false
+        description: 'a semver string denoting the version. Append -SNAPSHOT for snapshots. If omitted, the version is taken from gradle.properties'
 
 jobs:
   maven-release:
@@ -73,7 +76,7 @@ jobs:
         env:
           GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_PACKAGE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
-          GPG_PASSPHRASE: ${{ inputs.gpg_passphrase }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |-
           echo "Input Version: ${{ inputs.version }}"
 
