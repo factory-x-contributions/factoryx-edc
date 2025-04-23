@@ -47,7 +47,7 @@ jobs:
         id: secret-presence
         run: |
           [ ! -z "${{ secrets.GPG_PASSPHRASE }}" ] &&
-          [ ! -z "${{ secrets.ORG_GPG_PRIVATE_KEY }}" ] && && echo "HAS_OSSRH=true" >> $GITHUB_OUTPUT
+          [ ! -z "${{ secrets.ORG_GPG_PRIVATE_KEY }}" ] && echo "HAS_OSSRH=true" >> $GITHUB_OUTPUT
           [ ! -z "${{ secrets.SWAGGERHUB_API_KEY }}" ]  &&
           [ ! -z "${{ secrets.SWAGGERHUB_USER }}" ]  && echo "HAS_SWAGGER=true" >> $GITHUB_OUTPUT
           exit 0
