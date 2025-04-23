@@ -48,7 +48,7 @@ jobs:
             echo "$VERSION is not a final release version (contains \"$SNAPSHOT\"), will not increase patch"
           fi
           
-          VERSION="$RELEASE_VERSION_MAJOR.$((RELEASE_VERSION_MINOR+$INC)).0-SNAPSHOT"
+          VERSION="$RELEASE_VERSION_MAJOR.$RELEASE_VERSION_MINOR.$((RELEASE_VERSION_PATCH+$INC))-SNAPSHOT"
           SNAPSHOT_VERSION=$VERSION
           
           # Persist the "version" in the gradle.properties
