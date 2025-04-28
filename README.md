@@ -51,7 +51,7 @@ For testing/development purposes:
 Build Factory-X EDC together with its Container Images
 
 ```shell
-./gradlew dockerize 
+./gradlew dockerize
 ```
 
 Build Factory-X EDC skipping tests / checkstyle / javadoc (builds faster)
