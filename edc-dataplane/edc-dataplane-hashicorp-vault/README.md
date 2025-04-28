@@ -9,8 +9,13 @@ This build of the EDC Data-Plane utilizes [Hashicorp Vault](https://www.vaultpro
 ```
 
 ## Configuration
+Details regarding each configuration property can be found in the [docs for the chart](../../charts/factoryx-connector/README.md).
 
-https://github.com/eclipse-tractusx/tractusx-edc/blob/main/edc-dataplane/edc-dataplane-hashicorp-vault/README.md#configuration
+Please note that the properties list may not be complete as the factoryx-edc may elect to fall back to the default behavior of an extension.
+When in doubt, check the extensions' README that will likely be found at below places.
+- [FactoryX-EDC Extensions](../../edc-extensions)
+- [Tractusx-EDC Extensions](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/edc-extensions)
+- [Eclipse Connector Extensions](https://github.com/eclipse-edc/Connector/tree/main/extensions)
 
 ## Running
 
