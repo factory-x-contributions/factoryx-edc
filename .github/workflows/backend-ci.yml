@@ -17,8 +17,8 @@
 #  SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-name: CI for FactoryX Backend
-run-name: ${{ github.actor }} is testing out backend build
+name: Factory-X Build
+run-name: ${{ github.actor }} is testing out Factory-X Build
 
 on:
   push:
