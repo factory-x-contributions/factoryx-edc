@@ -1,6 +1,6 @@
 # Control Plane
 
-The Eclipse Dataspace Connector consists of a **Control Plan** and a **Data Plane** Application.
+The FactoryX-EDC consists of a **Control Plane** and a **Data Plane** Application.
 While the **Data Plane** handles the actual Data Transfer, the **Control Plane** is responsible for:
 
 - Resource Management (e.g. Assets, Policies & Contract Definitions CRUD)
@@ -33,3 +33,10 @@ Some of these confidential settings are
 
 As it is possible to configure EDC settings via environment variables, one way to do it would be via Kubernetes Secrets.
 For other deployment scenarios than Kubernetes equivalent measures should be taken.
+
+## Known Control Plane Issues
+
+Please have a look at the open issues in the upstream open source
+repository:
+- [EDC Connector](https://github.com/eclipse-edc/Connector/issues)
+- [TractusX-EDC](https://github.com/eclipse-tractusx/tractusx-edc/issues)
