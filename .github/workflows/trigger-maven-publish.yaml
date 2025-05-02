@@ -1,0 +1,97 @@
+#################################################################################
+#  Copyright (c) 2021,2023 Contributors to the Eclipse Foundation
+#
+#  See the NOTICE file(s) distributed with this work for additional
+#  information regarding copyright ownership.
+#
+#  This program and the accompanying materials are made available under the
+#  terms of the Apache License, Version 2.0 which is available at
+#  https://www.apache.org/licenses/LICENSE-2.0.
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#  License for the specific language governing permissions and limitations
+#  under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+name: "Publish Maven Artifacts"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "A semver string denoting the version to publish."
+        required: false
+        default: ""
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: false
+        description: 'a semver string denoting the version. Append -SNAPSHOT for snapshots. If omitted, the version is taken from gradle.properties'
+
+jobs:
+  maven-release:
+    name: 'Publish all artifacts'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Required to publish to GitHub Packages
+
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v4
+
+      # Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Import GPG Key
+      - name: Import GPG Key
+        run: |
+          echo "$GPG_PRIVATE_KEY" | base64 --decode | gpg --batch --import
+          gpg --list-secret-keys --keyid-format=long
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
+
+      # Set up GPG Passphrase
+      - name: Set up GPG Passphrase
+        run: |
+          echo "default-cache-ttl 600" >> ~/.gnupg/gpg-agent.conf
+          echo "max-cache-ttl 7200" >> ~/.gnupg/gpg-agent.conf
+          echo RELOADAGENT | gpg-connect-agent
+          export GPG_TTY=$(tty)
+          echo ${{ secrets.GPG_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --sign
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      # Publish version to GitHub Packages
+      - name: Publish version to GitHub Packages
+        env:
+          GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PACKAGE_USERNAME: ${{ secrets.GITHUB_ACTOR }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |-
+          echo "Input Version: ${{ inputs.version }}"
+
+          # Determine version to publish
+          if [ ! -z "${{ inputs.version }}" ]; then
+            VERSION=${{ inputs.version }}
+            echo "Publishing using version from parameter: $VERSION"
+          else
+            VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+            if [ -z "$VERSION" ]; then
+              echo "Error: Version could not be determined."
+              exit 1
+            fi
+            echo "Publishing using version from gradle.properties: $VERSION"
+          fi
+
+          echo "Publishing Version $VERSION to GitHub Packages"
+          ./gradlew publish -Pversion=$VERSION --stacktrace

@@ -1,0 +1,52 @@
+#################################################################################
+#  Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+#  See the NOTICE file(s) distributed with this work for additional
+#  information regarding copyright ownership.
+#
+#  This program and the accompanying materials are made available under the
+#  terms of the Apache License, Version 2.0 which is available at
+#  https://www.apache.org/licenses/LICENSE-2.0.
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#  License for the specific language governing permissions and limitations
+#  under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#################################################################################
+
+
+name: "Import GPG Key"
+description: "Imports GPG private key and configures trust settings"
+
+inputs:
+  gpg-private-key:
+    description: "The GPG private key to import"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up GPG directory with correct permissions
+      run: |
+        mkdir -p ~/.gnupg
+        chmod 700 ~/.gnupg  # Ensure the directory has secure permissions
+        touch ~/.gnupg/gpg.conf
+        chmod 600 ~/.gnupg/gpg.conf  # Secure configuration file permissions
+      shell: bash  # Specify the shell to be used for this step
+
+    - name: Import GPG private key
+      run: |
+        echo "$ORG_GPG_PRIVATE_KEY" | gpg --batch --import --no-tty --quiet
+        echo "use-agent" >> ~/.gnupg/gpg.conf
+        echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+        chmod 600 ~/.gnupg/gpg.conf
+        echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+        for fpr in $(gpg --list-keys --with-colons | awk -F: '/fpr:/ {print $10}' | sort -u); do
+          echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust
+        done
+      shell: bash  # Specify the shell to be used for this step
+      env:
+        ORG_GPG_PRIVATE_KEY: ${{ inputs.gpg-private-key }}  # Passing GPG key as an environment variable
