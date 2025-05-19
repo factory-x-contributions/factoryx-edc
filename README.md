@@ -19,14 +19,17 @@ Please also refer to:
 
 ## About The Project
 
-The project is an extension for [Eclipse Tractus-X](https://github.com/eclipse-tractusx/tractusx-edc) for the Manufacturing sector and is based on
- [Eclipse Dataspace Connector Project](https://github.com/eclipse-edc/Connector).
+This project contains extensions for [Eclipse Tractus-X](https://github.com/eclipse-tractusx/tractusx-edc) designed to serve the sector of industrial 
+manufacturing and is based on [Eclipse Dataspace Connector Project](https://github.com/eclipse-edc/Connector). It is in a proof-of-concept stage without 
+feature or stability guarantees. Factory-X has not yet agreed on any normative specifications, an operating model, 
+an identity stack or a security architecture. This repository is a contribution to that conversation demonstrating 
+the feasibility of the Dataspace Protocol and the Decentralized Claims Protocol as common protocol foundation.
 
 ## Inventory
 
-The eclipse data space connector is split up into Control Plane and Data Plane, whereas the Control Plane functions as
-administration layer and has responsibility of resource management, contract negotiation and administer data transfer.
-The Data Plane does the heavy lifting of transferring and receiving data streams.
+The Eclipse Dataspace Connector is split up into Control Plane and Data Plane, whereas the Control Plane functions as
+administration layer and has responsibility of resource management, contract negotiation and administration of data 
+transfer. The Data Plane does the heavy lifting of transferring and receiving data streams.
 
 Depending on your environment there are different derivatives of the Control Plane prepared:
 
