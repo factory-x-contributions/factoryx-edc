@@ -16,4 +16,4 @@ Catena-X.
 Business Applications integrating with factoryx-edc may have use-case specific identifiers for participants. This may be
 a Catena-X BPN, a VAT-id or any other identifier. Any such id has to be mapped to a web-did before using the EDC
 Management API, as documented in the [usage docs](../usage/management-api-walkthrough/04_catalog.md#fetching-a-providers-catalog).
-In the future, factoryx-edc may accept Business integrate against services executing this mapping for particular IDs.
+In the future, factoryx-edc may integrate against services executing a mapping for particular types of Business ID.
