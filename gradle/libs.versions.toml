@@ -79,4 +79,4 @@ titaniumJsonLd = { module = "com.apicatalog:titanium-json-ld", version.ref = "ti
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 [plugins]
-swagger = { id = "io.swagger.core.v3.swagger-gradle-plugin", version = "2.2.29" }
+swagger = { id = "io.swagger.core.v3.swagger-gradle-plugin", version = "2.2.32" }
