@@ -44,7 +44,7 @@ This project leverages the following third party content.
 
 - OpenTelemetry Agent v1.32.0: <https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/tag/v1.32.0>
 
-For additional dependencies, see [DEPENDENCIES](./DEPENDENCIES) file.
+For additional dependencies, see [DEPENDENCIES](https://factory-x-contributions.github.io/factoryx-edc/DEPENDENCIES) file.
 
 ## Cryptography
 

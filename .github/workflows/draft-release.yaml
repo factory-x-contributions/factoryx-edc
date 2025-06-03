@@ -85,11 +85,10 @@ jobs:
         run: |
           git config user.name "factory-x-bot"
           git config user.email "factory-x-bot@factory-x.org"
-#      - uses: ./.github/actions/setup-java
-#      - name: Check dependencies before release
-#        uses: ./.github/actions/generate-and-check-dependencies
-#        with:
-#          run: strict
+      - name: Check dependencies before release
+        uses: ./.github/actions/generate-and-check-dependencies
+        with:
+          run: strict
 #      - name: Replace published DEPENDENCIES file link in NOTICE with the one just created
 #        run: sed -i "s#\[DEPENDENCIES\]\(.*\)#\[DEPENDENCIES\]\(DEPENDENCIES\)#g" NOTICE.md
       - name: Bump version in gradle.properties
