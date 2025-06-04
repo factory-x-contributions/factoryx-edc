@@ -256,11 +256,11 @@ spec:
               value: {{ include "txdc.dataplane.url.public" . }}/token
             {{- end}}
 
-#            - name: "EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS"
-#              value: {{ .Values.runtime.token.signer.privatekey_alias | required ".Values.runtime.token.signer.privatekey_alias is required" | quote}}
+            - name: "EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS"
+              value: {{ .Values.runtime.token.signer.privatekey_alias | required ".Values.runtime.token.signer.privatekey_alias is required" | quote}}
 
-#            - name: "EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS"
-#              value: {{ .Values.runtime.token.verifier.publickey_alias | required ".Values.runtime.token.verifier.publickey_alias" | quote }}
+            - name: "EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS"
+              value: {{ .Values.runtime.token.verifier.publickey_alias | required ".Values.runtime.token.verifier.publickey_alias" | quote }}
 
 
             ###########

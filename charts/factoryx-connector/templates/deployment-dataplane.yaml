@@ -65,7 +65,7 @@ spec:
           {{- if .Values.dataplane.image.repository }}
           image: "{{ .Values.dataplane.image.repository }}:{{ .Values.dataplane.image.tag | default .Chart.AppVersion }}"
           {{- else }}
-          image: "tractusx/edc-dataplane-hashicorp-vault:{{ .Values.dataplane.image.tag | default .Chart.AppVersion }}"
+          image: "ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:{{ .Values.dataplane.image.tag | default .Chart.AppVersion }}"
           {{- end }}
           imagePullPolicy: {{ .Values.dataplane.image.pullPolicy }}
           command:
@@ -95,7 +95,7 @@ spec:
           {{- if .Values.dataplane.image.repository }}
           image: "{{ .Values.dataplane.image.repository }}:{{ .Values.dataplane.image.tag | default .Chart.AppVersion }}"
           {{- else }}
-          image: "tractusx/edc-dataplane-hashicorp-vault:{{ .Values.dataplane.image.tag | default .Chart.AppVersion }}"
+          image: "ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:{{ .Values.dataplane.image.tag | default .Chart.AppVersion }}"
           {{- end }}
           imagePullPolicy: {{ .Values.dataplane.image.pullPolicy }}
           args: [ --log-level={{ .Values.dataplane.logs.level | required ".Values.dataplane.logs.level is required" }} ]
@@ -214,8 +214,14 @@ spec:
             - name: "TX_EDC_IAM_STS_DIM_URL"
               value: {{ .Values.iatp.sts.dim.url | quote}}
             {{- end }}
+            - name: "EDC_IAM_STS_OAUTH_TOKEN_URL"
+              value: { { .Values.iatp.sts.oauth.token_url | required ".Values.iatp.sts.oauth.token_url is required" | quote } }
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_ID"
+              value: { { .Values.iatp.sts.oauth.client.id | required ".Values.iatp.sts.oauth.client.id is required" | quote } }
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_SECRET_ALIAS"
+              value: { { .Values.iatp.sts.oauth.client.secret_alias | required ".Values.iatp.sts.oauth.client.secret_alias is required" | quote } }
 
-            ################
+              ################
             ## POSTGRESQL ##
             ################
 
@@ -241,12 +247,10 @@ spec:
             - name: "TX_EDC_DATAPLANE_TOKEN_EXPIRY"
               value: {{ .Values.dataplane.token.refresh.expiry_seconds | quote}}
             {{- end}}
-
             {{- if .Values.dataplane.token.refresh.expiry_tolerance_seconds }}
             - name: "TX_EDC_DATAPLANE_TOKEN_EXPIRY_TOLERANCE"
               value: {{ .Values.dataplane.token.refresh.expiry_tolerance_seconds | quote }}
             {{- end}}
-
             {{- if .Values.dataplane.token.refresh.refresh_endpoint }}
             - name: "TX_EDC_DATAPLANE_TOKEN_REFRESH_ENDPOINT"
               value: {{ .Values.dataplane.token.refresh.refresh_endpoint }}
@@ -254,12 +258,10 @@ spec:
             - name: "TX_EDC_DATAPLANE_TOKEN_REFRESH_ENDPOINT"
               value: {{ include "fxdc.dataplane.url.public" . }}/token
             {{- end}}
-
-#            - name: "EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS"
-#              value: {{ .Values.dataplane.token.signer.privatekey_alias | required ".Values.dataplane.token.signer.privatekey_alias is required" | quote}}
-#
-#            - name: "EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS"
-#              value: {{ .Values.dataplane.token.verifier.publickey_alias | required ".Values.dataplane.token.verifier.publickey_alias" | quote }}
+            - name: "EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS"
+              value: {{ .Values.dataplane.token.signer.privatekey_alias | required ".Values.dataplane.token.signer.privatekey_alias is required" | quote}}
+            - name: "EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS"
+              value: {{ .Values.dataplane.token.verifier.publickey_alias | required ".Values.dataplane.token.verifier.publickey_alias" | quote }}
 
             ######################################
             ## Additional environment variables ##

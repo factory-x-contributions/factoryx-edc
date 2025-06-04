@@ -64,7 +64,7 @@ spec:
           {{- if .Values.controlplane.image.repository }}
           image: "{{ .Values.controlplane.image.repository }}:{{ .Values.controlplane.image.tag | default .Chart.AppVersion }}"
           {{- else }}
-          image: "tractusx/edc-controlplane-postgresql-hashicorp-vault:{{ .Values.controlplane.image.tag | default .Chart.AppVersion }}"
+          image: "ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:{{ .Values.controlplane.image.tag | default .Chart.AppVersion }}"
           {{- end }}
           imagePullPolicy: {{ .Values.controlplane.image.pullPolicy }}
           command:
@@ -96,7 +96,7 @@ spec:
           {{- if .Values.controlplane.image.repository }}
           image: "{{ .Values.controlplane.image.repository }}:{{ .Values.controlplane.image.tag | default .Chart.AppVersion }}"
           {{- else }}
-          image: "tractusx/edc-controlplane-postgresql-hashicorp-vault:{{ .Values.controlplane.image.tag | default .Chart.AppVersion }}"
+          image: "ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:{{ .Values.controlplane.image.tag | default .Chart.AppVersion }}"
           {{- end }}
           imagePullPolicy: {{ .Values.controlplane.image.pullPolicy }}
           args: [ --log-level={{ .Values.controlplane.logs.level | required ".Values.controlplane.logs.level is required" }} ]
@@ -146,7 +146,7 @@ spec:
             ########################
             ## ID CONFIGURATION ##
             ########################
-            - name: EDC_PARTICIPANT_ID
+            - name: "EDC_PARTICIPANT_ID"
               value: {{ .Values.participant.id | required ".Values.participant.id is required" | quote }}
             - name: "EDC_IAM_ISSUER_ID"
               value: {{ .Values.participant.id | required ".Values.participant.id is required" | quote }}
@@ -154,14 +154,14 @@ spec:
             #######
             # API #
             #######
-            {{- if .Values.controlplane.endpoints.management.jwksUrl }}
+
+          {{- if .Values.controlplane.endpoints.management.jwksUrl }}
             - name: "EDC_API_AUTH_DAC_KEY_URL"
-              value: {{ .Values.controlplane.endpoints.management.jwksUrl | quote}}
-            {{- else }}
+              value: {{ .Values.controlplane.endpoints.management.jwksUrl | quote }}
+          {{- else }}
             - name: "EDC_API_AUTH_KEY"
               value: {{ .Values.controlplane.endpoints.management.authKey | required ".Values.controlplane.endpoints.management.authKey is required" | quote }}
-            {{- end }}
-
+          {{- end }}
             - name: "WEB_HTTP_DEFAULT_PORT"
               value: {{ .Values.controlplane.endpoints.default.port | quote }}
             - name: "WEB_HTTP_DEFAULT_PATH"
@@ -189,7 +189,6 @@ spec:
             - name: "WEB_HTTP_CATALOG_AUTH_KEY"
               value: {{ .Values.controlplane.endpoints.catalog.authKey | required ".Values.controlplane.endpoints.catalog.authKey is required" | quote }}
 
-
             #########
             ## DSP ##
             #########
@@ -213,20 +212,24 @@ spec:
             - name: "EDC_DATASOURCE_DEFAULT_URL"
               value: {{ tpl .Values.postgresql.jdbcUrl . | quote }}
 
-
           #############################
-            ## DIM CONFIG ##
-            #############################
+          ## IATP / STS / DIM CONFIG ##
+          #############################
+
+            - name: "EDC_IAM_STS_OAUTH_TOKEN_URL"
+              value: {{ .Values.iatp.sts.oauth.token_url | required ".Values.iatp.sts.oauth.token_url is required" | quote }}
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_ID"
+              value: {{ .Values.iatp.sts.oauth.client.id | required ".Values.iatp.sts.oauth.client.id is required" | quote }}
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_SECRET_ALIAS"
+              value: {{ .Values.iatp.sts.oauth.client.secret_alias | required ".Values.iatp.sts.oauth.client.secret_alias is required" | quote }}
             {{- if .Values.iatp.sts.dim.url }}
             - name: "TX_EDC_IAM_STS_DIM_URL"
-              value: {{ .Values.iatp.sts.dim.url | quote}}
+              value: {{ .Values.iatp.sts.dim.url | quote }}
             {{- end }}
-
             {{- range $index, $issuer := .Values.iatp.trustedIssuers }}
             - name: "EDC_IAM_TRUSTED-ISSUER_{{$index}}-ISSUER_ID"
               value: {{ $issuer | quote }}
             {{- end }}
-
 
             ###########
             ## VAULT ##
@@ -254,7 +257,7 @@ spec:
             ###############################
             {{- if .Values.controlplane.catalog.crawler.period }}
             - name: "EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS"
-              value: {{ .Values.controlplane.catalog.crawler.period | quote}}
+              value: {{ .Values.controlplane.catalog.crawler.period | quote }}
             {{- end }}
 
             {{- if .Values.controlplane.catalog.crawler.initialDelay }}
@@ -301,7 +304,7 @@ spec:
           volumeMounts:
            {{- if .Values.controlplane.volumeMounts }}
            {{- toYaml .Values.controlplane.volumeMounts | nindent 12 }}
-           {{- end}}
+           {{- end }}
             - name: "configuration"
               mountPath: "/app/opentelemetry.properties"
               subPath: "opentelemetry.properties"
@@ -315,7 +318,7 @@ spec:
       volumes:
        {{- if .Values.controlplane.volumeMounts }}
        {{- toYaml .Values.controlplane.volumes | nindent 8 }}
-       {{- end}}
+       {{- end }}
         - name: "configuration"
           configMap:
             name: {{ include "fxdc.fullname" . }}-controlplane
