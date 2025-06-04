@@ -166,10 +166,10 @@ runtime:
       refresh_endpoint:
     signer:
       # -- Alias under which the private key (JWK or PEM format) is stored in the vault
-      privatekey_alias:
+      privatekey_alias: "alias-for-private-key"
     verifier:
       # -- Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`
-      publickey_alias:
+      publickey_alias: "alias-for-public-key"
 
   # -- configuration for the built-in federated catalog crawler
   catalog:
