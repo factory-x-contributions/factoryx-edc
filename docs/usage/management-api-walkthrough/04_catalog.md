@@ -1,8 +1,5 @@
 # Fetching a Provider's Catalog
 
-**requestCatalog throws an error: Unable to obtain credentials: Failed to fetch client secret from the vault with alias:
-abcdef (502 Bad Gateway)**
-
 The catalog API is the first request in this sequence that passes through the Dataspace. It is executed by the Data
 Consumer against their own Control Plane and triggers the retrieval of a catalog from a specified Data Provider. The
 request
@@ -51,13 +48,12 @@ The request body is lean. Mandatory properties are:
 - `protocol`: must be `"dataspace-protocol-http"`.
 
 The `querySpec` section is optional and allows the Data Consumer to specify what entries from the catalog shall be
-returned.
-How to write proper `filterExpression`s was previously [explained](03_contractdefinitions.md#assetsselector).
+returned. How to write proper `filterExpression`s was previously [explained](03_contractdefinitions.md#assetsselector).
 
 ## What happens in the background
 
 In this walkthrough's sequence of API-calls, this is the first that triggers interaction between two EDCs. The Consumer
-requests the Provider's catalog of Data Offers. Partners in the Dataspace are authenticated via Verifiable Credentials 
+requests the Provider's catalog of Data Offers. Partners in the Dataspace are authenticated via Verifiable Credentials
 (VC).
 These can broadly be conceptualized as another JSON-LD document that holds information on a business partner's identity.
 It follows an aligned schema and is extensible with properties relevant to the Dataspace.
@@ -159,10 +155,33 @@ policies included.
     - `@id` is the identifier for the Data Offer. The EDC composes this id by concatenating three identifiers in
       base64-encoding.
       separated with `:` (colons). The format is `base64(contractDefinitionId):base64(assetId):base64(newUuidV4)`. The
-      last of three UUIDs changes with every request as every /v3/catalog/request call yields a new catalog with new 
+      last of three UUIDs changes with every request as every /v3/catalog/request call yields a new catalog with new
       Data Offers.
     - The `odrl:permission`, `odrl:prohibition` and `odrl:obligation` will hold the content of the contractPolicy
       configured in the [Contract Definition](03_contractdefinitions.md) the Contract Offer was derived from.
+
+## Notes on Participant Identification
+
+### Cross-Dataspace Interoperability
+
+Factory-X EDC uses web-dids (see [spec](https://github.com/w3c-ccg/did-method-web)) as **technical identifier** for a
+participant in the DSP messages. Participant identification is
+an [extension point in the DSP](https://github.com/w3c-ccg/did-method-web)
+that each Dataspace has to populate. If multiple Dataspaces use the same definition, they have cleared a hurdle for
+cross-Dataspace-interoperability. With the announcement
+that [Catena-X standard CX-0018](https://github.com/catenax-eV/product-standardization-prod/issues/315)
+and the reference
+implementation [eclipse-tractusx/tractusx-edc](https://github.com/eclipse-tractusx/sig-release/issues/1268)
+will use web-dids for identifying participants in DSP-communication starting with the Saturn-Release (Oct 2025), it
+makes sense for Factory-X EDC to follow suit. A divergent decisions would necessarily break interoperability with
+Catena-X.
+
+### Relationship to Business Identifiers
+
+Business Applications integrating with factoryx-edc may have use-case specific identifiers for participants. This may be
+a Catena-X BPN, a VAT-id or any other identifier. Any such id has to be mapped to a web-did before using the EDC
+Management API. In the future, factoryx-edc may integrate against services executing a mapping for particular types of
+Business ID.
 
 ## Notice
 
