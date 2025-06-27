@@ -1,11 +1,15 @@
 # factoryx-connector
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+
+
+
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector. The connector deployment consists of two runtimes of a
 Control Plane and a Data Plane. Note that _no_ external dependencies such as a PostgreSQL database and HashiCorp Vault are included.
 
 This chart is intended for use with an _existing_ PostgreSQL database and an _existing_ HashiCorp Vault.
+
 
 **Homepage:** <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector>
 
@@ -24,6 +28,7 @@ This chart is intended for use with an _existing_ PostgreSQL database and an _ex
   is out of scope of this document. But by default, Factory-X EDC expects to find the secret under `secret/client-secret`. The alias must be configured
   using the `iatp.sts.oauth.client.secret_alias` Helm value.
 
+
 ### Configure the chart
 
 Be sure to provide the following configuration entries to your Factory-X EDC Helm chart:
@@ -31,6 +36,7 @@ Be sure to provide the following configuration entries to your Factory-X EDC Hel
 - `iatp.sts.oauth.client.id`: the client ID of your tenant in DIM
 - `iatp.sts.oauth.client.secret_alias`: alias under which you saved your DIM client secret in the vault
 - `iatp.sts.dim.url`: the base URL for DIM
+
 
 ### Launching the application
 
@@ -43,6 +49,8 @@ helm repo add factoryx-dev https://factory-x-contributions.github.io/charts/dev
 helm install my-release factory-x-contributions/factoryx-connector --version 0.1.0 \
      -f <path-to>/tractusx-connector-test.yaml
 ```
+
+
 
 ## Source Code
 
@@ -253,14 +261,17 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.1
 | dataplane.token.refresh.expiry_seconds | int | `300` | TTL in seconds for access tokens (also known as EDR token) |
 | dataplane.token.refresh.expiry_tolerance_seconds | int | `10` | Tolerance for token expiry in seconds |
 | dataplane.token.refresh.refresh_endpoint | string | `nil` | Optional endpoint for an OAuth2 token refresh. Default endpoint is `<PUBLIC_API>/token` |
-| dataplane.token.signer.privatekey_alias | string | `"abcdef"` | Alias under which the private key (JWK or PEM format) is stored in the vault |
-| dataplane.token.verifier.publickey_alias | string | `"abcdef"` | Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias` |
+| dataplane.token.signer.privatekey_alias | string | `"alias-for-private-key"` | Alias under which the private key (JWK or PEM format) is stored in the vault |
+| dataplane.token.verifier.publickey_alias | string | `"alias-for-public-key"` | Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias` |
 | dataplane.tolerations | list | `[]` | [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to configure preferred nodes |
 | dataplane.url.public | string | `""` | Explicitly declared url for reaching the public api (e.g. if ingresses not used) |
 | dataplane.volumeMounts | string | `nil` | declare where to mount [volumes](https://kubernetes.io/docs/concepts/storage/volumes/) into the container |
 | dataplane.volumes | string | `nil` | [volume](https://kubernetes.io/docs/concepts/storage/volumes/) directories |
 | fullnameOverride | string | `""` |  |
 | iatp.sts.dim.url | string | `nil` | URL where connectors can request SI tokens |
+| iatp.sts.oauth.client.id | string | `"client-id"` | Client ID for requesting OAuth2 access token for DIM access |
+| iatp.sts.oauth.client.secret_alias | string | `"client-secret-alias"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
+| iatp.sts.oauth.token_url | string | `"wallet.local"` | URL where connectors can request OAuth2 access tokens for DIM access |
 | iatp.trustedIssuers | list | `[]` | Configures the trusted issuers for this runtime |
 | imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
 | install.postgresql | bool | `true` | Deploying a PostgreSQL instance |
@@ -295,6 +306,12 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.1
 | vault.server.dev.devRootToken | string | `"root"` |  |
 | vault.server.dev.enabled | bool | `true` |  |
 | vault.server.postStart | string | `nil` |  |
+| vaultseed | object | `{"backoffLimit":3,"completions":1,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"hashicorp/vault","tag":"1.15.2"},"key":{"image":{"pullPolicy":"IfNotPresent","repository":"alpine/openssl","tag":"3.5.0"}},"parallelism":1,"secrets":[],"ttlSecondsAfterFinished":90}` | Configuration for Vault Seed Job |
+| vaultseed.image | object | `{"pullPolicy":"IfNotPresent","repository":"hashicorp/vault","tag":"1.15.2"}` | Docker image Configuration for Vault Seed Job |
+| vaultseed.image.tag | string | `"1.15.2"` | image tag should match the vault version in Chart dependencies |
+| vaultseed.key | object | `{"image":{"pullPolicy":"IfNotPresent","repository":"alpine/openssl","tag":"3.5.0"}}` | Key pair init container configuration |
+| vaultseed.key.image | object | `{"pullPolicy":"IfNotPresent","repository":"alpine/openssl","tag":"3.5.0"}` | Docker image configuration for key pair container |
+| vaultseed.secrets | list | `[]` | Secrets to be seeded into vault (not recommended, only for testing purposes) |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs/)

@@ -611,6 +611,7 @@ vault:
 
 # -- Configuration for Vault Seed Job
 vaultseed:
+  # -- Docker image Configuration for Vault Seed Job
   image:
     repository: "hashicorp/vault"
     pullPolicy: IfNotPresent
@@ -621,17 +622,18 @@ vaultseed:
   completions: 1
   parallelism: 1
   # -- Secrets to be seeded into vault (not recommended, only for testing purposes)
-  secrets:
+  secrets: []
 #    - key: "key1"
 #      # Provide a path of a file relative to charts directory
 #      valueFrom: files/dataplane_private_key.pem
 #    - key: key2
 #      value: value2
-  env:
+  env: {}
 #    key1: value1
 #    key2: value2
   # -- Key pair init container configuration
   key:
+    # -- Docker image configuration for key pair container
     image:
       repository: "alpine/openssl"
       pullPolicy: IfNotPresent

@@ -1,6 +1,9 @@
 # factoryx-connector-memory
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+
+
+
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector based on memory. Please only use this for development or testing purposes, never in production workloads!
 
@@ -21,6 +24,7 @@ A Helm chart for Factory-X Eclipse Data Space Connector based on memory. Please 
   is out of scope of this document. But by default, Factory-X EDC expects to find the secret under `secret/client-secret`. The alias must be configured
   using the `iatp.sts.oauth.client.secret_alias` Helm value.
 
+
 ### Configure the chart
 
 Be sure to provide the following configuration entries to your Factory-X EDC Helm chart:
@@ -28,6 +32,7 @@ Be sure to provide the following configuration entries to your Factory-X EDC Hel
 - `iatp.sts.oauth.client.id`: the client ID of your tenant in DIM
 - `iatp.sts.oauth.client.secret_alias`: alias under which you saved your DIM client secret in the vault
 - `iatp.sts.dim.url`: the base URL for DIM
+
 
 ### Launching the application
 
@@ -42,9 +47,13 @@ helm install my-release factory-x-contributions/factoryx-connector-memory --vers
      --set vault.secrets="client-secret:$YOUR_CLIENT_SECRET"
 ```
 
+
+
 ## Source Code
 
 * <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector-memory>
+
+
 
 ## Values
 
@@ -168,8 +177,8 @@ helm install my-release factory-x-contributions/factoryx-connector-memory --vers
 | runtime.token.refresh.expiry_seconds | int | `300` | TTL in seconds for access tokens (also known as EDR token) |
 | runtime.token.refresh.expiry_tolerance_seconds | int | `10` | Tolerance for token expiry in seconds |
 | runtime.token.refresh.refresh_endpoint | string | `nil` | Optional endpoint for an OAuth2 token refresh. Default endpoint is `<PUBLIC_API>/token` |
-| runtime.token.signer.privatekey_alias | string | `nil` | Alias under which the private key (JWK or PEM format) is stored in the vault |
-| runtime.token.verifier.publickey_alias | string | `nil` | Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias` |
+| runtime.token.signer.privatekey_alias | string | `"alias-for-private-key"` | Alias under which the private key (JWK or PEM format) is stored in the vault |
+| runtime.token.verifier.publickey_alias | string | `"alias-for-public-key"` | Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias` |
 | runtime.tolerations | list | `[]` | [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to configure preferred nodes |
 | runtime.url.protocol | string | `""` | Explicitly declared url for reaching the dsp api (e.g. if ingresses not used) |
 | runtime.url.public | string | `""` | Explicitly declared url for reaching the public api (e.g. if ingresses not used) |
