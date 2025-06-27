@@ -29,15 +29,33 @@ spec:
   parallelism: {{ .Values.vaultseed.parallelism | default 1 }}
   template:
     spec:
+      initContainers:
+        - name: "{{ .Release.Name }}-genkey"
+          image: "{{ .Values.vaultseed.key.image.repository }}:{{ .Values.vaultseed.key.image.tag }}"
+          imagePullPolicy: "{{ .Values.vaultseed.key.image.pullPolicy }}"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /keypair
+              openssl genpkey -algorithm ED25519 -out /keypair/dataplane_private_key.pem
+              openssl pkey -in /keypair/dataplane_private_key.pem -pubout -out /keypair/dataplane_public_key.pem
+          volumeMounts:
+            - name: keypair
+              mountPath: /keypair
+
       containers:
         - name: "{{ .Release.Name }}-vaultseed"
           image: "{{ .Values.vaultseed.image.repository }}:{{ .Values.vaultseed.image.tag }}"
-          imagePullPolicy: {{ .Values.vaultseed.image.pullPolicy }}
+          imagePullPolicy: "{{ .Values.vaultseed.image.pullPolicy }}"
           command:
             - /bin/sh
             - -c
             - |
               vault login $VAULT_TOKEN
+              # Put generated private / public key pair into vault
+              vault kv put secret/{{ .Values.dataplane.token.signer.privatekey_alias }} content=@/keypair/dataplane_private_key.pem
+              vault kv put secret/{{ .Values.dataplane.token.verifier.publickey_alias }} content=@/keypair/dataplane_public_key.pem
               {{- range .Values.vaultseed.secrets }}
               {{- if .value }}
               vault kv put secret/{{ .key }} content={{ .value | quote }}
@@ -48,9 +66,12 @@ spec:
               {{- end }}
               {{- end }}
               {{- end }}
+          volumeMounts:
+            - name: keypair
+              mountPath: /keypair
           env:
             - name: VAULT_ADDR
-              value: {{ .Values.vault.hashicorp.url | quote }}
+              value: {{ tpl .Values.vault.hashicorp.url . | quote }}
             - name: VAULT_TOKEN
               value: {{ .Values.vault.hashicorp.token | quote }}
 
@@ -59,4 +80,7 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $value | quote }}
             {{- end }}
+      volumes:
+        - name: keypair
+          emptyDir: {}
       restartPolicy: OnFailure
