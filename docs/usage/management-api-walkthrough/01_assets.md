@@ -37,7 +37,7 @@ However, there it won't be styled as an `edc:asset` but as a `dcat:Dataset`. Add
 add `properties` to the Asset, which are exposed in the catalog to potential Data Consumers.
 There are conventions in the Factory-X Dataspace how Data Providers should set properties. This enables Data Consumers
 to decide what Data Offers they want to negotiate for. This matters especially when the Data Consumer has to add
-URL-segements or HTTP bodies to its requests. The value entered as the Asset's `@id` will automatically be added as a 
+URL-segements or HTTP bodies to its requests. The value entered as the Asset's `@id` will automatically be added as a
 redundant `edc:id` property.
 
 Most consequential however is the `dataAddress` section of the asset-APIs payload. It configures the Data Plane's
@@ -105,6 +105,59 @@ controlled by the Data Provider himself. If the service is hosted by a Business 
 scenario), that service should be redirected to through a proxy. That way, in a migration scenario, the existing Assets
 can be preserved by reconfiguring the proxy to pointing to the new service.
 
+## HTTP TLS Data Plane
+
+Factory-X has added support for TLS authentication while doing HTTP to HTTP data transfer between Provider EDC and
+Consumer EDC.
+An EDC Provider can now create an asset with a base url which supports TLS authentication.
+
+### `HttpTlsData` Data Address Type
+
+For cases where a backend is protected by an mTLS authentication setup, there's a data address type `HttpTlsData` which
+is an extension of existing data address type `HttpData`. Hence, `HttpTlsData` type along with TLS supports all existing
+attributes of `HttpData` type such as custom authentication, additional headers etc.
+
+### Management APIs Additions
+
+- While creating an HTTP asset, we provide a source data address with `baseUrl`. If `baseUrl` which supports TLS, we
+  just need to change data address type from `HttpData` to `HttpTlsData`.
+  Below is an example of an HTTP TLS asset creation request.
+
+```json
+{
+  "@context": {},
+  "@id": "1",
+  "properties": {
+    "description": "EDC Demo Asset"
+  },
+  "dataAddress": {
+    "@type": "DataAddress",
+    "type": "HttpTlsData",
+    "baseUrl": "https://jsonplaceholder.typicode.com/todos"
+  }
+}
+```
+
+- Similarly, While initiating transfer, we need to provide `"transferType": "HttpTlsData-PULL",`.
+
+### TLS Configuration
+
+For TLS authentication, we need to provide the server certificate during HTTP API call. We need to provide these via
+configs to connector data plane server.
+For each TLS host, we need to provide below config. Since it is a sensitive content, we can define empty values for
+these configs and put the actual content into vault against same keys. Values in vault will take precedence over values
+provided directly to connector data plane server.
+
+```properties
+fx.edc.http.tls.example.host=example.com
+fx.edc.http.tls.example.certificate.type=PKCS12,
+fx.edc.http.tls.example.certificate.content=<Base 64 encoded certificate file content>,
+fx.edc.http.tls.example.certificate.password=<certificate file password>,
+```
+
+> If a TLS host is not registered via above configs and a data address has been defined with type `HttpTlsData`, it
+> behaves like HttpData. Type will remain `HttpTlsData`, only behaviour will change.
+
 ## Notice
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
@@ -115,4 +168,5 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 
 - SPDX-License-Identifier: CC-BY-4.0
 - SPDX-FileCopyrightText: 2025 Contributors of Factory-X
-- Source URL: [https://github.com/factory-x-contributions/factoryx-edc](https://github.com/factory-x-contributions/factoryx-edc)
+- Source
+  URL: [https://github.com/factory-x-contributions/factoryx-edc](https://github.com/factory-x-contributions/factoryx-edc)
