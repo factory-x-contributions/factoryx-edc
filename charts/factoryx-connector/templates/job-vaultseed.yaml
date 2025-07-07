@@ -46,7 +46,7 @@ spec:
 
       containers:
         - name: "{{ .Release.Name }}-vaultseed"
-          image: "{{ .Values.vaultseed.image.repository }}:{{ .Values.vaultseed.image.tag }}"
+          image: "{{ .Values.vaultseed.image.repository | default .Values.vault.server.image.repository |  }}:{{ .Values.vaultseed.image.tag | default .Values.vault.server.image.tag }}"
           imagePullPolicy: "{{ .Values.vaultseed.image.pullPolicy }}"
           command:
             - /bin/sh

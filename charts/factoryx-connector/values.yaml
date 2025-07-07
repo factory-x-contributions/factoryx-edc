@@ -613,10 +613,10 @@ vault:
 vaultseed:
   # -- Docker image Configuration for Vault Seed Job
   image:
-    repository: "hashicorp/vault"
-    pullPolicy: IfNotPresent
-    # -- image tag should match the vault version in Chart dependencies
-    tag: "1.15.2"
+    # -- docker image/tag defaults to image/tag used in the vault helm chart in Chart dependencies
+    repository: ""
+    tag: ""
+    pullPolicy: "IfNotPresent"
   backoffLimit: 3
   ttlSecondsAfterFinished: 90
   completions: 1

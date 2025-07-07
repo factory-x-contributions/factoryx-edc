@@ -30,11 +30,12 @@ dependencies {
     implementation(libs.edc.lib.validator)
     implementation(libs.jakarta.rsApi)
     implementation(libs.edc.spi.web)
+    implementation(libs.edc.core.api)
     implementation(libs.swagger.annotations.jakarta)
 
     testImplementation(libs.edc.junit)
     testImplementation(libs.restAssured)
     testImplementation(testFixtures(libs.edc.core.jersey))
-    testImplementation(libs.edc.core.connector)
+    testImplementation(libs.edc.core.runtime)
 
 }

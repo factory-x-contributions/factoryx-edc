@@ -1,6 +1,5 @@
-/********************************************************************************
+/*
  * Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,9 +15,9 @@
  * under the License.
  *
  * SPDX-License-Identifier: Apache-2.0
- ********************************************************************************/
+ */
 
-package org.factoryx.edc.api.did.v1;
+package org.factoryx.edc.api.did.v3;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,54 +38,68 @@ import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 
 @OpenAPIDefinition(info = @Info(description = "With this API clients can create, read, update and delete BusinessPartnerDID groups. It allows the assigning of DIDs to groups.", title = "Business Partner DID Group API"))
 @Tag(name = "Business Partner DID Group")
-@Deprecated(since = "0.1.0")
-public interface BusinessPartnerDidGroupApiV1 {
+public interface BusinessPartnerDidGroupApiV3 {
 
 
     @Operation(description = "Resolves all groups for a particular DID",
-            deprecated = true,
             responses = {
                     @ApiResponse(responseCode = "200", description = "An object containing an array with the assigned groups"),
                     @ApiResponse(responseCode = "404", description = "No entry for the given DID was found"),
                     @ApiResponse(responseCode = "400", description = "Request body was malformed",
                             content = @Content(array = @ArraySchema(schema = @Schema(implementation = ApiErrorDetail.class))))
             })
-    JsonObject resolveV1(@Parameter(name = "did", description = "The business partner did") String did);
+    JsonObject resolveV3(@Parameter(name = "did", description = "The business partner did") String did);
+
+    @Operation(description = "Resolves all DIDs for a particular DID group",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "An object containing an array with the dids assigned to the group"),
+                    @ApiResponse(responseCode = "404", description = "No entry for the given DID group was found"),
+                    @ApiResponse(responseCode = "400", description = "Request body was malformed",
+                            content = @Content(array = @ArraySchema(schema = @Schema(implementation = ApiErrorDetail.class))))
+            })
+    JsonObject resolveGroupV3(@Parameter(name = "group", description = "The business partner did group") String group);
+
+    @Operation(description = "Resolves all DID Groups",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "An object containing an array with the all DID groups"),
+                    @ApiResponse(responseCode = "400", description = "Request body was malformed",
+                            content = @Content(array = @ArraySchema(schema = @Schema(implementation = ApiErrorDetail.class))))
+            })
+    JsonObject resolveGroupsV3();
 
     @Operation(description = "Deletes the entry for a particular DID",
-            deprecated = true,
             responses = {
                     @ApiResponse(responseCode = "204", description = "The object was successfully deleted"),
                     @ApiResponse(responseCode = "404", description = "No entry for the given DID was found"),
                     @ApiResponse(responseCode = "400", description = "Request body was malformed",
                             content = @Content(array = @ArraySchema(schema = @Schema(implementation = ApiErrorDetail.class))))
             })
-    void deleteEntryV1(@Parameter(name = "did", description = "The business partner did") String did);
+    void deleteEntryV3(@Parameter(name = "did", description = "The business partner did") String did);
 
     @Operation(description = "Updates the entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
-            deprecated = true,
+
             responses = {
                     @ApiResponse(responseCode = "204", description = "The object was successfully updated"),
                     @ApiResponse(responseCode = "404", description = "No entry for the given DID was found"),
                     @ApiResponse(responseCode = "400", description = "Request body was malformed",
                             content = @Content(array = @ArraySchema(schema = @Schema(implementation = ApiErrorDetail.class))))
             })
-    void updateEntryV1(JsonObject object);
+    void updateEntryV3(JsonObject object);
 
     @Operation(description = "Creates an entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
-            deprecated = true,
+
             responses = {
                     @ApiResponse(responseCode = "204", description = "The object was successfully created"),
                     @ApiResponse(responseCode = "409", description = "An entry already exists for that DID"),
                     @ApiResponse(responseCode = "400", description = "Request body was malformed",
                             content = @Content(array = @ArraySchema(schema = @Schema(implementation = ApiErrorDetail.class))))
             })
-    void createEntryV1(JsonObject entry);
+    void createEntryV3(JsonObject entry);
 
 
-    @Schema(name = "List", example = ListSchema.EXAMPLE, deprecated = true)
+    @Schema(name = "List", example = ListSchema.EXAMPLE)
     record ListSchema(
             @Schema(name = ID) String id,
             Set<String> groups

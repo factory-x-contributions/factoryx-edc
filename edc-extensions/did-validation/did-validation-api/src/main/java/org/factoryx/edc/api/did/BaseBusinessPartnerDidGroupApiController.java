@@ -43,7 +43,7 @@ import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
 public abstract class BaseBusinessPartnerDidGroupApiController {
 
-    private final BusinessPartnerStore businessPartnerService;
+    protected final BusinessPartnerStore businessPartnerService;
     private final JsonObjectValidatorRegistry validator;
 
     public BaseBusinessPartnerDidGroupApiController(BusinessPartnerStore businessPartnerService, JsonObjectValidatorRegistry validator) {

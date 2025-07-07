@@ -21,21 +21,22 @@
 package org.factoryx.edc.api.did.v1;
 
 import io.restassured.specification.RequestSpecification;
-import org.eclipse.edc.connector.core.validator.JsonObjectValidatorRegistryImpl;
+import org.eclipse.edc.junit.annotations.ApiTest;
+import org.eclipse.edc.runtime.core.validator.JsonObjectValidatorRegistryImpl;
 import org.factoryx.edc.api.did.BaseBusinessPartnerDidGroupApiControllerTest;
 import org.factoryx.edc.api.did.validation.BusinessPartnerDidValidator;
 
 import static io.restassured.RestAssured.given;
 import static org.factoryx.edc.api.did.BusinessPartnerDidSchema.BUSINESS_PARTNER_DID_TYPE;
 
-//@ApiTest
+@ApiTest
 class BusinessPartnerDidDidGroupApiV1ControllerTest extends BaseBusinessPartnerDidGroupApiControllerTest {
 
     @Override
     protected Object controller() {
         JsonObjectValidatorRegistryImpl validator = new JsonObjectValidatorRegistryImpl();
         validator.register(BUSINESS_PARTNER_DID_TYPE, BusinessPartnerDidValidator.instance());
-        return new BusinessPartnerDidGroupApiV1Controller(businessPartnerStore, validator);
+        return new BusinessPartnerDidGroupApiV1Controller(businessPartnerStore, validator, monitor);
     }
 
     @Override

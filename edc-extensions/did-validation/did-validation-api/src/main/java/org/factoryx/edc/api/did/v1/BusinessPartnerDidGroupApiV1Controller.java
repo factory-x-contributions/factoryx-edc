@@ -31,43 +31,52 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry;
 import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
 import org.factoryx.edc.api.did.BaseBusinessPartnerDidGroupApiController;
 
+import static org.eclipse.edc.api.ApiWarnings.deprecationWarning;
 
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 @Path("/v1/business-partner-did-groups")
 public class BusinessPartnerDidGroupApiV1Controller extends BaseBusinessPartnerDidGroupApiController implements BusinessPartnerDidGroupApiV1 {
 
-    public BusinessPartnerDidGroupApiV1Controller(BusinessPartnerStore businessPartnerService, JsonObjectValidatorRegistry validator) {
+    private final Monitor monitor;
+
+    public BusinessPartnerDidGroupApiV1Controller(BusinessPartnerStore businessPartnerService, JsonObjectValidatorRegistry validator, Monitor monitor) {
         super(businessPartnerService, validator);
+        this.monitor = monitor;
     }
 
     @GET
     @Path("/{did}")
     @Override
-    public JsonObject resolve(@PathParam("did") String did) {
+    public JsonObject resolveV1(@PathParam("did") String did) {
+        monitor.warning(deprecationWarning("/v1", "/v3"));
         return super.resolve(did);
     }
 
     @DELETE
     @Path("/{did}")
     @Override
-    public void deleteEntry(@PathParam("did") String did) {
+    public void deleteEntryV1(@PathParam("did") String did) {
+        monitor.warning(deprecationWarning("/v1", "/v3"));
         super.deleteEntry(did);
     }
 
     @PUT
     @Override
-    public void updateEntry(@RequestBody JsonObject object) {
+    public void updateEntryV1(@RequestBody JsonObject object) {
+        monitor.warning(deprecationWarning("/v1", "/v3"));
         super.updateEntry(object);
     }
 
     @POST
     @Override
-    public void createEntry(@RequestBody JsonObject object) {
+    public void createEntryV1(@RequestBody JsonObject object) {
+        monitor.warning(deprecationWarning("/v1", "/v3"));
         super.createEntry(object);
     }
 

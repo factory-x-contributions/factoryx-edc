@@ -26,6 +26,7 @@ import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerSt
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InMemoryBusinessPartnerStore implements BusinessPartnerStore {
     private final Map<String, List<String>> cache = new HashMap<>();
@@ -36,6 +37,26 @@ public class InMemoryBusinessPartnerStore implements BusinessPartnerStore {
         return entry == null ?
                 StoreResult.notFound(NOT_FOUND_TEMPLATE.formatted(businessPartnerNumber)) :
                 StoreResult.success(entry);
+    }
+
+    @Override
+    public StoreResult<List<String>> resolveForBpnGroup(String businessPartnerGroup) {
+        var bpns = cache.entrySet().stream()
+                .filter(bpn -> bpn.getValue().stream().anyMatch(groups -> groups.contains(businessPartnerGroup)))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        return bpns.isEmpty() ?
+                StoreResult.notFound(NOT_FOUND_TEMPLATE.formatted(businessPartnerGroup)) :
+                StoreResult.success(bpns);
+    }
+
+    @Override
+    public StoreResult<List<String>> resolveForBpnGroups() {
+        var groups = cache.values().stream()
+                .flatMap(List::stream)
+                .distinct()
+                .collect(Collectors.toList());
+        return StoreResult.success(groups);
     }
 
     @Override

@@ -30,6 +30,7 @@ import org.eclipse.edc.web.spi.WebService;
 import org.eclipse.edc.web.spi.configuration.ApiContext;
 import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
 import org.factoryx.edc.api.did.v1.BusinessPartnerDidGroupApiV1Controller;
+import org.factoryx.edc.api.did.v3.BusinessPartnerDidGroupApiV3Controller;
 import org.factoryx.edc.api.did.validation.BusinessPartnerDidValidator;
 
 import static org.factoryx.edc.api.did.BusinessPartnerDidSchema.BUSINESS_PARTNER_DID_TYPE;
@@ -50,6 +51,7 @@ public class BusinessPartnerDidGroupApiExtension implements ServiceExtension {
     public void initialize(ServiceExtensionContext context) {
 
         validatorRegistry.register(BUSINESS_PARTNER_DID_TYPE, BusinessPartnerDidValidator.instance());
-        webService.registerResource(ApiContext.MANAGEMENT, new BusinessPartnerDidGroupApiV1Controller(businessPartnerStore, validatorRegistry));
+        webService.registerResource(ApiContext.MANAGEMENT, new BusinessPartnerDidGroupApiV1Controller(businessPartnerStore, validatorRegistry, context.getMonitor()));
+        webService.registerResource(ApiContext.MANAGEMENT, new BusinessPartnerDidGroupApiV3Controller(businessPartnerStore, validatorRegistry));
     }
 }
