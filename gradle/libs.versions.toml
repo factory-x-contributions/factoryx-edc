@@ -4,7 +4,7 @@ format.version = "1.1"
 [versions]
 edc = "0.13.0"
 assertj = "3.27.3"
-jackson = "2.19.0"
+jackson = "2.19.2"
 jakarta-json = "2.0.1"
 jupiter = "5.12.2"
 opentelemetry = "2.16.0"
