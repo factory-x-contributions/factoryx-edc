@@ -434,10 +434,10 @@ dataplane:
       # -- Optional endpoint for an OAuth2 token refresh. Default endpoint is `<PUBLIC_API>/token`
       refresh_endpoint:
     signer:
-      # -- Alias under which the private key (JWK or PEM format) is stored in the vault. If vaultseed.enabled=true, the property must be "alias-for-private-key".
+      # -- Alias under which the private key (JWK or PEM format) is stored in the vault.
       privatekey_alias: "alias-for-private-key"
     verifier:
-      # -- Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`. If vaultseed.enabled=true, the property must be "alias-for-public-key".
+      # -- Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`.
       publickey_alias: "alias-for-public-key"
 
   aws:
