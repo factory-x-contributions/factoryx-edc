@@ -611,6 +611,8 @@ vault:
 
 # -- Configuration for Vault Seed Job
 vaultseed:
+  # -- places a keypair in the vault named alias-for-public-key and alias-for-private-key. If enabled, set dataplane.token.signer.privatekey_alias and dataplane.token.verifier.publickey_alias accordingly.
+  enabled: false
   # -- Docker image Configuration for Vault Seed Job
   image:
     # -- docker image/tag defaults to image/tag used in the vault helm chart in Chart dependencies
@@ -640,7 +642,7 @@ vaultseed:
       tag: "3.5.0"
 
 networkPolicy:
-  # -- If `true` network policy will be created to restrict access to control- and dataplane
+  # -- If `true` network policy will be created to restrict access to control- and dataplane.token.signer.privatekey
   enabled: false
   # -- Configuration of the controlplane component
   controlplane:
