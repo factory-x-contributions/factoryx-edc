@@ -60,7 +60,7 @@ spec:
               vault kv put secret/{{ .Values.dataplane.token.verifier.publickey_alias }} content=@/keypair/dataplane_public_key.pem
               {{- range .Values.vaultseed.secrets }}
               {{- if .value }}
-              vault kv put secret/{{ .key }} content={{ .value | quote }}
+              vault kv put secret/'{{ .key }}' content='{{ .value }}'
               {{- else if .valueFrom }}
               {{- $fileContent := $.Files.Get .valueFrom }}
               {{- if $fileContent }}
