@@ -3,7 +3,7 @@
     "@vocab": "https://w3id.org/dspace/v0.8/",
     "fx-policy": "https://w3id.org/factoryx/policy/",
     "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "tx-auth": "https://w3id.org/dspace/2025/1/mqtt-pull",
     "cx-policy": "https://w3id.org/catenax/policy/",
     "edc": "https://w3id.org/edc/v0.0.1/ns/",
     "odrl": "http://www.w3.org/ns/odrl/2/"
@@ -18,22 +18,22 @@
     "endpointProperties": [
       {
         "@type": "dspace:EndpointProperty",
-        "name": "https://w3id.org/edc/v0.0.1/ns/authorization",
+        "name": "https://w3id.org/dspace/2025/1/mqtt-pull/authorization",
         "value": "eyabcde"
       },
       {
         "@type": "dspace:EndpointProperty",
-        "name": "https://w3id.org/tractusx/auth/refreshEndpoint",
+        "name": "https://w3id.org/dspace/2025/1/mqtt-pull/refreshEndpoint",
         "value": "https"
       },
       {
         "@type": "dspace:EndpointProperty",
-        "name": "https://w3id.org/tractusx/auth/refreshToken",
+        "name": "https://w3id.org/dspace/2025/1/mqtt-pull/refreshToken",
         "value": "eyabcde"
       },
       {
         "@type": "dspace:EndpointProperty",
-        "name": "https://w3id.org/tractusx/auth/expiresIn",
+        "name": "https://w3id.org/dspace/2025/1/mqtt-pull/expiresIn",
         "value": "300"
       }
     ]
