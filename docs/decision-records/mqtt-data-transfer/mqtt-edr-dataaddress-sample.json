@@ -1,0 +1,23 @@
+{
+  "@type": "DataAddress",
+  "flowType": "PULL",
+  "endpointType": "mqtt-wss-jwt-oauth2",
+  "dsp-mqtt:refreshEndpoint": "https://keycloak.providercorp/internal/realms/mqtt/protocol/openid-connect/token",
+  "transferTypeDestination": "Mqtt",
+  "tx-auth:audience": "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:376f8182-8590-46d8-9929-219417e71420:ssh-internal-test-entity-6-identity",
+  "type": "mqtt-wss-jwt-oauth2",
+  "endpoint": "wss://providercorp.com/internal/broker",
+  "dsp-mqtt:refreshToken": "eyJraWQiOiJwdWJsaWMta2V5LWFsaWFzIiwiYWxnIjoiUlMyNTYifQ.eyJleHAiOjE3NTM4NTg1NjIsImlhdCI6MTc1Mzg1ODI2MiwianRpIjoiNTU4MWU4ZjMtZjg3Yi00OWZjLWFkZjctZjkyY2Q2MjMzM2NkIn0.OJLeGCjCWbu3U-fb5aMIx1_2MCsdEyq_riubxOY_GtbPUAACK5hWkOKu5Clq-lGT1qnUwlYHSc13UebdtUffJmWPrq6fOVvf1-6HDRWdFjkOovt1kRzIMRt7eHYrZJW62eUHkb6mOM8E3yTbDTXrbAfc8RQQozcmDWqAHumEACSimMHTyAxxSReD5kf_yoUJy1lOzV2au8pf1_GNu6KgC1xYrM5FYMaPaSELxH0DAGSrk1wHJJYHewXsRlmFqROvkxTCerHymWFLIP5BSf6MfgoJVAi7ck-lB8cYjx_daXpQdsTb1GnHfHTkkLf1fRcRVLi4SbxHNwoj1XYOFPhoLQ",
+  "dsp-mqtt:expiresIn": "300",
+  "dsp-mqtt:authorization": "eyJraWQiOiJwdWJsaWMta2V5LWFsaWFzIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJkaWQ6d2ViOmRpbS1zdGF0aWMtcHJvZC5kaXMtY2xvdWQtcHJvZC5jZmFwcHMuZXUxMC0wMDQuaGFuYS5vbmRlbWFuZC5jb206ZGltLWhvc3RlZDpjNzAyYzRkZS1hMTA5LTQ1ZjktYThhMy1iZTQxNGI2NDY3NjQ6c3NoLWludGVybmFsLXRlc3QtZW50aXR5LTctaWRlbnRpdHkiLCJhdWQiOiJkaWQ6d2ViOmRpbS1zdGF0aWMtcHJvZC5kaXMtY2xvdWQtcHJvZC5jZmFwcHMuZXUxMC0wMDQuaGFuYS5vbmRlbWFuZC5jb206ZGltLWhvc3RlZDozNzZmODE4Mi04NTkwLTQ2ZDgtOTkyOS0yMTk0MTdlNzE0MjA6c3NoLWludGVybmFsLXRlc3QtZW50aXR5LTYtaWRlbnRpdHkiLCJzdWIiOiJkaWQ6d2ViOmRpbS1zdGF0aWMtcHJvZC5kaXMtY2xvdWQtcHJvZC5jZmFwcHMuZXUxMC0wMDQuaGFuYS5vbmRlbWFuZC5jb206ZGltLWhvc3RlZDpjNzAyYzRkZS1hMTA5LTQ1ZjktYThhMy1iZTQxNGI2NDY3NjQ6c3NoLWludGVybmFsLXRlc3QtZW50aXR5LTctaWRlbnRpdHkiLCJleHAiOjE3NTM4NTg1NjIsImlhdCI6MTc1Mzg1ODI2MiwianRpIjoiY2U4OTM0ZWUtZTczYi00NjRlLThjNmUtZWRmNDgyYmRkZTlhIn0.1czhZ25MzRcZIkaDedK5ETcJmkjimqlMkcNngoZE-pe0RmyKwLa-NQb-kZy_W0AvGcb6QDP4ob_v0S7UiJrNbUXNA-4qbJ8C6eMwUw0kCtVRGymDYZiu8m0jE6oSms-K7AqMDUrGpLD8t0xcUJYukG6Ri6qG33EhWO8r0vEo2x61-8gSbAIpQNkx2GoVvigHdxGM4-ma5VuKubgWkjax_v7aULvV5Gj7tIfM6-WI9gIxzBRkTdNt8RURfPWhH4yaqKNkoGe2YUH5bctgozvMJrMd8SsJv-GNGuosCIzyxaaHFZmPZDrKSU5Se9COmJh2mBM-KEfzAzI1apWk4Ka6Ig",
+  "dsp-mqtt:refreshAudience": "did:web:dim-static-prod.dis-cloud-prod.cfapps.eu10-004.hana.ondemand.com:dim-hosted:376f8182-8590-46d8-9929-219417e71420:ssh-internal-test-entity-6-identity",
+  "@context": {
+    "dsp-mqtt": "https://w3id.org/dspace/2025/1/mqtt-pull/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "@context": {
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
+  },
+  "@type": "Asset",
+  "@id": "mqtt-asset",
+  "properties": {
+  },
+  "dataAddress": {
+    "@type": "DataAddress",
+    "type": "Mqtt",
+    "baseUrl": "wss://providercorp.com/internal/broker",
+    "oauth2:tokenUrl": "https://keycloak.providercorp/internal/realms/mqtt/protocol/openid-connect/token",
+    "oauth2:clientId": "dataspace-user",
+    "oauth2:clientSecretKey": "Oauth2-client-secret"
+  }
+}
