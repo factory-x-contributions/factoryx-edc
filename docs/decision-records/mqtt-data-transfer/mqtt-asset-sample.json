@@ -9,7 +9,7 @@
   },
   "dataAddress": {
     "@type": "DataAddress",
-    "type": "Mqtt-PULL",
+    "type": "Mqtt",
     "baseUrl": "wss://providercorp.com/internal/broker",
     "oauth2:tokenUrl": "https://keycloak.providercorp/internal/realms/mqtt/protocol/openid-connect/token",
     "oauth2:clientId": "dataspace-user",

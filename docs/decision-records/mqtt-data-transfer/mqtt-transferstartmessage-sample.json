@@ -13,7 +13,7 @@
   "consumerPid": "urn:uuid:32541fe6-c580-409e-85a8-8a9a32fbe833",
   "dataAddress": {
     "@type": "dspace:DataAddress",
-    "endpointType": "mqtt-wss-jwt",
+    "endpointType": "mqtt-wss-jwt-oauth2",
     "endpoint": "wss://providercorp.com/broker",
     "endpointProperties": [
       {
