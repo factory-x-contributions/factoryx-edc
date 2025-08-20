@@ -40,12 +40,8 @@ public class MqttDataAddress extends DataAddress {
     private static final String OAUTH2_TOKEN_URL = "oauth2:tokenUrl";
 
     private static final String OAUTH2_CLIENT_ID = "oauth2:clientId";
-    private static final String OAUTH2_CLIENT_ID_ALIAS = "oauth2:clientIdAlias";
-    private static final String OAUTH2_CLIENT_SECRET = "oauth2:clientSecretKey";
     private static final String OAUTH2_CLIENT_SECRET_ALIAS = "oauth2:clientSecretKeyAlias";
     private static final String USERNAME = "username";
-    private static final String USERNAME_ALIAS = "usernameAlias";
-    private static final String PASSWORD = "password";
     private static final String PASSWORD_ALIAS = "passwordAlias";
 
     private MqttDataAddress() {
@@ -69,16 +65,6 @@ public class MqttDataAddress extends DataAddress {
     }
 
     @JsonIgnore
-    public String getOauth2ClientIdAlias() {
-        return getStringProperty(OAUTH2_CLIENT_ID_ALIAS);
-    }
-
-    @JsonIgnore
-    public String getOauth2ClientSecret() {
-        return getStringProperty(OAUTH2_CLIENT_SECRET);
-    }
-
-    @JsonIgnore
     public String getOauth2ClientSecretAlias() {
         return getStringProperty(OAUTH2_CLIENT_SECRET_ALIAS);
     }
@@ -86,16 +72,6 @@ public class MqttDataAddress extends DataAddress {
     @JsonIgnore
     public String getUsername() {
         return getStringProperty(USERNAME);
-    }
-
-    @JsonIgnore
-    public String getUsernameAlias() {
-        return getStringProperty(USERNAME_ALIAS);
-    }
-
-    @JsonIgnore
-    public String getPassword() {
-        return getStringProperty(PASSWORD);
     }
 
     @JsonIgnore
@@ -132,18 +108,6 @@ public class MqttDataAddress extends DataAddress {
             return this;
         }
 
-        @JsonProperty(OAUTH2_CLIENT_ID_ALIAS)
-        public Builder oauth2ClientIdAlias(String method) {
-            this.property(OAUTH2_CLIENT_ID_ALIAS, method);
-            return this;
-        }
-
-        @JsonProperty(OAUTH2_CLIENT_SECRET)
-        public Builder oauth2ClientSecret(String authKey) {
-            this.property(OAUTH2_CLIENT_SECRET, authKey);
-            return this;
-        }
-
         @JsonProperty(OAUTH2_CLIENT_SECRET_ALIAS)
         public Builder oauth2ClientSecretAlias(String authCode) {
             this.property(OAUTH2_CLIENT_SECRET_ALIAS, authCode);
@@ -152,16 +116,6 @@ public class MqttDataAddress extends DataAddress {
 
         public Builder username(String username) {
             this.property(USERNAME, username);
-            return this;
-        }
-
-        public Builder usernameAlias(String proxyBody) {
-            this.property(USERNAME_ALIAS, proxyBody);
-            return this;
-        }
-
-        public Builder password(String proxyPath) {
-            this.property(PASSWORD, proxyPath);
             return this;
         }
 
