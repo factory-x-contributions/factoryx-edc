@@ -31,7 +31,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 import static org.factoryx.edc.policy.fx.CredentialFunctions.createMembershipCredential;
-import static org.factoryx.edc.policy.fx.CredentialFunctions.createPcfCredential;
+import static org.factoryx.edc.policy.fx.CredentialFunctions.createCredential;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -93,13 +93,13 @@ class MembershipConstraintFunctionTest {
     void evaluate_whenMultipleCredentialsFound() {
         when(participantAgent.getClaims()).thenReturn(Map.of("vc", List.of(createMembershipCredential().build(),
                 createMembershipCredential().build(),
-                createPcfCredential().build())));
+                createCredential("BogusCredential").build())));
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "active", null, context)).isTrue();
     }
 
     @Test
     void evaluate_whenCredentialNotFound() {
-        when(participantAgent.getClaims()).thenReturn(Map.of("vc", List.of(createPcfCredential().build())));
+        when(participantAgent.getClaims()).thenReturn(Map.of("vc", List.of(createCredential("BogusCredential").build())));
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "active", null, context)).isFalse();
     }
 }
