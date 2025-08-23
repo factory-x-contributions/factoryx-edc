@@ -64,7 +64,7 @@ spec:
           {{- if .Values.runtime.image.repository }}
           image: "{{ .Values.runtime.image.repository }}:{{ .Values.runtime.image.tag | default .Chart.AppVersion }}"
           {{- else }}
-          image: "tractusx/edc-runtime-memory:{{ .Values.runtime.image.tag | default .Chart.AppVersion }}"
+          image: "factory-x-contributions/edc-runtime-memory:{{ .Values.runtime.image.tag | default .Chart.AppVersion }}"
           {{- end }}
           imagePullPolicy: {{ .Values.runtime.image.pullPolicy }}
           command:
@@ -95,7 +95,7 @@ spec:
           {{- if .Values.runtime.image.repository }}
           image: "{{ .Values.runtime.image.repository }}:{{ .Values.runtime.image.tag | default .Chart.AppVersion }}"
           {{- else }}
-          image: "tractusx/edc-runtime-memory:{{ .Values.runtime.image.tag | default .Chart.AppVersion }}"
+          image: "factory-x-contributions/edc-runtime-memory:{{ .Values.runtime.image.tag | default .Chart.AppVersion }}"
           {{- end }}
 
           imagePullPolicy: {{ .Values.runtime.image.pullPolicy }}
