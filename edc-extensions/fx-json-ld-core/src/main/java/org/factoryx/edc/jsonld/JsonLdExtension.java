@@ -35,10 +35,13 @@ import java.util.Map;
 
 import static java.lang.String.format;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.factoryx.edc.edr.spi.CoreConstants.*;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_CREDENTIAL_CONTEXT;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_CONTEXT;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_PREFIX;
 
 /**
- *  Provides JSON-LD structure for Factory-X policies.
+ * Provides JSON-LD structure for Factory-X policies.
  */
 public class JsonLdExtension implements ServiceExtension {
 
@@ -46,7 +49,7 @@ public class JsonLdExtension implements ServiceExtension {
     private static final Map<String, String> FILES = Map.of(
             FX_POLICY_CONTEXT, PATH + "fx-policy-v1.jsonld",
             FX_CREDENTIAL_CONTEXT, PATH + "fx-credential-v1.jsonld"
-            );
+    );
 
     @Inject
     private JsonLd jsonLdService;
