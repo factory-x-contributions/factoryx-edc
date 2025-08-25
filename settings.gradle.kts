@@ -24,6 +24,9 @@ rootProject.name = "factoryx-edc"
 include(":spi:core-spi")
 include(":spi:http-tls:http-tls-client-spi")
 include(":spi:http-tls:http-tls-data-address-spi")
+include(":spi:mqtt:mqtt-data-address-spi")
+include(":spi:mqtt:mqtt-data-endpoint-spi")
+include(":spi:mqtt:mqtt-data-spi")
 
 // extensions - control plane
 include(":edc-extensions:fx-json-ld-core")

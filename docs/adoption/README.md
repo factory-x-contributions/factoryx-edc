@@ -18,7 +18,7 @@ specifications of the MX-Port "Hercules", see [MX-Port concept](https://factory-
 which can be used for exchange
 between participants.
 
-![mx-port-leo.png](mx-port-leo.png)
+![mx-port-hercules.png](mx-port-hercules.png)
 
 ## Premise
 

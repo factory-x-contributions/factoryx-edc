@@ -3,7 +3,7 @@
 
 
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square) 
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.1](https://img.shields.io/badge/AppVersion-0.1.1-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector. The connector deployment consists of two runtimes of a
 Control Plane and a Data Plane. Note that _no_ external dependencies such as a PostgreSQL database and HashiCorp Vault are included.
@@ -46,7 +46,7 @@ Combined, run this shell command to start the Factory-X EDC runtime:
 
 ```shell
 helm repo add factoryx-dev https://factory-x-contributions.github.io/charts/dev
-helm install my-release factory-x-contributions/factoryx-connector --version 0.1.0 \
+helm install my-release factory-x-contributions/factoryx-connector --version 0.1.1 \
      -f <path-to>/tractusx-connector-test.yaml
 ```
 
@@ -261,8 +261,8 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.1
 | dataplane.token.refresh.expiry_seconds | int | `300` | TTL in seconds for access tokens (also known as EDR token) |
 | dataplane.token.refresh.expiry_tolerance_seconds | int | `10` | Tolerance for token expiry in seconds |
 | dataplane.token.refresh.refresh_endpoint | string | `nil` | Optional endpoint for an OAuth2 token refresh. Default endpoint is `<PUBLIC_API>/token` |
-| dataplane.token.signer.privatekey_alias | string | `"alias-for-private-key"` | Alias under which the private key (JWK or PEM format) is stored in the vault |
-| dataplane.token.verifier.publickey_alias | string | `"alias-for-public-key"` | Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias` |
+| dataplane.token.signer.privatekey_alias | string | `"alias-for-private-key"` | Alias under which the private key (JWK or PEM format) is stored in the vault. |
+| dataplane.token.verifier.publickey_alias | string | `"alias-for-public-key"` | Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`. |
 | dataplane.tolerations | list | `[]` | [tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to configure preferred nodes |
 | dataplane.url.public | string | `""` | Explicitly declared url for reaching the public api (e.g. if ingresses not used) |
 | dataplane.volumeMounts | string | `nil` | declare where to mount [volumes](https://kubernetes.io/docs/concepts/storage/volumes/) into the container |
@@ -306,9 +306,10 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.1
 | vault.server.dev.devRootToken | string | `"root"` |  |
 | vault.server.dev.enabled | bool | `true` |  |
 | vault.server.postStart | string | `nil` |  |
-| vaultseed | object | `{"backoffLimit":3,"completions":1,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"hashicorp/vault","tag":"1.15.2"},"key":{"image":{"pullPolicy":"IfNotPresent","repository":"alpine/openssl","tag":"3.5.0"}},"parallelism":1,"secrets":[],"ttlSecondsAfterFinished":90}` | Configuration for Vault Seed Job |
-| vaultseed.image | object | `{"pullPolicy":"IfNotPresent","repository":"hashicorp/vault","tag":"1.15.2"}` | Docker image Configuration for Vault Seed Job |
-| vaultseed.image.tag | string | `"1.15.2"` | image tag should match the vault version in Chart dependencies |
+| vaultseed | object | `{"backoffLimit":3,"completions":1,"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"","tag":""},"key":{"image":{"pullPolicy":"IfNotPresent","repository":"alpine/openssl","tag":"3.5.0"}},"parallelism":1,"secrets":[],"ttlSecondsAfterFinished":90}` | Configuration for Vault Seed Job |
+| vaultseed.enabled | bool | `false` | places a keypair in the vault named alias-for-public-key and alias-for-private-key. If enabled, set dataplane.token.signer.privatekey_alias and dataplane.token.verifier.publickey_alias accordingly. |
+| vaultseed.image | object | `{"pullPolicy":"IfNotPresent","repository":"","tag":""}` | Docker image Configuration for Vault Seed Job |
+| vaultseed.image.repository | string | `""` | docker image/tag defaults to image/tag used in the vault helm chart in Chart dependencies |
 | vaultseed.key | object | `{"image":{"pullPolicy":"IfNotPresent","repository":"alpine/openssl","tag":"3.5.0"}}` | Key pair init container configuration |
 | vaultseed.key.image | object | `{"pullPolicy":"IfNotPresent","repository":"alpine/openssl","tag":"3.5.0"}` | Docker image configuration for key pair container |
 | vaultseed.secrets | list | `[]` | Secrets to be seeded into vault (not recommended, only for testing purposes) |

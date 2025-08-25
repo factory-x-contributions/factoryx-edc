@@ -438,10 +438,10 @@ dataplane:
       # -- Optional endpoint for an OAuth2 token refresh. Default endpoint is `<PUBLIC_API>/token`
       refresh_endpoint:
     signer:
-      # -- Alias under which the private key (JWK or PEM format) is stored in the vault
+      # -- Alias under which the private key (JWK or PEM format) is stored in the vault.
       privatekey_alias: "alias-for-private-key"
     verifier:
-      # -- Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`
+      # -- Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias`.
       publickey_alias: "alias-for-public-key"
 
   aws:
@@ -615,6 +615,8 @@ vault:
 
 # -- Configuration for Vault Seed Job
 vaultseed:
+  # -- places a keypair in the vault named alias-for-public-key and alias-for-private-key. If enabled, set dataplane.token.signer.privatekey_alias and dataplane.token.verifier.publickey_alias accordingly.
+  enabled: false
   # -- Docker image Configuration for Vault Seed Job
   image:
     # -- docker image/tag defaults to image/tag used in the vault helm chart in Chart dependencies
