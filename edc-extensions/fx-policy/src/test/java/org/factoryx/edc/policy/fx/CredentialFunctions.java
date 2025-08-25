@@ -43,6 +43,7 @@ public class CredentialFunctions {
                 .issuanceDate(Instant.now())
                 .credentialSubject(CredentialSubject.Builder.newInstance()
                         .id("subject-id")
+                        .claim("arbitrary", "claim")
                         .build());
     }
 

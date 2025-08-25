@@ -30,8 +30,8 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
-import static org.factoryx.edc.policy.fx.CredentialFunctions.createMembershipCredential;
 import static org.factoryx.edc.policy.fx.CredentialFunctions.createCredential;
+import static org.factoryx.edc.policy.fx.CredentialFunctions.createMembershipCredential;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
