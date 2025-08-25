@@ -26,7 +26,6 @@ import org.eclipse.edc.iam.verifiablecredentials.spi.model.VerifiableCredential;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -35,7 +34,7 @@ import static org.factoryx.edc.edr.spi.CoreConstants.FX_CREDENTIAL_NS;
 
 public class CredentialFunctions {
 
-    public static VerifiableCredential.Builder createCredential(String type, String version) {
+    public static VerifiableCredential.Builder createCredential(String type) {
         return VerifiableCredential.Builder.newInstance()
                 .types(List.of(FX_CREDENTIAL_NS + "VerifiableCredential", FX_CREDENTIAL_NS + type))
                 .id(UUID.randomUUID().toString())
@@ -44,64 +43,7 @@ public class CredentialFunctions {
                 .issuanceDate(Instant.now())
                 .credentialSubject(CredentialSubject.Builder.newInstance()
                         .id("subject-id")
-                        .claim(FX_CREDENTIAL_NS + "holderIdentifier", "did:web:holder")
-                        .claim(FX_CREDENTIAL_NS + "contractVersion", version)
-                        .claim(FX_CREDENTIAL_NS + "contractTemplate", "https://public.factory-x.org/contracts/pcf.v1.pdf")
-                        .build());
-    }
-
-    public static VerifiableCredential.Builder createPlainFrameworkCredential(String type, String version) {
-        return VerifiableCredential.Builder.newInstance()
-                .types(List.of("VerifiableCredential", type))
-                .id(UUID.randomUUID().toString())
-                .issuer(new Issuer(UUID.randomUUID().toString(), Map.of("prop1", "val1")))
-                .expirationDate(Instant.now().plus(365, ChronoUnit.DAYS))
-                .issuanceDate(Instant.now())
-                .credentialSubject(CredentialSubject.Builder.newInstance()
-                        .id("subject-id")
-                        .claim("holderIdentifier", "did:web:holder")
-                        .claim("contractVersion", version)
-                        .claim("contractTemplate", "https://public.factory-x.org/contracts/pcf.v1.pdf")
-                        .build());
-    }
-
-    public static VerifiableCredential.Builder createPcfCredential() {
-        return createCredential("PcfCredential", "1.0.0");
-    }
-
-    public static VerifiableCredential.Builder createPlainPcfCredential() {
-        return createPlainFrameworkCredential("PcfCredential", "1.0.0");
-    }
-
-    public static VerifiableCredential.Builder createPlainDismantlerCredential(Collection<String> brands, String... activityType) {
-        var at = activityType.length == 1 ? activityType[0] : List.of(activityType);
-        return VerifiableCredential.Builder.newInstance()
-                .types(List.of("VerifiableCredential", "DismantlerCredential"))
-                .id(UUID.randomUUID().toString())
-                .issuer(new Issuer(UUID.randomUUID().toString(), Map.of("prop1", "val1")))
-                .expirationDate(Instant.now().plus(365, ChronoUnit.DAYS))
-                .issuanceDate(Instant.now())
-                .credentialSubject(CredentialSubject.Builder.newInstance()
-                        .id("subject-id")
-                        .claim("holderIdentifier", "did:web:holder")
-                        .claim("allowedVehicleBrands", brands)
-                        .claim("activityType", at)
-                        .build());
-    }
-
-    public static VerifiableCredential.Builder createDismantlerCredential(Collection<String> brands, String... activityType) {
-        var at = activityType.length == 1 ? activityType[0] : List.of(activityType);
-        return VerifiableCredential.Builder.newInstance()
-                .types(List.of("VerifiableCredential", FX_CREDENTIAL_NS + "DismantlerCredential"))
-                .id(UUID.randomUUID().toString())
-                .issuer(new Issuer(UUID.randomUUID().toString(), Map.of("prop1", "val1")))
-                .expirationDate(Instant.now().plus(365, ChronoUnit.DAYS))
-                .issuanceDate(Instant.now())
-                .credentialSubject(CredentialSubject.Builder.newInstance()
-                        .id("subject-id")
-                        .claim(FX_CREDENTIAL_NS + "holderIdentifier", "did:web:holder")
-                        .claim(FX_CREDENTIAL_NS + "allowedVehicleBrands", brands)
-                        .claim(FX_CREDENTIAL_NS + "activityType", at)
+                        .claim("arbitrary", "claim")
                         .build());
     }
 
@@ -114,8 +56,7 @@ public class CredentialFunctions {
                 .issuanceDate(Instant.now())
                 .credentialSubject(CredentialSubject.Builder.newInstance()
                         .id("subject-id")
-                        .claim(FX_CREDENTIAL_NS + "holderIdentifier", "did:web:holder")
+                        .claim("holderIdentifier", "did:web:holder")
                         .build());
     }
-
 }
