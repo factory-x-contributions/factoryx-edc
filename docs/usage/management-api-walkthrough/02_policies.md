@@ -1,12 +1,10 @@
 # Policies
 
-## Policies in Catena-X
+## Policies in Factory-X
 
 In the EDC, policies are pure [ODRL (Open Digital Rights Language)](https://www.w3.org/TR/odrl-model/).
-Like the payloads of the [Dataspace Protocol](README.md), they are written in **JSON-LD**. Even if the
-user only has rudimentary knowledge of [JSON-LD](https://json-ld.org/), the [**policy playground
-**](https://eclipse-tractusx.github.io/tutorial-resources/policy-playground/) will provide a good starting point to
-start writing policies. It is important to keep in mind that the extensive ODRL-context (that the EDC is aware of)
+Like the payloads of the [Dataspace Protocol](README.md), they are written in **JSON-LD**.
+It is important to keep in mind that the extensive ODRL-context (that the EDC is aware of)
 allows for ergonomic reuse of the vocabulary in individual policies.
 
 ### Policies & Verifiable Credentials (VC)
@@ -35,7 +33,7 @@ Content-Type: application/json
 ```json
 {
   "@context": [
-    "https://w3id.org/factoryx/policy/v1.0.0",
+    "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
     "http://www.w3.org/ns/odrl.jsonld",
     {
       "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
@@ -123,7 +121,7 @@ extracted from the Factory-X membership credential.
 {
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
-    "https://w3id.org/factory-x/credentials/v1.0/context.jsonld"
+    "https://w3id.org/factoryx/credentials/v1.0/context.jsonld"
   ],
   "id": "1f36af58-0fc0-4b24-9b1c-e37d59668089",
   "type": [
@@ -135,7 +133,7 @@ extracted from the Factory-X membership credential.
   "expirationDate": "2022-06-16T18:56:59Z",
   "credentialSubject": {
     "id": "did:web:my-partner.com:who:is:cool",
-    "base-url": "https://super-cool.corp"
+    "baseUrl": "https://super-cool.corp"
   }
 }
 ```
@@ -158,7 +156,7 @@ A policy holding this constraint can be created like this:
     },
     "odrl:constraint": {
       "odrl:leftOperand": {
-        "@id": "https://w3id.org/factory-x/policy/v1.0/MembershipConstraint"
+        "@id": "https://w3id.org/factoryx/policy/v1.0/Membership"
       },
       "odrl:operator": {
         "@id": "odrl:eq"
@@ -178,7 +176,7 @@ It is validated against the membership credential:
 {
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
-    "https://w3id.org/factory-x/credentials/v1.0/context.jsonld"
+    "https://w3id.org/factoryx/credentials/v1.0/context.jsonld"
   ],
   "id": "1f36af58-0fc0-4b24-9b1c-e37d59668089",
   "type": [
@@ -190,7 +188,7 @@ It is validated against the membership credential:
   "expirationDate": "2022-06-16T18:56:59Z",
   "credentialSubject": {
     "id": "did:web:com.example.participant",
-    "base-url": "https://participant.com"
+    "baseUrl": "https://participant.com"
   }
 }
 ```
@@ -217,7 +215,7 @@ matching examples that follow.
     },
     "odrl:constraint": {
       "odrl:leftOperand": {
-        "@id": "https://w3id.org/factoryx/policy/certification"
+        "@id": "https://w3id.org/factoryx/policy/v1.0/certification"
       },
       "odrl:operator": {
         "@id": "odrl:eq"
@@ -234,7 +232,7 @@ matching examples that follow.
 {
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
-    "https://w3id.org/factory-x/credentials/v1.0/context.jsonld"
+    "https://w3id.org/factoryx/credentials/v1.0/context.jsonld"
   ],
   "id": "1f36af58-0fc0-4b24-9b1c-e37d59663089",
   "type": [
@@ -251,8 +249,9 @@ matching examples that follow.
 }
 ```
 
-##### **Checks for temporal validity
-**: If a usage policy is defined against a HTTP-based asset accessible via EDR-tokens,
+##### **Checks for temporal validity**: 
+
+If a usage policy is defined against a HTTP-based asset accessible via EDR-tokens,
 
 the Data Provider can prohibit issuance of new tokens by defining a specific constraint based on the
 [contract validity check extension](https://eclipse-edc.github.io/documentation/for-adopters/control-plane/policy-engine/#in-force-policy)
