@@ -36,6 +36,7 @@ import static org.factoryx.edc.policy.fx.CredentialFunctions.createCredential;
 import static org.factoryx.edc.policy.fx.CredentialFunctions.createMembershipCredential;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,14 +59,14 @@ class MembershipConstraintFunctionTest {
         when(context.participantAgent()).thenReturn(null);
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "active", null, context)).isFalse();
         assertThat(function.evaluate(FX_POLICY_NS_LEGACY + "Membership", Operator.EQ, "active", null, context)).isFalse();
-        verify(context).reportProblem("Required PolicyContext data not found: org.eclipse.edc.participant.spi.ParticipantAgent");
+        verify(context, times(2)).reportProblem("Required PolicyContext data not found: org.eclipse.edc.participant.spi.ParticipantAgent");
     }
 
     @Test
     void evaluate_noVcClaimOnParticipantAgent() {
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "active", null, context)).isFalse();
         assertThat(function.evaluate(FX_POLICY_NS_LEGACY + "Membership", Operator.EQ, "active", null, context)).isFalse();
-        verify(context).reportProblem(eq("ParticipantAgent did not contain a 'vc' claim."));
+        verify(context, times(2)).reportProblem(eq("ParticipantAgent did not contain a 'vc' claim."));
     }
 
     @Test
@@ -73,15 +74,15 @@ class MembershipConstraintFunctionTest {
         when(participantAgent.getClaims()).thenReturn(Map.of("vc", List.of()));
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "active", null, context)).isFalse();
         assertThat(function.evaluate(FX_POLICY_NS_LEGACY + "Membership", Operator.EQ, "active", null, context)).isFalse();
-        verify(context).reportProblem(eq("ParticipantAgent contains a 'vc' claim but it did not contain any VerifiableCredentials."));
+        verify(context, times(2)).reportProblem(eq("ParticipantAgent contains a 'vc' claim but it did not contain any VerifiableCredentials."));
     }
 
     @Test
     void evaluate_vcClaimNotList() {
         when(participantAgent.getClaims()).thenReturn(Map.of("vc", new Object()));
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "active", null, context)).isFalse();
-        assertThat(function.evaluate(FX_POLICY_NS_LEGACY + "Membership", Operator.EQ, "invalid", null, context)).isFalse();
-        verify(context).reportProblem(eq("ParticipantAgent contains a 'vc' claim, but the type is incorrect. Expected java.util.List, received java.lang.Object."));
+        assertThat(function.evaluate(FX_POLICY_NS_LEGACY + "Membership", Operator.EQ, "active", null, context)).isFalse();
+        verify(context, times(2)).reportProblem(eq("ParticipantAgent contains a 'vc' claim, but the type is incorrect. Expected java.util.List, received java.lang.Object."));
     }
 
     @Test
@@ -89,7 +90,7 @@ class MembershipConstraintFunctionTest {
         when(participantAgent.getClaims()).thenReturn(Map.of("vc", List.of(createMembershipCredential().build())));
         assertThat(function.evaluate(FX_POLICY_NS + "Membership", Operator.EQ, "invalid", null, context)).isFalse();
         assertThat(function.evaluate(FX_POLICY_NS_LEGACY + "Membership", Operator.EQ, "invalid", null, context)).isFalse();
-        verify(context).reportProblem(eq("Right-operand must be equal to 'active', but was 'invalid'"));
+        verify(context, times(2)).reportProblem(eq("Right-operand must be equal to 'active', but was 'invalid'"));
     }
 
     @Test
