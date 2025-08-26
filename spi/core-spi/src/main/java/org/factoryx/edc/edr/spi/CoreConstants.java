@@ -26,6 +26,7 @@ package org.factoryx.edc.edr.spi;
 public final class CoreConstants {
 
     public static final String FX_POLICY_NS = "https://w3id.org/factoryx/policy/v1.0/";
+    public static final String FX_POLICY_NS_LEGACY = "https://w3id.org/factoryx/policy/";
     public static final String FX_POLICY_PREFIX = "fx-policy";
     public static final String FX_POLICY_CONTEXT = FX_POLICY_NS + "context.jsonld";
 

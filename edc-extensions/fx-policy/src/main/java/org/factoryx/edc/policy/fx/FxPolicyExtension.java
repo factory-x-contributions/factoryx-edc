@@ -22,6 +22,7 @@ package org.factoryx.edc.policy.fx;
 import org.eclipse.edc.policy.engine.spi.PolicyEngine;
 import org.eclipse.edc.policy.engine.spi.RuleBindingRegistry;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 
@@ -39,6 +40,9 @@ public class FxPolicyExtension implements ServiceExtension {
     private PolicyEngine policyEngine;
 
     @Inject
+    private Monitor monitor;
+
+    @Inject
     private RuleBindingRegistry bindingRegistry;
 
     @Override
@@ -48,7 +52,7 @@ public class FxPolicyExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        registerFunctions(policyEngine);
+        registerFunctions(policyEngine, monitor);
         registerBindings(bindingRegistry);
     }
 }

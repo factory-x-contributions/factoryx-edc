@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,11 +25,15 @@ import org.eclipse.edc.participant.spi.ParticipantAgent;
 import org.eclipse.edc.participant.spi.ParticipantAgentPolicyContext;
 import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.policy.model.Permission;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.tractusx.edc.core.utils.credentials.CredentialTypePredicate;
 import org.factoryx.edc.policy.fx.common.AbstractDynamicCredentialConstraintFunction;
 
+import java.util.stream.Stream;
+
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_CREDENTIAL_NS;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
+import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS_LEGACY;
 
 
 /**
@@ -40,12 +45,21 @@ public class MembershipCredentialConstraintFunction<C extends ParticipantAgentPo
      * key of the membership credential constraint
      */
     public static final String MEMBERSHIP_LITERAL = "Membership";
+    private final Monitor monitor;
+
+    public MembershipCredentialConstraintFunction(Monitor monitor) {
+        this.monitor = monitor;
+    }
 
     @Override
     public boolean evaluate(Object leftOperand, Operator operator, Object rightOperand, Permission permission, C context) {
         if (!ACTIVE.equals(rightOperand)) {
             context.reportProblem("Right-operand must be equal to '%s', but was '%s'".formatted(ACTIVE, rightOperand));
             return false;
+        }
+
+        if ((FX_POLICY_NS_LEGACY + MEMBERSHIP_LITERAL).equals(leftOperand.toString())) {
+            monitor.warning("The FX Membership Policy uses an outdated context. Refer to the docs and update your offers.");
         }
 
         // make sure the ParticipantAgent is there
@@ -67,6 +81,7 @@ public class MembershipCredentialConstraintFunction<C extends ParticipantAgentPo
 
     @Override
     public boolean canHandle(Object leftOperand) {
-        return leftOperand instanceof String && (FX_POLICY_NS + MEMBERSHIP_LITERAL).equalsIgnoreCase(leftOperand.toString());
+        return leftOperand instanceof String &&
+                Stream.of(FX_POLICY_NS + MEMBERSHIP_LITERAL, FX_POLICY_NS_LEGACY + MEMBERSHIP_LITERAL).anyMatch(l -> leftOperand.toString().equals(l));
     }
 }

@@ -22,6 +22,7 @@ package org.factoryx.edc.policy.fx;
 import org.eclipse.edc.policy.engine.spi.PolicyEngine;
 import org.eclipse.edc.policy.engine.spi.RuleBindingRegistry;
 import org.eclipse.edc.policy.model.Permission;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.factoryx.edc.policy.fx.certification.CertificationTypeCredentialConstraintFunction;
 import org.factoryx.edc.policy.fx.membership.MembershipCredentialConstraintFunction;
 
@@ -62,9 +63,9 @@ public class FxPolicyRegistration {
      *
      * @param engine holds all policies that EDC follows.
      */
-    public static void registerFunctions(PolicyEngine engine) {
+    public static void registerFunctions(PolicyEngine engine, Monitor monitor) {
         FUNCTION_SCOPES_CLASSES.forEach(scope -> {
-            engine.registerFunction(scope, Permission.class, new MembershipCredentialConstraintFunction<>());
+            engine.registerFunction(scope, Permission.class, new MembershipCredentialConstraintFunction<>(monitor));
             engine.registerFunction(scope, Permission.class, new CertificationTypeCredentialConstraintFunction<>());
         });
     }
