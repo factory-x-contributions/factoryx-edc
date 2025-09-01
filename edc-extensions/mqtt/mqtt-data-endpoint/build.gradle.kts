@@ -17,17 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.endpoint.spi;
+plugins {
+    `java-library`
+}
 
-import org.eclipse.edc.spi.result.Result;
+dependencies {
 
-public interface EndpointTypeParser {
+    api(libs.edc.spi.core)
+    implementation(project(":spi:mqtt:mqtt-data-endpoint-spi"))
 
-    /**
-     * Parse the {@link EndpointType}.
-     *
-     * @param endpointType the transfer type string representation.
-     * @return the {@link EndpointType}, failure if the operation failed.
-     */
-    Result<EndpointType> parse(String endpointType);
+    testImplementation(libs.edc.junit)
 }
