@@ -17,18 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.spi;
+package org.factoryx.edc.mqtt.data.params.spi;
 
-public interface MqttConstants {
+import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddress;
 
-    String DSP_MQTT_PREFIX = "dsp-mqtt";
-    String DSP_MQTT_NS = "https://w3id.org/dspace/2025/1/mqtt-pull/";
+/**
+ * Define how to decorate the {@link MqttParams} builder.
+ */
+@FunctionalInterface
+public interface MqttParamsDecorator {
 
-    String USERNAME = DSP_MQTT_NS + "username";
-    String PASSWORD = DSP_MQTT_NS + "password";
-
-    String REFRESH_TOKEN = DSP_MQTT_NS + "refreshToken";
-    String EXPIRES_IN = DSP_MQTT_NS + "expiresIn";
-    String AUTHORIZATION = DSP_MQTT_NS + "authorization";
-    String REFRESH_AUDIENCE = DSP_MQTT_NS + "refreshAudience";
+    /**
+     * Decorate params with information coming from the request and the data address. Return the param object.
+     */
+    MqttParams.Builder decorate(MqttDataAddress address, MqttParams.Builder params);
 }

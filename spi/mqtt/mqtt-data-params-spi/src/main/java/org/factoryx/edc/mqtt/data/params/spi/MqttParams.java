@@ -17,18 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.spi;
+package org.factoryx.edc.mqtt.data.params.spi;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.factoryx.edc.mqtt.data.spi.MqttConstants.AUTHORIZATION;
-import static org.factoryx.edc.mqtt.data.spi.MqttConstants.EXPIRES_IN;
-import static org.factoryx.edc.mqtt.data.spi.MqttConstants.PASSWORD;
-import static org.factoryx.edc.mqtt.data.spi.MqttConstants.REFRESH_AUDIENCE;
-import static org.factoryx.edc.mqtt.data.spi.MqttConstants.REFRESH_TOKEN;
-import static org.factoryx.edc.mqtt.data.spi.MqttConstants.USERNAME;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.AUTHORIZATION;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.EXPIRES_IN;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.PASSWORD;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.REFRESH_AUDIENCE;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.REFRESH_TOKEN;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.USERNAME;
 
 public class MqttParams {
 
@@ -55,6 +55,10 @@ public class MqttParams {
 
         public MqttParams.Builder password(String password) {
             return this.property(PASSWORD, password);
+        }
+
+        public MqttParams.Builder refreshEndpoint(String refreshEndpoint) {
+            return this.property(REFRESH_TOKEN, refreshEndpoint);
         }
 
         public MqttParams.Builder refreshToken(String refreshToken) {

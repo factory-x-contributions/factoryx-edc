@@ -17,18 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.spi;
+package org.factoryx.edc.mqtt.data.params.spi;
 
 import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddress;
 
-/**
- * Define how to decorate the {@link MqttParams} builder.
- */
-@FunctionalInterface
-public interface MqttParamsDecorator {
+public interface MqttParamsProvider {
 
     /**
-     * Decorate params with information coming from the request and the data address. Return the param object.
+     * Register decorator
      */
-    MqttParams.Builder decorate(MqttDataAddress address, MqttParams.Builder params);
+    void registerSourceDecorator(MqttParamsDecorator decorator);
+
+    /**
+     * Provide params for Mqtt Data Transfer Type
+     */
+    MqttParams provideParams(MqttDataAddress dataAddress);
 }
