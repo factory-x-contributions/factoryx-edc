@@ -30,19 +30,17 @@ import org.eclipse.edc.spi.types.domain.DataAddress;
 import java.util.Optional;
 
 import static java.util.Collections.emptyMap;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.BASE_URL;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.OAUTH2_CLIENT_ID;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.OAUTH2_CLIENT_SECRET_ALIAS;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.OAUTH2_TOKEN_URL;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.PASSWORD_ALIAS;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.USERNAME;
 
 @JsonTypeName()
 @JsonDeserialize(builder = DataAddress.Builder.class)
 public class MqttDataAddress extends DataAddress {
-
-    private static final String BASE_URL = "baseUrl";
-    private static final String OAUTH2_TOKEN_URL = "oauth2:tokenUrl";
-
-    private static final String OAUTH2_CLIENT_ID = "oauth2:clientId";
-    private static final String OAUTH2_CLIENT_SECRET_ALIAS = "oauth2:clientSecretKeyAlias";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD_ALIAS = "passwordAlias";
 
     private MqttDataAddress() {
         super();

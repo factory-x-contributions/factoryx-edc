@@ -17,22 +17,40 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.address.spi;
+package org.factoryx.edc.core.spi;
+
+public final class StringUtils {
+
+    public static boolean isBlank(String str) {
+        return str == null || str.isBlank();
+    }
+
+    public static boolean isNotBlank(String str) {
+        return !isBlank(str);
+    }
 
 
-import static org.eclipse.edc.spi.constants.CoreConstants.EDC_NAMESPACE;
+    public static boolean isEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
 
-public interface MqttDataAddressSchema {
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
+    }
 
-    /**
-     * DataAddress type
-     */
-    String MQTT_DATA_ADDRESS_TYPE = "Mqtt";
+    public static boolean isNoneBlank(String... strs) {
+        return !isAnyBlank(strs);
+    }
 
-    String BASE_URL = EDC_NAMESPACE + "baseUrl";
-    String OAUTH2_TOKEN_URL = "oauth2:tokenUrl";
-    String OAUTH2_CLIENT_ID = "oauth2:clientId";
-    String OAUTH2_CLIENT_SECRET_ALIAS = "oauth2:clientSecretKeyAlias";
-    String USERNAME = "username";
-    String PASSWORD_ALIAS = "passwordAlias";
+    public static boolean isAnyBlank(String... strs) {
+        if (strs == null) {
+            return false;
+        }
+        for (String str : strs) {
+            if (isBlank(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -17,22 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.address.spi;
+plugins {
+    `java-library`
+}
 
+dependencies {
 
-import static org.eclipse.edc.spi.constants.CoreConstants.EDC_NAMESPACE;
+    api(libs.edc.spi.core)
+    implementation(libs.edc.spi.validator)
+    implementation(project(":spi:core-spi"))
+    implementation(project(":spi:mqtt:mqtt-data-address-spi"))
 
-public interface MqttDataAddressSchema {
-
-    /**
-     * DataAddress type
-     */
-    String MQTT_DATA_ADDRESS_TYPE = "Mqtt";
-
-    String BASE_URL = EDC_NAMESPACE + "baseUrl";
-    String OAUTH2_TOKEN_URL = "oauth2:tokenUrl";
-    String OAUTH2_CLIENT_ID = "oauth2:clientId";
-    String OAUTH2_CLIENT_SECRET_ALIAS = "oauth2:clientSecretKeyAlias";
-    String USERNAME = "username";
-    String PASSWORD_ALIAS = "passwordAlias";
+    testImplementation(libs.edc.junit)
 }
