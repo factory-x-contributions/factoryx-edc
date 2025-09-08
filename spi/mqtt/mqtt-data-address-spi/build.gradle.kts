@@ -24,4 +24,5 @@ plugins {
 dependencies {
 
     api(libs.edc.spi.core)
+    api(project(":spi:core-spi"))
 }

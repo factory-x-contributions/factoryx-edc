@@ -23,6 +23,6 @@ plugins {
 
 dependencies {
 
-    implementation(project(":spi:mqtt:mqtt-data-address-spi"))
+    api(project(":spi:mqtt:mqtt-data-address-spi"))
     api(libs.edc.spi.core)
 }

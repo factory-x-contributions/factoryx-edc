@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.eclipse.edc.spi.types.domain.DataAddress;
+import org.factoryx.edc.core.spi.StringUtils;
 
 import java.util.Optional;
 
@@ -75,6 +76,16 @@ public class MqttDataAddress extends DataAddress {
     @JsonIgnore
     public String getPasswordAlias() {
         return getStringProperty(PASSWORD_ALIAS);
+    }
+
+    @JsonIgnore
+    public boolean hasBasicAuth() {
+        return StringUtils.isNoneBlank(this.getUsername(), this.getPasswordAlias());
+    }
+
+    @JsonIgnore
+    public boolean hasOauth2() {
+        return StringUtils.isNoneBlank(this.getOauth2TokenUrl(), this.getOauth2ClientId(), this.getOauth2ClientSecretAlias());
     }
 
     @JsonPOJOBuilder(withPrefix = "")

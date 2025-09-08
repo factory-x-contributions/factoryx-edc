@@ -17,19 +17,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.params.spi;
+package org.factoryx.edc.mqtt.data.params.provider;
 
 import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddress;
+import org.factoryx.edc.mqtt.data.params.spi.MqttParams;
+import org.factoryx.edc.mqtt.data.params.spi.MqttParamsDecorator;
+import org.factoryx.edc.mqtt.data.params.spi.MqttParamsProvider;
 
-public interface MqttParamsProvider {
+import java.util.ArrayList;
+import java.util.List;
 
-    /**
-     * Register decorator
-     */
-    void registerDecorator(MqttParamsDecorator decorator);
+public class MqttParamsProviderImpl implements MqttParamsProvider {
 
-    /**
-     * Provide params for Mqtt Data Transfer Type
-     */
-    MqttParams provideParams(MqttDataAddress dataAddress);
+    private final List<MqttParamsDecorator> decorators = new ArrayList<>();
+
+    @Override
+    public void registerDecorator(MqttParamsDecorator decorator) {
+        decorators.add(decorator);
+    }
+
+    @Override
+    public MqttParams provideParams(MqttDataAddress dataAddress) {
+        MqttParams.Builder params = MqttParams.Builder.newInstance();
+        decorators.forEach(d -> d.decorate(dataAddress, params));
+        return params.build();
+    }
 }

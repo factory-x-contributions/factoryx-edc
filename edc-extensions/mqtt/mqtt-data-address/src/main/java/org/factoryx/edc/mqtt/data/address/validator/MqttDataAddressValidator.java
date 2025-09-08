@@ -57,8 +57,8 @@ public class MqttDataAddressValidator implements Validator<DataAddress> {
     protected ValidationResult validateAuth(DataAddress dataAddress) {
 
         MqttDataAddress mqttDataAddress = MqttDataAddress.Builder.newInstance().copyFrom(dataAddress).build();
-        boolean oauth2 = StringUtils.isNoneBlank(mqttDataAddress.getOauth2TokenUrl(), mqttDataAddress.getOauth2ClientId(), mqttDataAddress.getOauth2ClientSecretAlias());
-        boolean basicAuth = StringUtils.isNoneBlank(mqttDataAddress.getUsername(), mqttDataAddress.getPasswordAlias());
+        boolean oauth2 = mqttDataAddress.hasOauth2();
+        boolean basicAuth = mqttDataAddress.hasBasicAuth();
 
         // either one should be true, not both true, not both false
         if (oauth2 ^ basicAuth) {
