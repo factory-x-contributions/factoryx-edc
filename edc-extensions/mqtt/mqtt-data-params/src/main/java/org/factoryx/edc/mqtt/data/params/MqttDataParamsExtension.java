@@ -19,12 +19,15 @@
 
 package org.factoryx.edc.mqtt.data.params;
 
+import org.eclipse.edc.iam.oauth2.spi.client.Oauth2Client;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.runtime.metamodel.annotation.Provides;
 import org.eclipse.edc.spi.security.Vault;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.factoryx.edc.mqtt.data.params.basic.BasicAuthMqttParamsDecorator;
+import org.factoryx.edc.mqtt.data.params.oauth2.MqttOauth2CredentialsRequestFactory;
+import org.factoryx.edc.mqtt.data.params.oauth2.Oauth2MqttParamsDecorator;
 import org.factoryx.edc.mqtt.data.params.provider.MqttParamsProviderImpl;
 import org.factoryx.edc.mqtt.data.params.spi.MqttParamsProvider;
 
@@ -34,6 +37,9 @@ public class MqttDataParamsExtension implements ServiceExtension {
     @Inject
     private Vault vault;
 
+    @Inject
+    private Oauth2Client oauth2Client;
+
     @Override
     public void initialize(ServiceExtensionContext context) {
 
@@ -41,6 +47,10 @@ public class MqttDataParamsExtension implements ServiceExtension {
 
         var basicAuthMqttParamsDecorator = new BasicAuthMqttParamsDecorator(vault);
         provider.registerDecorator(basicAuthMqttParamsDecorator);
+
+        var mqttOauth2CredentialsRequestFactory = new MqttOauth2CredentialsRequestFactory(vault);
+        var oauth2MqttParamsDecorator = new Oauth2MqttParamsDecorator(mqttOauth2CredentialsRequestFactory, oauth2Client);
+        provider.registerDecorator(oauth2MqttParamsDecorator);
 
         context.registerService(MqttParamsProvider.class, provider);
     }

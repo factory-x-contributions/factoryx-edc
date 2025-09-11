@@ -24,6 +24,7 @@ plugins {
 dependencies {
 
     api(libs.edc.spi.core)
+    api(libs.edc.spi.oauth2)
     api(project(":spi:mqtt:mqtt-data-params-spi"))
 
     testImplementation(libs.edc.junit)

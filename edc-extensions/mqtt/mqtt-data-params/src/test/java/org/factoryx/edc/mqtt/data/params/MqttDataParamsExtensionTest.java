@@ -22,14 +22,19 @@ package org.factoryx.edc.mqtt.data.params;
 import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
 import org.eclipse.edc.spi.security.Vault;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
+import org.factoryx.edc.mqtt.data.params.basic.BasicAuthMqttParamsDecorator;
+import org.factoryx.edc.mqtt.data.params.oauth2.Oauth2MqttParamsDecorator;
+import org.factoryx.edc.mqtt.data.params.provider.MqttParamsProviderImpl;
 import org.factoryx.edc.mqtt.data.params.spi.MqttParamsProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedConstruction;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.verify;
 
 
@@ -46,8 +51,15 @@ class MqttDataParamsExtensionTest {
     @Test
     void testInitialize(ServiceExtensionContext context, MqttDataParamsExtension extension) {
 
-        extension.initialize(context);
+        try (MockedConstruction<MqttParamsProviderImpl> providerMock = mockConstruction(MqttParamsProviderImpl.class)) {
 
-        verify(context).registerService(eq(MqttParamsProvider.class), any(MqttParamsProvider.class));
+            extension.initialize(context);
+
+            MqttParamsProvider provider = providerMock.constructed().get(0);
+
+            verify(context).registerService(eq(MqttParamsProvider.class), any(MqttParamsProvider.class));
+            verify(provider).registerDecorator(any(BasicAuthMqttParamsDecorator.class));
+            verify(provider).registerDecorator(any(Oauth2MqttParamsDecorator.class));
+        }
     }
 }
