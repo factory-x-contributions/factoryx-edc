@@ -22,6 +22,7 @@ package org.factoryx.edc.mqtt.data.params;
 import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
 import org.eclipse.edc.spi.security.Vault;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
+import org.factoryx.edc.mqtt.data.params.base.BaseCommonMqttParamsDecorator;
 import org.factoryx.edc.mqtt.data.params.basic.BasicAuthMqttParamsDecorator;
 import org.factoryx.edc.mqtt.data.params.oauth2.Oauth2MqttParamsDecorator;
 import org.factoryx.edc.mqtt.data.params.provider.MqttParamsProviderImpl;
@@ -60,6 +61,7 @@ class MqttDataParamsExtensionTest {
             verify(context).registerService(eq(MqttParamsProvider.class), any(MqttParamsProvider.class));
             verify(provider).registerDecorator(any(BasicAuthMqttParamsDecorator.class));
             verify(provider).registerDecorator(any(Oauth2MqttParamsDecorator.class));
+            verify(provider).registerDecorator(any(BaseCommonMqttParamsDecorator.class));
         }
     }
 }

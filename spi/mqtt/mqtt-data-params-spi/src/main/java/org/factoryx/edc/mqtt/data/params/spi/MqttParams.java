@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.BASE_URL;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.AUTHORIZATION;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.EXPIRES_IN;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.PASSWORD;
@@ -47,6 +48,10 @@ public class MqttParams {
 
         private Builder() {
             params = new MqttParams();
+        }
+
+        public MqttParams.Builder baseUrl(String baseUrl) {
+            return this.property(BASE_URL, baseUrl);
         }
 
         public MqttParams.Builder username(String username) {

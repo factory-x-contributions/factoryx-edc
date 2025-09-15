@@ -25,6 +25,7 @@ import org.eclipse.edc.runtime.metamodel.annotation.Provides;
 import org.eclipse.edc.spi.security.Vault;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
+import org.factoryx.edc.mqtt.data.params.base.BaseCommonMqttParamsDecorator;
 import org.factoryx.edc.mqtt.data.params.basic.BasicAuthMqttParamsDecorator;
 import org.factoryx.edc.mqtt.data.params.oauth2.MqttOauth2CredentialsRequestFactory;
 import org.factoryx.edc.mqtt.data.params.oauth2.Oauth2MqttParamsDecorator;
@@ -51,6 +52,9 @@ public class MqttDataParamsExtension implements ServiceExtension {
         var mqttOauth2CredentialsRequestFactory = new MqttOauth2CredentialsRequestFactory(vault);
         var oauth2MqttParamsDecorator = new Oauth2MqttParamsDecorator(mqttOauth2CredentialsRequestFactory, oauth2Client);
         provider.registerDecorator(oauth2MqttParamsDecorator);
+
+        var baseCommonMqttParamsDecorator = new BaseCommonMqttParamsDecorator();
+        provider.registerDecorator(baseCommonMqttParamsDecorator);
 
         context.registerService(MqttParamsProvider.class, provider);
     }
