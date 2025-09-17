@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.BASE_URL;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_ENDPOINT_TYPE;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.AUTHORIZATION;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.EXPIRES_IN;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.PASSWORD;
@@ -33,9 +34,9 @@ import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.USERNAME;
 
 public class MqttParams {
 
-    private final Map<String, Object> properties = new HashMap<>();
+    private final Map<String, String> properties = new HashMap<>();
 
-    public Map<String, Object> getProperties() {
+    public Map<String, String> getProperties() {
         return properties;
     }
 
@@ -52,6 +53,10 @@ public class MqttParams {
 
         public MqttParams.Builder baseUrl(String baseUrl) {
             return this.property(BASE_URL, baseUrl);
+        }
+
+        public MqttParams.Builder mqttEndpointType(String mqttEndpointType) {
+            return this.property(MQTT_ENDPOINT_TYPE, mqttEndpointType);
         }
 
         public MqttParams.Builder username(String username) {
@@ -82,7 +87,7 @@ public class MqttParams {
             return this.property(REFRESH_AUDIENCE, refreshAudience);
         }
 
-        public MqttParams.Builder property(String property, Object value) {
+        public MqttParams.Builder property(String property, String value) {
             params.properties.put(property, value);
             return this;
         }

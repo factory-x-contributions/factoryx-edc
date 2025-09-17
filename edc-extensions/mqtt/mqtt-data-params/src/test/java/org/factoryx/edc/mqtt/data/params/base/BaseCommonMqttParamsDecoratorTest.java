@@ -28,12 +28,14 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.BASE_URL;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_ENDPOINT_TYPE;
 
 class BaseCommonMqttParamsDecoratorTest {
 
     private static final String MQTT_BROKER_URL = "tcp://mqtt-broker:1883";
     private static final String MQTT_USER = "mqtt-user";
     private static final String MQTT_PASSWORD_ALIAS = "mqtt-password-alias";
+    private static final String MQTT_WSS_BASIC = "mqtt-wss-basic";
 
     private BaseCommonMqttParamsDecorator decorator;
 
@@ -49,12 +51,14 @@ class BaseCommonMqttParamsDecoratorTest {
                 .baseUrl(MQTT_BROKER_URL)
                 .username(MQTT_USER)
                 .passwordAlias(MQTT_PASSWORD_ALIAS)
+                .mqttEndpointType(MQTT_WSS_BASIC)
                 .build();
 
         var params = decorator.decorate(dataAddress, MqttParams.Builder.newInstance()).build();
 
         assertThat(params.getProperties())
-                .containsEntry(BASE_URL, MQTT_BROKER_URL);
+                .containsEntry(BASE_URL, MQTT_BROKER_URL)
+                .containsEntry(MQTT_ENDPOINT_TYPE, MQTT_WSS_BASIC);
     }
 
     @Test

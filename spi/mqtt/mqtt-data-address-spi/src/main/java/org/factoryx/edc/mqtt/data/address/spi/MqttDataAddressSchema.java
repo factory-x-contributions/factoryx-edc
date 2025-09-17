@@ -20,6 +20,8 @@
 package org.factoryx.edc.mqtt.data.address.spi;
 
 
+import org.eclipse.edc.spi.types.domain.transfer.FlowType;
+
 import static org.eclipse.edc.spi.constants.CoreConstants.EDC_NAMESPACE;
 
 public interface MqttDataAddressSchema {
@@ -28,8 +30,10 @@ public interface MqttDataAddressSchema {
      * DataAddress type
      */
     String MQTT_DATA_ADDRESS_TYPE = "Mqtt";
+    String MQTT_DATA_PULL = "%s-%s".formatted(MQTT_DATA_ADDRESS_TYPE, FlowType.PULL);
 
     String BASE_URL = EDC_NAMESPACE + "baseUrl";
+    String MQTT_ENDPOINT_TYPE = "mqttEndpointType";
     String OAUTH2_TOKEN_URL = "oauth2:tokenUrl";
     String OAUTH2_CLIENT_ID = "oauth2:clientId";
     String OAUTH2_CLIENT_SECRET_ALIAS = "oauth2:clientSecretKeyAlias";

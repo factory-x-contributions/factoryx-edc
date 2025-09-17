@@ -17,41 +17,35 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.address;
+package org.factoryx.edc.mqtt.data.flow;
 
+import org.eclipse.edc.connector.controlplane.transfer.spi.flow.DataFlowManager;
 import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.eclipse.edc.validator.spi.DataAddressValidatorRegistry;
-import org.factoryx.edc.mqtt.data.address.validator.MqttDataAddressValidator;
-import org.factoryx.edc.mqtt.data.endpoint.parser.spi.EndpointTypeParser;
+import org.factoryx.edc.mqtt.data.flow.controller.MqttDataFlowController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(DependencyInjectionExtension.class)
-class MqttDataAddressExtensionTest {
 
-    DataAddressValidatorRegistry dataAddressValidatorRegistry = mock();
-    EndpointTypeParser endpointTypeParser = mock();
+@ExtendWith(DependencyInjectionExtension.class)
+class MqttDataFlowExtensionTest {
+
+    private final DataFlowManager dataFlowManager = mock();
 
     @BeforeEach
     void setup(ServiceExtensionContext context) {
-        context.registerService(DataAddressValidatorRegistry.class, dataAddressValidatorRegistry);
-        context.registerService(EndpointTypeParser.class, endpointTypeParser);
+        context.registerService(DataFlowManager.class, dataFlowManager);
     }
 
     @Test
-    void testInitialize(ServiceExtensionContext context, MqttDataAddressExtension extension) {
+    void testInitialize(ServiceExtensionContext context, MqttDataFlowExtension extension) {
 
         extension.initialize(context);
-
-        verify(dataAddressValidatorRegistry).registerSourceValidator(eq(MQTT_DATA_ADDRESS_TYPE), any(MqttDataAddressValidator.class));
-        verify(dataAddressValidatorRegistry).registerDestinationValidator(eq(MQTT_DATA_ADDRESS_TYPE), any(MqttDataAddressValidator.class));
+        verify(dataFlowManager).register(any(MqttDataFlowController.class));
     }
 }

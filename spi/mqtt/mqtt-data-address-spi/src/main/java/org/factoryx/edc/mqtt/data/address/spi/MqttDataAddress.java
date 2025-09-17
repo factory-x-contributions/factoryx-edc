@@ -33,6 +33,7 @@ import java.util.Optional;
 import static java.util.Collections.emptyMap;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.BASE_URL;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_ENDPOINT_TYPE;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.OAUTH2_CLIENT_ID;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.OAUTH2_CLIENT_SECRET_ALIAS;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.OAUTH2_TOKEN_URL;
@@ -76,6 +77,11 @@ public class MqttDataAddress extends DataAddress {
     @JsonIgnore
     public String getPasswordAlias() {
         return getStringProperty(PASSWORD_ALIAS);
+    }
+
+    @JsonIgnore
+    public String getMqttEndpointType() {
+        return getStringProperty(MQTT_ENDPOINT_TYPE);
     }
 
     @JsonIgnore
@@ -130,6 +136,11 @@ public class MqttDataAddress extends DataAddress {
 
         public Builder passwordAlias(String proxyQueryParams) {
             this.property(PASSWORD_ALIAS, proxyQueryParams);
+            return this;
+        }
+
+        public Builder mqttEndpointType(String mqttEndpointType) {
+            this.property(MQTT_ENDPOINT_TYPE, mqttEndpointType);
             return this;
         }
 

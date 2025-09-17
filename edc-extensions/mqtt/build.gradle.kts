@@ -17,24 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.mqtt.data.params.base;
+plugins {
+    `java-library`
+    `maven-publish`
+}
 
-import org.eclipse.edc.spi.EdcException;
-import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddress;
-import org.factoryx.edc.mqtt.data.params.spi.MqttParams;
-import org.factoryx.edc.mqtt.data.params.spi.MqttParamsDecorator;
-
-import java.util.Optional;
-
-public class BaseCommonMqttParamsDecorator implements MqttParamsDecorator {
-
-    @Override
-    public MqttParams.Builder decorate(MqttDataAddress address, MqttParams.Builder params) {
-
-        Optional.ofNullable(address.getBaseUrl())
-                .map(params::baseUrl)
-                .orElseThrow(() -> new EdcException("baseUrl is missing from the mqtt data address"));
-
-        return params.mqttEndpointType(address.getMqttEndpointType());
-    }
+dependencies {
+    api(project(":edc-extensions:mqtt:mqtt-data-address"))
+    api(project(":edc-extensions:mqtt:mqtt-data-endpoint"))
+    api(project(":edc-extensions:mqtt:mqtt-data-flow"))
+    api(project(":edc-extensions:mqtt:mqtt-data-address"))
 }

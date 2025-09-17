@@ -25,27 +25,44 @@ import org.eclipse.edc.validator.spi.Validator;
 import org.factoryx.edc.core.spi.StringUtils;
 import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddress;
 import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema;
+import org.factoryx.edc.mqtt.data.endpoint.parser.spi.EndpointTypeParser;
 
 import java.net.URI;
 
 import static org.eclipse.edc.validator.spi.Violation.violation;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.BASE_URL;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE;
+import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_ENDPOINT_TYPE;
 
 /**
  * Class to validate a @{@link MqttDataAddress} type
  */
 public class MqttDataAddressValidator implements Validator<DataAddress> {
 
+    private final EndpointTypeParser endpointTypeParser;
+
+    public MqttDataAddressValidator(EndpointTypeParser endpointTypeParser) {
+        this.endpointTypeParser = endpointTypeParser;
+    }
+
     @Override
     public ValidationResult validate(DataAddress dataAddress) {
 
-        return validateBaseUrl(dataAddress).merge(validateAuth(dataAddress));
+        return validateBaseUrl(dataAddress).merge(validateEndpointType(dataAddress)).merge(validateAuth(dataAddress));
     }
 
     protected ValidationResult validateBaseUrl(DataAddress dataAddress) {
         var baseUrl = dataAddress.getStringProperty(BASE_URL);
         return validateUrl(BASE_URL, baseUrl);
+    }
+
+    protected ValidationResult validateEndpointType(DataAddress dataAddress) {
+        var endPointType = dataAddress.getStringProperty(MQTT_ENDPOINT_TYPE);
+        var endpointTypeResult = endpointTypeParser.parse(endPointType);
+        if (endpointTypeResult.failed()) {
+            return ValidationResult.failure(violation("DataAddress of type '%s' must contain valid property '%s': %s".formatted(MQTT_DATA_ADDRESS_TYPE, MQTT_ENDPOINT_TYPE, endpointTypeResult.getFailureDetail()), MQTT_ENDPOINT_TYPE));
+        }
+        return ValidationResult.success();
     }
 
     /**

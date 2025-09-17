@@ -44,6 +44,7 @@ include(":edc-extensions:http-tls:data-plane-http-tls")
 include(":edc-extensions:mqtt:mqtt-data-address")
 include(":edc-extensions:mqtt:mqtt-data-endpoint")
 include(":edc-extensions:mqtt:mqtt-data-params")
+include(":edc-extensions:mqtt:mqtt-data-flow")
 
 // modules for controlplane artifacts
 include(":edc-controlplane")

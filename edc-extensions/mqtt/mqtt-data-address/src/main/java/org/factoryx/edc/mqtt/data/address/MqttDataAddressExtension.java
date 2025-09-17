@@ -25,6 +25,7 @@ import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.eclipse.edc.validator.spi.DataAddressValidatorRegistry;
 import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema;
 import org.factoryx.edc.mqtt.data.address.validator.MqttDataAddressValidator;
+import org.factoryx.edc.mqtt.data.endpoint.parser.spi.EndpointTypeParser;
 
 
 public class MqttDataAddressExtension implements ServiceExtension {
@@ -32,9 +33,12 @@ public class MqttDataAddressExtension implements ServiceExtension {
     @Inject
     private DataAddressValidatorRegistry dataAddressValidatorRegistry;
 
+    @Inject
+    private EndpointTypeParser endpointTypeParser;
+
     @Override
     public void initialize(ServiceExtensionContext context) {
-        var validator = new MqttDataAddressValidator();
+        var validator = new MqttDataAddressValidator(endpointTypeParser);
         dataAddressValidatorRegistry.registerSourceValidator(MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE, validator);
         dataAddressValidatorRegistry.registerDestinationValidator(MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE, validator);
     }

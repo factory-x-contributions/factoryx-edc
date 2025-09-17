@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.edc.spi.validator)
     implementation(project(":spi:core-spi"))
     implementation(project(":spi:mqtt:mqtt-data-address-spi"))
+    implementation(project(":spi:mqtt:mqtt-data-endpoint-spi"))
 
     testImplementation(libs.edc.junit)
 }
