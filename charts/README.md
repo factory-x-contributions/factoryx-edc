@@ -16,7 +16,7 @@ docker run --rm --volume "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:v1.1
 
 If you are running this command on `Git Bash`, use below command
 ```shell
- docker run --rm --volume "/$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:v1.10.0
+docker run --rm --volume "/$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:v1.10.0
 ```
 
 ## Confidential EDC Settings

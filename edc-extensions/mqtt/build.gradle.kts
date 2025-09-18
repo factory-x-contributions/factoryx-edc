@@ -26,5 +26,5 @@ dependencies {
     api(project(":edc-extensions:mqtt:mqtt-data-address"))
     api(project(":edc-extensions:mqtt:mqtt-data-endpoint"))
     api(project(":edc-extensions:mqtt:mqtt-data-flow"))
-    api(project(":edc-extensions:mqtt:mqtt-data-address"))
+    api(project(":edc-extensions:mqtt:mqtt-data-params"))
 }
