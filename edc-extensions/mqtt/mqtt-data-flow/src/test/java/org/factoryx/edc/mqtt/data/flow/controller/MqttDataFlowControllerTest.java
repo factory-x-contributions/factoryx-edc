@@ -50,6 +50,8 @@ import java.net.URI;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.edc.connector.controlplane.transfer.spi.types.TransferProcess.Type.PROVIDER;
+import static org.eclipse.edc.dataaddress.httpdata.spi.HttpDataAddressSchema.HTTP_DATA_TYPE;
 import static org.eclipse.edc.junit.assertions.AbstractResultAssert.assertThat;
 import static org.eclipse.edc.validator.spi.Violation.violation;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE;
@@ -83,6 +85,7 @@ class MqttDataFlowControllerTest {
 
         var transferProcess = TransferProcess.Builder.newInstance()
                 .transferType(MQTT_DATA_PULL)
+                .type(PROVIDER)
                 .contentDataAddress(DataAddress.Builder.newInstance().type(MQTT_DATA_ADDRESS_TYPE).build())
                 .build();
 
@@ -95,6 +98,22 @@ class MqttDataFlowControllerTest {
 
     @Test
     void testCanHandleTransferParseFailure() {
+
+        var transferProcess = TransferProcess.Builder.newInstance()
+                .transferType(MQTT_DATA_PULL)
+                .type(PROVIDER)
+                .contentDataAddress(DataAddress.Builder.newInstance().type(MQTT_DATA_ADDRESS_TYPE).build())
+                .build();
+
+        when(transferTypeParser.parse(MQTT_DATA_PULL)).thenReturn(Result.failure("Transfer Type Parse Failed"));
+
+        var result = flowController.canHandle(transferProcess);
+
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    void testCanHandleTransferParseFailureConsumer() {
 
         var transferProcess = TransferProcess.Builder.newInstance()
                 .transferType(MQTT_DATA_PULL)
@@ -113,7 +132,8 @@ class MqttDataFlowControllerTest {
 
         var transferProcess = TransferProcess.Builder.newInstance()
                 .transferType("Kafka-PULL")
-                .contentDataAddress(DataAddress.Builder.newInstance().type(MQTT_DATA_ADDRESS_TYPE).build())
+                .type(PROVIDER)
+                .contentDataAddress(DataAddress.Builder.newInstance().type(HTTP_DATA_TYPE).build())
                 .build();
 
         when(transferTypeParser.parse("Kafka-PULL")).thenReturn(Result.success(new TransferType("Kafka", FlowType.PULL)));

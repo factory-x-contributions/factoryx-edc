@@ -24,5 +24,6 @@ plugins {
 dependencies {
 
     api(libs.edc.spi.core)
+    api(libs.edc.spi.data.address.http)
     api(project(":spi:core-spi"))
 }
