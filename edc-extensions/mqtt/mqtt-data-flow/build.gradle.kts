@@ -27,7 +27,7 @@ dependencies {
     api(libs.edc.spi.dataplane.selector)
     api(libs.edc.spi.web)
     implementation(libs.edc.spi.transfer)
-    implementation(project(":spi:mqtt:mqtt-data-address-spi"))
+    api(project(":spi:mqtt:mqtt-data-address-spi"))
     implementation(project(":spi:mqtt:mqtt-data-endpoint-spi"))
     implementation(project(":spi:mqtt:mqtt-data-params-spi"))
 

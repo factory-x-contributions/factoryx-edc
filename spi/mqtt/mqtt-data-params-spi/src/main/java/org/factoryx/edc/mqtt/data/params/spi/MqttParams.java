@@ -23,10 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.BASE_URL;
-import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_ENDPOINT_TYPE;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.AUTHORIZATION;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.BASE_URL;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.EXPIRES_IN;
+import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.MQTT_ENDPOINT_TYPE;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.PASSWORD;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.REFRESH_AUDIENCE;
 import static org.factoryx.edc.mqtt.data.params.spi.MqttConstants.REFRESH_TOKEN;

@@ -24,6 +24,9 @@ public interface MqttConstants {
     String DSP_MQTT_PREFIX = "dsp-mqtt";
     String DSP_MQTT_NS = "https://w3id.org/dspace/2025/1/mqtt-pull/";
 
+    String MQTT_ENDPOINT_TYPE = DSP_MQTT_NS + "mqttEndpointType";
+    String BASE_URL = DSP_MQTT_NS + "baseUrl";
+
     String USERNAME = DSP_MQTT_NS + "username";
     String PASSWORD = DSP_MQTT_NS + "password";
 
