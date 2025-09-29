@@ -39,6 +39,7 @@ import org.eclipse.edc.spi.types.domain.transfer.TransferType;
 import org.eclipse.edc.validator.spi.DataAddressValidatorRegistry;
 import org.eclipse.edc.web.spi.configuration.context.ControlApiUrl;
 import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddress;
+import org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema;
 import org.factoryx.edc.mqtt.data.params.spi.MqttParamsProvider;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,6 +56,22 @@ import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.HTTP_
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_DATA_ADDRESS_TYPE;
 import static org.factoryx.edc.mqtt.data.address.spi.MqttDataAddressSchema.MQTT_DATA_PULL;
 
+/**
+ * A {@link DataFlowController} implementation to handle data of type: {@value MqttDataAddressSchema#MQTT_DATA_ADDRESS_TYPE}
+ * Few points to note:
+ * <ul>
+ *   <li>This controller gets executed at both consumer / provider control-plane.</li>
+ * <li>In case of consumer, source asset data address  {@link TransferProcess#getContentDataAddress()} is null,
+ *   since only provider has access to it.</li>
+ * <li>When a data flow is started via sending a {@link DataFlowStartMessage} to data-plane,
+ *   it always contains transferType: {@code HttpData-PULL} and a destination of type {@code HttpProxy},
+ *   because There is no data plane instance which can handle {@value MqttDataAddressSchema#MQTT_DATA_ADDRESS_TYPE} Data type.</li>
+ * <li>In case of EDR, we don't actually directly initiate a transfer,
+ *   but it gets automatically initiated when a contract negotiation is finalized via {@code org.eclipse.tractusx.edc.callback.ContractNegotiationCallback}
+ *   and it also hard-codes the transferType as {@code HttpData-PULL} and data destination of type {@code HttpProxy}.</li>
+ * </ul>
+ *
+ */
 public class MqttDataFlowController implements DataFlowController {
 
     private static final DataAddress HTTP_DATA_ADDRESS = DataAddress.Builder.newInstance().type(HTTP_DATA_TYPE).build();
