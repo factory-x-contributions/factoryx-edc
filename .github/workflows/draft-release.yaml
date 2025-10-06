@@ -30,10 +30,10 @@ on:
       version:
         description: 'The version you want to release. Ref should be either main for latest releases or a tag for bugfixes. '
         required: true
-    dependencies-check-mode:
-      description: How the dependencies check must be applied. The "standard" will fail only for 'rejected' dependencies, "strict" will fail also for 'restricted' ones.
-      required: false
-      default: strict
+      dependencies-check-mode:
+        description: How the dependencies check must be applied. The "standard" will fail only for 'rejected' dependencies, "strict" will fail also for 'restricted' ones.
+        required: false
+        default: strict
 
 jobs:
   validate-and-prepare:
