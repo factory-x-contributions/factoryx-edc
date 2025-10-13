@@ -3,7 +3,7 @@ format.version = "1.1"
 
 [versions]
 edc = "0.13.0"
-assertj = "3.27.3"
+assertj = "3.27.6"
 jackson = "2.19.0"
 jakarta-json = "2.0.1"
 jupiter = "5.12.2"
