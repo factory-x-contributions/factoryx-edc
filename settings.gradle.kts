@@ -58,6 +58,11 @@ include(":edc-dataplane")
 include(":edc-dataplane:edc-dataplane-base")
 include(":edc-dataplane:edc-dataplane-hashicorp-vault")
 
+// modules for edc-tests artifacts
+include(":edc-tests:e2e-fixtures")
+include(":edc-tests:e2e:catalog-tests")
+include(":edc-tests:runtime:runtime-postgresql")
+
 include(":samples:multi-tenancy")
 
 
