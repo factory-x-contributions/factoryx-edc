@@ -22,7 +22,6 @@ package org.factoryx.edc.e2e.tests;
 
 public class TestRuntimeConfiguration {
 
-    public static final String BPN_SUFFIX = "-BPN";
     public static final String DID_PREFIX = "did:web:";
     public static final String CONSUMER_NAME = "CONSUMER";
     public static final String CONSUMER_DID = DID_PREFIX + CONSUMER_NAME;
