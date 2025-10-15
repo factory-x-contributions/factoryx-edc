@@ -35,11 +35,9 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.edc.connector.controlplane.test.system.utils.PolicyFixtures.noConstraintPolicy;
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
-import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.CONSUMER_BPN;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.CONSUMER_DID;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.CONSUMER_NAME;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.DSP_08;
-import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.PROVIDER_BPN;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.PROVIDER_DID;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.PROVIDER_NAME;
 import static org.factoryx.edc.e2e.tests.runtimes.Runtimes.pgRuntime;
@@ -50,7 +48,6 @@ public class CatalogTest {
     private static final TransferParticipant CONSUMER = TransferParticipant.Builder.newInstance()
             .name(CONSUMER_NAME)
             .id(CONSUMER_DID)
-            .bpn(CONSUMER_BPN)
             .protocol(DSP_08)
             .build();
 
@@ -58,7 +55,6 @@ public class CatalogTest {
     private static final TransferParticipant PROVIDER = TransferParticipant.Builder.newInstance()
             .name(PROVIDER_NAME)
             .id(PROVIDER_DID)
-            .bpn(PROVIDER_BPN)
             .protocol(DSP_08)
             .build();
 

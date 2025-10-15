@@ -47,18 +47,16 @@ public class MockVcIdentityService implements IdentityService {
 
     private static final String BUSINESS_PARTNER_NUMBER_CLAIM = "BusinessPartnerNumber";
     private static final String VC_CLAIM = "vc";
-    private final String businessPartnerNumber;
     private final String did;
     private final TypeManager typeManager = new JacksonTypeManager();
 
-    public MockVcIdentityService(String businessPartnerNumber, String did) {
-        this.businessPartnerNumber = businessPartnerNumber;
+    public MockVcIdentityService(String did) {
         this.did = did;
     }
 
     @Override
     public Result<TokenRepresentation> obtainClientCredentials(TokenParameters parameters) {
-        var credentials = List.of(membershipCredential(), dataExchangeGovernanceCredential());
+        var credentials = List.of(membershipCredential());
         var token = Map.of(VC_CLAIM, credentials);
 
         var tokenRepresentation = TokenRepresentation.Builder.newInstance()
@@ -90,20 +88,6 @@ public class MockVcIdentityService implements IdentityService {
                 .credentialSubject(CredentialSubject.Builder.newInstance()
                         .id(did)
                         .claim("holderIdentifier", did)
-                        .build())
-                .issuer(new Issuer("issuer", Map.of()))
-                .issuanceDate(Instant.now())
-                .build();
-    }
-
-    private VerifiableCredential dataExchangeGovernanceCredential() {
-        return VerifiableCredential.Builder.newInstance()
-                .type("VerifiableCredential")
-                .type("DataExchangeGovernanceCredential")
-                .credentialSubject(CredentialSubject.Builder.newInstance()
-                        .id(did)
-                        .claim("holderIdentifier", did)
-                        .claim("contractVersion", "1.0")
                         .build())
                 .issuer(new Issuer("issuer", Map.of()))
                 .issuanceDate(Instant.now())

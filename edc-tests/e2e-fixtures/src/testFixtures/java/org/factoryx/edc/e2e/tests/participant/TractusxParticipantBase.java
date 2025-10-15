@@ -33,7 +33,6 @@ import java.util.Map;
 
 import static java.time.Duration.ofSeconds;
 import static org.eclipse.edc.util.io.Ports.getFreePort;
-import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.BPN_SUFFIX;
 
 
 /**
@@ -49,16 +48,10 @@ public abstract class TractusxParticipantBase extends IdentityParticipant {
     private final LazySupplier<URI> dataPlanePublic = new LazySupplier<>(() -> URI.create("http://localhost:" + getFreePort() + "/public"));
     private final LazySupplier<URI> federatedCatalog = new LazySupplier<>(() -> URI.create("http://localhost:" + getFreePort() + "/api/catalog"));
 
-    protected String bpn;
     protected String did;
 
     public void createAsset(String id) {
         createAsset(id, new HashMap<>(), Map.of("type", "test-type"));
-    }
-
-    @NotNull
-    public String getBpn() {
-        return bpn;
     }
 
     @NotNull
@@ -115,7 +108,6 @@ public abstract class TractusxParticipantBase extends IdentityParticipant {
                 put("edc.catalog.cache.execution.delay.seconds", "2");
                 put("edc.catalog.cache.execution.period.seconds", "2");
                 put("edc.policy.validation.enabled", "true");
-                put("tractusx.edc.participant.bpn", getBpn());
             }
         };
 
@@ -132,11 +124,6 @@ public abstract class TractusxParticipantBase extends IdentityParticipant {
             super(participant);
         }
 
-        public B bpn(String bpn) {
-            this.participant.bpn = bpn;
-            return self();
-        }
-
         public B protocolVersionPath(String path) {
             this.participant.protocolVersionPath = path;
             return self();
@@ -145,10 +132,6 @@ public abstract class TractusxParticipantBase extends IdentityParticipant {
         @Override
         public P build() {
             participant.did = participant.id;
-
-            if (participant.bpn == null) {
-                participant.bpn = participant.name.toLowerCase() + BPN_SUFFIX;
-            }
 
             participant.enrichManagementRequest = requestSpecification -> requestSpecification.headers(Map.of(API_KEY_HEADER_NAME, MANAGEMENT_API_KEY));
             super.timeout(ASYNC_TIMEOUT);

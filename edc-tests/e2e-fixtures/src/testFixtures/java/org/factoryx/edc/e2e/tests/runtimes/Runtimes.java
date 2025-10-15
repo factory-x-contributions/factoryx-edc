@@ -46,7 +46,7 @@ public interface Runtimes {
                 new EmbeddedRuntime(participant.getName(), ":edc-tests:runtime:runtime-postgresql")
                         .configurationProvider(() -> participant.getConfig().merge(postgres.getConfig(participant.getName())))
                         .configurationProvider(configurationProvider)
-                        .registerServiceMock(IdentityService.class, new MockVcIdentityService(participant.getBpn(), participant.getDid()))
+                        .registerServiceMock(IdentityService.class, new MockVcIdentityService(participant.getDid()))
                         .registerServiceMock(AudienceResolver.class, remoteMessage -> Result.success(remoteMessage.getCounterPartyAddress()))
         );
     }
