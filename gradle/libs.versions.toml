@@ -2,20 +2,22 @@
 format.version = "1.1"
 
 [versions]
-edc = "0.13.0"
+# Keep sorted alphabetically
 assertj = "3.27.3"
-jackson = "2.19.0"
+edc = "0.14.0"
+edc-build = "1.1.1"
+jackson = "2.20.0"
 jakarta-json = "2.0.1"
-jupiter = "5.12.2"
-opentelemetry = "2.16.0"
+jupiter = "5.13.4"
+netty-mockserver = "5.15.0"
+okhttp = "5.1.0"
+opentelemetry = "2.20.0"
+restAssured = "5.5.6"
 rsApi = "4.0.0"
-titanium = "1.6.0"
-swagger = "2.2.32"
-tractusx = "0.10.0"
-okhttp = "4.12.0"
-httpMockServer = "5.15.0"
-restAssured = "5.5.2"
+swagger = "2.2.34"
 testcontainers = "1.21.3"
+titanium = "1.6.0"
+tractusx = "0.11.0"
 
 [libraries]
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
@@ -37,7 +39,8 @@ edc-spi-validator = { module = "org.eclipse.edc:validator-spi", version.ref = "e
 edc-spi-oauth2 = { module = "org.eclipse.edc:oauth2-spi", version.ref = "edc" }
 edc-spi-data-address-http = { module = "org.eclipse.edc:data-address-http-data-spi", version.ref = "edc" }
 #edc-boot = { module = "org.eclipse.edc:boot", version.ref = "edc" }
-edc-build-plugin = { module = "org.eclipse.edc.edc-build:org.eclipse.edc.edc-build.gradle.plugin", version.ref = "edc" }
+edc-build-plugin = { module = "org.eclipse.edc.edc-build:org.eclipse.edc.edc-build.gradle.plugin", version.ref = "edc-build" }
+edc-autodoc-plugin = { module = "org.eclipse.edc.autodoc:org.eclipse.edc.autodoc.gradle.plugin", version.ref = "edc" }
 #edc-core-controlplane = { module = "org.eclipse.edc:control-plane-core", version.ref = "edc" }
 edc-junit = { module = "org.eclipse.edc:junit", version.ref = "edc" }
 edc-api-management-test-fixtures = { module = "org.eclipse.edc:management-api-test-fixtures", version.ref = "edc" }
@@ -50,7 +53,7 @@ edc-dataplane-core = { module = "org.eclipse.edc:data-plane-core", version.ref =
 edc-dataplane-http = { module = "org.eclipse.edc:data-plane-http", version.ref = "edc" }
 edc-dataplane-util = { module = "org.eclipse.edc:data-plane-util", version.ref = "edc" }
 edc-http-lib = { module = "org.eclipse.edc:http-lib", version.ref = "edc" }
-mockserver-netty = { module = "org.mock-server:mockserver-netty", version.ref = "httpMockServer" }
+mockserver-netty = { module = "org.mock-server:mockserver-netty", version.ref = "netty-mockserver" }
 restAssured = { module = "io.rest-assured:rest-assured", version.ref = "restAssured" }
 edc-core-jersey = { module = "org.eclipse.edc:jersey-core", version.ref = "edc" }
 swagger-annotations-jakarta = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version.ref = "swagger" }

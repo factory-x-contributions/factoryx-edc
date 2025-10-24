@@ -23,7 +23,7 @@ package org.factoryx.edc.validation.businesspartner.defaults;
 import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Provider;
 import org.eclipse.edc.spi.system.ServiceExtension;
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
+import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
 
 @Extension("Provides a default BusinessPartnerGroupStore")
 public class DefaultStoreProviderExtension implements ServiceExtension {

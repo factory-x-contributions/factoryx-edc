@@ -33,7 +33,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry;
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
+import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
 import org.factoryx.edc.api.did.BaseBusinessPartnerDidGroupApiController;
 
 import static org.eclipse.edc.api.ApiWarnings.deprecationWarning;

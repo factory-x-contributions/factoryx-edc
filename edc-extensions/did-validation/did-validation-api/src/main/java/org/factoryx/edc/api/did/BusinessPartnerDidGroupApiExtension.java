@@ -28,7 +28,7 @@ import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry;
 import org.eclipse.edc.web.spi.WebService;
 import org.eclipse.edc.web.spi.configuration.ApiContext;
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
+import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
 import org.factoryx.edc.api.did.v1.BusinessPartnerDidGroupApiV1Controller;
 import org.factoryx.edc.api.did.v3.BusinessPartnerDidGroupApiV3Controller;
 import org.factoryx.edc.api.did.validation.BusinessPartnerDidValidator;
