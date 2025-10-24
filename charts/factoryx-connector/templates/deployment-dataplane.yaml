@@ -3,6 +3,7 @@
   #  Copyright (c) 2023 Mercedes-Benz Tech Innovation GmbH
   #  Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
   #  Copyright (c) 2021,2023 Contributors to the Eclipse Foundation
+  #  Copyright (c) 2025 SAP SE
   #
   #  See the NOTICE file(s) distributed with this work for additional
   #  information regarding copyright ownership.
@@ -149,14 +150,23 @@ spec:
             - name: "EDC_IAM_ISSUER_ID"
               value: {{ .Values.participant.id | required ".Values.participant.id is required" | quote }}
 
+
+            ###########################
+            ## LOGGING CONFIGURATION ##
+            ###########################
+            {{ if .Values.log4j2.enableJsonLogs}}
+            - name: LOG4J_CONFIGURATION_FILE
+              value: "/app/log4j2.yaml"
+            {{ end }}
+
             #######
             # API #
             #######
             - name: "TX_EDC_DPF_CONSUMER_PROXY_AUTH_APIKEY"
               value: {{ .Values.dataplane.endpoints.proxy.authKey | required ".Values.dataplane.endpoints.proxy.authKey is required" | quote }}
-            - name: "WEB_HTTP_DEFAULT_PORT"
+            - name: "WEB_HTTP_PORT"
               value: {{ .Values.dataplane.endpoints.default.port | quote }}
-            - name: "WEB_HTTP_DEFAULT_PATH"
+            - name: "WEB_HTTP_PATH"
               value: {{ .Values.dataplane.endpoints.default.path | quote }}
             - name: "WEB_HTTP_CONTROL_PORT"
               value: {{ .Values.dataplane.endpoints.control.port | quote }}
@@ -191,7 +201,7 @@ spec:
             ## VAULT ##
             ###########
 
-            # see extension https://github.com/eclipse-tractusx/tractusx-edc/tree/main/edc-extensions/hashicorp-vault
+            # see extension https://github.com/eclipse-edc/Connector/tree/main/extensions/common/vault/vault-hashicorp
             - name: "EDC_VAULT_HASHICORP_URL"
               value: {{ tpl .Values.vault.hashicorp.url . | quote }}
             - name: "EDC_VAULT_HASHICORP_TOKEN"
@@ -206,22 +216,26 @@ spec:
               value: {{ .Values.vault.hashicorp.paths.secret | quote }}
             - name: "EDC_VAULT_HASHICORP_API_HEALTH_CHECK_PATH"
               value: {{ .Values.vault.hashicorp.paths.health | quote }}
+            {{- if .Values.vault.hashicorp.paths.folder }}
+            - name: "EDC_VAULT_HASHICORP_FOLDER"
+              value: {{ .Values.vault.hashicorp.paths.folder | quote }}
+            {{  end }}
 
             #############################
-            ## DIM CONFIG ##
+            ## IATP / STS / DIM CONFIG ##
             #############################
+            - name: "EDC_IAM_STS_OAUTH_TOKEN_URL"
+              value: {{ .Values.iatp.sts.oauth.token_url | required ".Values.iatp.sts.oauth.token_url is required" | quote}}
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_ID"
+              value: {{ .Values.iatp.sts.oauth.client.id | required ".Values.iatp.sts.oauth.client.id is required" | quote}}
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_SECRET_ALIAS"
+              value: {{ .Values.iatp.sts.oauth.client.secret_alias | required ".Values.iatp.sts.oauth.client.secret_alias is required" | quote}}
             {{- if .Values.iatp.sts.dim.url }}
             - name: "TX_EDC_IAM_STS_DIM_URL"
               value: {{ .Values.iatp.sts.dim.url | quote}}
             {{- end }}
-            - name: "EDC_IAM_STS_OAUTH_TOKEN_URL"
-              value: {{ .Values.iatp.sts.oauth.token_url | required ".Values.iatp.sts.oauth.token_url is required" | quote }}
-            - name: "EDC_IAM_STS_OAUTH_CLIENT_ID"
-              value: {{ .Values.iatp.sts.oauth.client.id | required ".Values.iatp.sts.oauth.client.id is required" | quote }}
-            - name: "EDC_IAM_STS_OAUTH_CLIENT_SECRET_ALIAS"
-              value: {{ .Values.iatp.sts.oauth.client.secret_alias | required ".Values.iatp.sts.oauth.client.secret_alias is required" | quote }}
 
-              ################
+            ################
             ## POSTGRESQL ##
             ################
 
@@ -247,10 +261,12 @@ spec:
             - name: "TX_EDC_DATAPLANE_TOKEN_EXPIRY"
               value: {{ .Values.dataplane.token.refresh.expiry_seconds | quote}}
             {{- end}}
+
             {{- if .Values.dataplane.token.refresh.expiry_tolerance_seconds }}
             - name: "TX_EDC_DATAPLANE_TOKEN_EXPIRY_TOLERANCE"
               value: {{ .Values.dataplane.token.refresh.expiry_tolerance_seconds | quote }}
             {{- end}}
+
             {{- if .Values.dataplane.token.refresh.refresh_endpoint }}
             - name: "TX_EDC_DATAPLANE_TOKEN_REFRESH_ENDPOINT"
               value: {{ .Values.dataplane.token.refresh.refresh_endpoint }}
@@ -258,8 +274,10 @@ spec:
             - name: "TX_EDC_DATAPLANE_TOKEN_REFRESH_ENDPOINT"
               value: {{ include "fxdc.dataplane.url.public" . }}/token
             {{- end}}
+
             - name: "EDC_TRANSFER_PROXY_TOKEN_SIGNER_PRIVATEKEY_ALIAS"
               value: {{ .Values.dataplane.token.signer.privatekey_alias | required ".Values.dataplane.token.signer.privatekey_alias is required" | quote}}
+
             - name: "EDC_TRANSFER_PROXY_TOKEN_VERIFIER_PUBLICKEY_ALIAS"
               value: {{ .Values.dataplane.token.verifier.publickey_alias | required ".Values.dataplane.token.verifier.publickey_alias" | quote }}
 
@@ -295,6 +313,9 @@ spec:
             - name: "configuration"
               mountPath: "/app/opentelemetry.properties"
               subPath: "opentelemetry.properties"
+            - name: log4j2-config
+              mountPath: /app/log4j2.yaml
+              subPath: log4j2.yaml
             {{- if .Values.customCaCerts }}
             - name: custom-cacerts
               mountPath: /opt/java/openjdk/lib/security/cacerts
@@ -312,6 +333,12 @@ spec:
             items:
               - key: "opentelemetry.properties"
                 path: "opentelemetry.properties"
+        - name: "log4j2-config"
+          configMap:
+            name: {{ include "txdc.fullname" . }}-log4j2
+            items:
+              - key: "log4j2.yaml"
+                path: "log4j2.yaml"
         {{- if .Values.customCaCerts }}
         - name: custom-cacertificates
           configMap:

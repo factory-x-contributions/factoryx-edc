@@ -21,7 +21,7 @@ You can watch the status of by running 'kubectl get --namespace {{ .Release.Name
     echo http://$SERVICE_IP:{{ $.Values.controlplane.service.port }}
 
 {{- else if contains "ClusterIP" $.Values.controlplane.service.type }}
-You can also forward the Control Plane's ClusterIP by running these commands:
+If no ingress is configured, you can also forward the Control Plane's ClusterIP by running these commands:
     export CONTAINER_PORT=$(kubectl get pod --namespace {{ $.Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
     kubectl --namespace {{ $.Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
     echo "Visit http://127.0.0.1:8080 to use your application"
@@ -51,7 +51,7 @@ You can watch the status of by running 'kubectl get --namespace {{ $.Release.Nam
   echo http://$SERVICE_IP:{{ .Values.service.port }}
 
 {{- else if contains "ClusterIP" $.Values.dataplane.service.type }}
-You can also forward the Dataplane's ClusterIP by running these commands. Note that this API should be publically exposed:
+If no ingress is configured, you can also forward the Dataplane's ClusterIP by running these commands. Note that this API should be publically exposed:
     export CONTAINER_PORT=$(kubectl get pod --namespace {{ $.Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
     kubectl --namespace {{ $.Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
     echo "Visit http://127.0.0.1:8080 to use your application"

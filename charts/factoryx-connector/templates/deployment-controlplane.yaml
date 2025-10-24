@@ -3,6 +3,7 @@
   #  Copyright (c) 2023 Mercedes-Benz Tech Innovation GmbH
   #  Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
   #  Copyright (c) 2021,2023 Contributors to the Eclipse Foundation
+  # Copyright (c) 2025 SAP SE
   #
   #  See the NOTICE file(s) distributed with this work for additional
   #  information regarding copyright ownership.
@@ -151,20 +152,32 @@ spec:
             - name: "EDC_IAM_ISSUER_ID"
               value: {{ .Values.participant.id | required ".Values.participant.id is required" | quote }}
 
+            ###########################
+            ## LOGGING CONFIGURATION ##
+            ###########################
+            {{ if .Values.log4j2.enableJsonLogs}}
+            - name: LOG4J_CONFIGURATION_FILE
+              value: "/app/log4j2.yaml"
+            {{ end }}
+
             #######
             # API #
             #######
 
           {{- if .Values.controlplane.endpoints.management.jwksUrl }}
-            - name: "WEB.HTTP.MANAGEMENT.AUTH_DAC_KEY_URL"
+            - name: "WEB_HTTP_MANAGEMENT_AUTH_DAC_KEY_URL"
               value: {{ .Values.controlplane.endpoints.management.jwksUrl | quote }}
+            - name: "WEB_HTTP_MANAGEMENT_AUTH_TYPE"
+              value: "delegated"
           {{- else }}
             - name: "WEB_HTTP_MANAGEMENT_AUTH_KEY"
               value: {{ .Values.controlplane.endpoints.management.authKey | required ".Values.controlplane.endpoints.management.authKey is required" | quote }}
+            - name: "WEB_HTTP_MANAGEMENT_AUTH_TYPE"
+              value: "tokenbased"
           {{- end }}
-            - name: "WEB_HTTP_DEFAULT_PORT"
+            - name: "WEB_HTTP_PORT"
               value: {{ .Values.controlplane.endpoints.default.port | quote }}
-            - name: "WEB_HTTP_DEFAULT_PATH"
+            - name: "WEB_HTTP_PATH"
               value: {{ .Values.controlplane.endpoints.default.path | quote }}
             - name: "WEB_HTTP_MANAGEMENT_PORT"
               value: {{ .Values.controlplane.endpoints.management.port | quote }}
@@ -246,7 +259,7 @@ spec:
             ## VAULT ##
             ###########
 
-            # see extension https://github.com/eclipse-tractusx/tractusx-edc/tree/main/edc-extensions/hashicorp-vault
+            # see extension https://github.com/eclipse-edc/Connector/tree/main/extensions/common/vault/vault-hashicorp
             - name: "EDC_VAULT_HASHICORP_URL"
               value: {{ tpl .Values.vault.hashicorp.url . | quote }}
             - name: "EDC_VAULT_HASHICORP_TOKEN"
@@ -261,6 +274,10 @@ spec:
               value: {{ .Values.vault.hashicorp.paths.secret | quote }}
             - name: "EDC_VAULT_HASHICORP_API_HEALTH_CHECK_PATH"
               value: {{ .Values.vault.hashicorp.paths.health | quote }}
+            {{- if .Values.vault.hashicorp.paths.folder }}
+            - name: "EDC_VAULT_HASHICORP_FOLDER"
+              value: {{ .Values.vault.hashicorp.paths.folder | quote }}
+            {{- end }}
 
 
             ###############################
@@ -287,9 +304,17 @@ spec:
             - name: "TX_EDC_CATALOG_NODE_LIST_FILE"
               value: {{ .Values.controlplane.catalog.crawler.targetsFile }}
 
+
+            ###################
+            ## POLICY ENGINE ##
+            ###################
+            - name: "EDC_POLICY_VALIDATION_ENABLED"
+              value: {{ .Values.controlplane.policy.validation.enabled | quote }}
+
             ######################################
             ## Additional environment variables ##
             ######################################
+
             - name: "EDC_RUNTIME_ID"
               value: {{ include "fxdc.fullname" .}}-controlplane
           {{- range $key, $value := .Values.controlplane.envValueFrom }}
@@ -319,6 +344,9 @@ spec:
             - name: "configuration"
               mountPath: "/app/opentelemetry.properties"
               subPath: "opentelemetry.properties"
+            - name: log4j2-config
+              mountPath: /app/log4j2.yaml
+              subPath: log4j2.yaml
             {{- if .Values.customCaCerts }}
             - name: custom-cacerts
               mountPath: /opt/java/openjdk/lib/security/cacerts
@@ -336,6 +364,12 @@ spec:
             items:
               - key: "opentelemetry.properties"
                 path: "opentelemetry.properties"
+        - name: "log4j2-config"
+          configMap:
+            name: {{ include "fxdc.fullname" . }}-log4j2
+            items:
+              - key: "log4j2.yaml"
+                path: "log4j2.yaml"
         {{- if .Values.customCaCerts }}
         - name: custom-cacertificates
           configMap:

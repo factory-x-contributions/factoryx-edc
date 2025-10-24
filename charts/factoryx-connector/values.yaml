@@ -3,6 +3,7 @@
 #  Copyright (c) 2023 Mercedes-Benz Tech Innovation GmbH
 #  Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
 #  Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+#  Copyright (c) 2025 SAP SE
 #
 #  See the NOTICE file(s) distributed with this work for additional
 #  information regarding copyright ownership.
@@ -44,7 +45,7 @@ participant:
   id: "did:web:changeme"
 
 iatp:
-  # -- Configures the trusted issuers for this runtime
+  # -- Configures the trusted issuers for this runtime. If no supportedTypes are specified, the value defaults to "*" for that issuer
   trustedIssuers: []
   # - id: "did:web:example1.com"
   #   supportedTypes:
@@ -54,7 +55,6 @@ iatp:
     dim:
       # -- URL where connectors can request SI tokens
       url:
-
     oauth:
       # -- URL where connectors can request OAuth2 access tokens for DIM access
       token_url: "wallet.local"
@@ -66,6 +66,44 @@ iatp:
 
 # -- Add custom ca certificates to the truststore
 customCaCerts: {}
+
+log4j2:
+  # -- Whether to enable the json log config in log4j2.config
+  enableJsonLogs: true
+  # -- Log4j2 configuration for json log formatting.
+  config: |-
+    Appenders:
+      Console:
+        name: CONSOLE
+        JsonTemplateLayout:
+          eventTemplate: |-
+            {
+              "timestamp": {
+                "$resolver": "timestamp",
+                "pattern": {
+                  "format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS",
+                  "timeZone": "UTC"
+                }
+              },
+              "level": {
+                "$resolver": "level",
+                "field": "severity",
+                "severity": {
+                  "field": "keyword"
+                }
+              },
+              "message": {
+                "$resolver": "message"
+              }
+            }
+    Loggers:
+      Root:
+        level: "OFF"
+      Logger:
+        name: org.eclipse.edc.monitor.logger
+        level: DEBUG
+        AppenderRef:
+          ref: CONSOLE
 
 controlplane:
   image:
@@ -173,7 +211,10 @@ controlplane:
       initialDelay:
       # -- File path to a JSON file containing TargetNode entries
       targetsFile:
-
+  # -- configuration for policy engine
+  policy:
+    validation:
+      enabled: true
 
   service:
     # -- [Service type](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) to expose the running application on a set of Pods as a network service.
@@ -604,7 +645,6 @@ vault:
       enabled: true
       devRootToken: "root"
     postStart:    # must be set externally!
-
   hashicorp:
     url: "http://{{ .Release.Name }}-vault:8200"
     token: "root"
@@ -615,6 +655,7 @@ vault:
     paths:
       secret: /v1/secret
       health: /v1/sys/health
+      folder: ""
 
 # -- Configuration for Vault Seed Job
 vaultseed:
