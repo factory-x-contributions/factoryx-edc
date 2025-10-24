@@ -23,10 +23,6 @@
 name: "Trivy"
 
 on:
-  push:
-    branches: [ main, releases ]
-  pull_request:
-    branches: [ main, releases ]
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
