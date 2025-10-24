@@ -42,7 +42,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: KICS scan
         uses: checkmarx/kics-github-action@v1.5
@@ -53,15 +53,8 @@ jobs:
           output_path: kicsResults/
           output_formats: "json,sarif"
 
-# removing as GHAS(GitHub Advanced Security) is not enabled on repo
-#      - name: Upload SARIF file for GitHub Advanced Security Dashboard
-#        if: always()
-#        uses: github/codeql-action/upload-sarif@v3
-#        with:
-#          sarif_file: kicsResults/results.sarif
-
-      - name: Upload KICS Scan Results
-        uses: actions/upload-artifact@v4
+      - name: Upload SARIF file for GitHub Advanced Security Dashboard
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          name: kics-results
-          path: kicsResults/
+          sarif_file: kicsResults/results.sarif

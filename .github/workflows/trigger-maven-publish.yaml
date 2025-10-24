@@ -43,14 +43,10 @@ jobs:
 
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Set up Java
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+      - uses: ./.github/actions/setup-java
 
       # Import GPG Key
       - name: Import GPG Key

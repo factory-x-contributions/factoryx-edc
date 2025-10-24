@@ -59,7 +59,7 @@ jobs:
       contents: write
       packages: write  # Needed for pushing to GHCR
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Log inputs
         run: |
           echo "Input Version: ${{ inputs.docker_tag }}, Input namespace: ${{ inputs.namespace}}"
