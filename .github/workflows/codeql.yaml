@@ -1,5 +1,4 @@
 #################################################################################
-#  Copyright (c) 2024 T-Systems International GmbH
 #  Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
 #
 #  See the NOTICE file(s) distributed with this work for additional
@@ -56,7 +55,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
@@ -76,18 +75,9 @@ jobs:
       - uses: ./.github/actions/setup-java
       - name: Build Production Code
         run: |
-          ./gradlew compileJava --no-daemon
-
-# removing as GHAS(GitHub Advanced Security) is not enabled on repo
-
-#      - name: Perform CodeQL Analysis
-#        uses: github/codeql-action/analyze@v3
-#        with:
-#          category: "/language:${{matrix.language}}"
-#          fail-on: error
+          ./gradlew compileJava --no-daemon --no-build-cache
 
       - name: Perform CodeQL Analysis
-        uses: actions/upload-artifact@v4
+        uses: github/codeql-action/analyze@v3
         with:
-          name: codeql-results
-          path: codeqlResults/
+          category: "/language:${{matrix.language}}"

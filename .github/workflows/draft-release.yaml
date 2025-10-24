@@ -43,7 +43,7 @@ jobs:
     outputs:
       branch_name: ${{ steps.resolve_branch.outputs.branch_name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - id: check-tag
@@ -82,7 +82,7 @@ jobs:
       pages: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Create Release or Bugfix branch
         run: git checkout -b ${{ needs.validate-and-prepare.outputs.branch_name }}
       - name: Initialize mandatory git config
@@ -103,7 +103,7 @@ jobs:
           GITHUB_PACKAGE_USERNAME: ${{ github.actor }}
           GITHUB_PACKAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       - name: Bump version in /charts
-        uses: mikefarah/yq@v4.45.1
+        uses: mikefarah/yq@v4.45.2
         with:
           cmd: |-
             find charts -name Chart.yaml -maxdepth 3 | xargs -n1 yq -i '.appVersion = "${{ inputs.version }}" | .version = "${{ inputs.version }}"'

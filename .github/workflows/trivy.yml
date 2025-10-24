@@ -61,9 +61,9 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           scan-type: "config"
           exit-code: "0"
@@ -71,10 +71,11 @@ jobs:
           format: "sarif"
           output: "trivy-results-config.sarif"
           severity: "CRITICAL,HIGH"
-#      - name: Upload Trivy scan results to GitHub Security tab
-#        uses: actions/upload-artifact@v4
-#        with:
-#          sarif_file: "trivy-results-${{ matrix.image }}.sarif"
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: "trivy-results-config.sarif"
 
   trivy:
     needs: [ git-sha7 ]
@@ -84,36 +85,29 @@ jobs:
       security-events: write
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false # Continue scanning other images even if one fails
+      fail-fast: false # continue scanning other images although if the other has been vulnerable
       matrix:
         image:
           - edc-runtime-memory
           - edc-controlplane-postgresql-hashicorp-vault
           - edc-dataplane-hashicorp-vault
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: actions/checkout@v5
       - name: Authenticate to GHCR
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      # Check if the image exists in GHCR
+        ## This step will fail if the docker images is not found
       - name: "Check if image exists"
         id: imageCheck
         run: |
-          if docker manifest inspect ghcr.io/factory-x-contributions/${{ matrix.image }}:sha-${{ needs.git-sha7.outputs.value }} > /dev/null 2>&1; then
-            echo "Image exists."
-            exit 0
-          else
-            echo "Image does not exist."
-            exit 1
-          fi
+          docker buildx imagetools inspect --format '{{ json . }}' ghcr.io/factory-x-contributions/${{ matrix.image }}:sha-${{ needs.git-sha7.outputs.value }}
         continue-on-error: true
 
-      # Run Trivy only if the image exists
+        ## the next two steps will only execute if the image exists check was successful
       - name: Run Trivy vulnerability scanner
         if: success() && steps.imageCheck.outcome != 'failure'
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: "ghcr.io/factory-x-contributions/${{ matrix.image }}:sha-${{ needs.git-sha7.outputs.value }}"
           format: "sarif"
@@ -121,9 +115,8 @@ jobs:
           exit-code: "0"
           severity: "CRITICAL,HIGH"
           timeout: "10m0s"
-
       - name: Upload Trivy scan results to GitHub Security tab
         if: success() && steps.imageCheck.outcome != 'failure'
-        uses: actions/upload-artifact@v4
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: "trivy-results-${{ matrix.image }}.sarif"

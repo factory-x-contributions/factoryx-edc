@@ -42,7 +42,7 @@ jobs:
     outputs:
       RELEASE_VERSION: ${{ steps.release-version.outputs.RELEASE_VERSION }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Output release version
         id: release-version
         run: |
@@ -83,7 +83,7 @@ jobs:
 
     if: needs.validation.outputs.RELEASE_VERSION
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup-helm
@@ -116,7 +116,7 @@ jobs:
       contents: write
     if: needs.validation.outputs.RELEASE_VERSION
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Prepare Git Config
         shell: bash
         run: |
