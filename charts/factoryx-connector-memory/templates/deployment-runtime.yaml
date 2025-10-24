@@ -150,22 +150,34 @@ spec:
             - name: "EDC_IAM_ISSUER_ID"
               value: {{ .Values.participant.id | required ".Values.participant.id is required" | quote }}
 
+            ###########################
+            ## LOGGING CONFIGURATION ##
+            ###########################
+            {{ if .Values.log4j2.enableJsonLogs}}
+            - name: LOG4J_CONFIGURATION_FILE
+              value: "/app/log4j2.yaml"
+            {{ end }}
+
             #######
             # API #
             #######
             {{- if .Values.runtime.endpoints.management.jwksUrl }}
             - name: "WEB_HTTP_MANAGEMENT_AUTH_DAC_KEY_URL"
               value: {{ .Values.runtime.endpoints.management.jwksUrl | quote}}
+            - name: "WEB_HTTP_MANAGEMENT_AUTH_TYPE"
+              value: "delegated"
             {{- else }}
             - name: "WEB_HTTP_MANAGEMENT_AUTH_KEY"
               value: {{ .Values.runtime.endpoints.management.authKey | required ".Values.controlplane.endpoints.management.authKey is required" | quote }}
+            - name: "WEB_HTTP_MANAGEMENT_AUTH_TYPE"
+              value: "tokenbased"
             {{- end }}
 
             - name: "TX_EDC_DPF_CONSUMER_PROXY_AUTH_APIKEY"
               value: {{ .Values.runtime.endpoints.proxy.authKey | required ".Values.runtime.endpoints.proxy.authKey is required" | quote }}
-            - name: "WEB_HTTP_DEFAULT_PORT"
+            - name: "WEB_HTTP_PORT"
               value: {{ .Values.runtime.endpoints.default.port | quote }}
-            - name: "WEB_HTTP_DEFAULT_PATH"
+            - name: "WEB_HTTP_PATH"
               value: {{ .Values.runtime.endpoints.default.path | quote }}
             {{- if or (eq (substr 0 3 .Values.runtime.image.tag) "0.1") (eq (substr 0 3 .Values.runtime.image.tag) "0.2") }}
             # WEB_HTTP_DATA_PORT is renamed to WEB_HTTP_MANAGEMENT_PORT from version 0.2.1 and newer
@@ -217,8 +229,15 @@ spec:
               value: "true"
 
             #############################
-            ## DIM CONFIG ##
+            ## IATP / STS / DIM CONFIG ##
             #############################
+            - name: "EDC_IAM_STS_OAUTH_TOKEN_URL"
+              value: {{ .Values.iatp.sts.oauth.token_url | required ".Values.iatp.sts.oauth.token_url is required" | quote}}
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_ID"
+              value: {{ .Values.iatp.sts.oauth.client.id | required ".Values.iatp.sts.oauth.client.id is required" | quote}}
+            - name: "EDC_IAM_STS_OAUTH_CLIENT_SECRET_ALIAS"
+              value: {{ .Values.iatp.sts.oauth.client.secret_alias | required ".Values.iatp.sts.oauth.client.secret_alias is required" | quote}}
+
             {{- if .Values.iatp.sts.dim.url }}
             - name: "TX_EDC_IAM_STS_DIM_URL"
               value: {{ .Values.iatp.sts.dim.url | quote}}
@@ -307,6 +326,12 @@ spec:
             - name: "TX_EDC_CATALOG_NODE_LIST_FILE"
               value: {{ .Values.runtime.catalog.crawler.targetsFile }}
 
+            ###################
+            ## POLICY ENGINE ##
+            ###################
+            - name: "EDC_POLICY_VALIDATION_ENABLED"
+              value: {{ .Values.runtime.policy.validation.enabled | quote }}
+
             ######################################
             ## Additional environment variables ##
             ######################################
@@ -336,6 +361,9 @@ spec:
               mountPath: /opt/java/openjdk/lib/security/cacerts
               subPath: cacerts
             {{- end }}
+            - name: log4j2-config
+              mountPath: /app/log4j2.yaml
+              subPath: log4j2.yaml
             - name: "tmp"
               mountPath: "/tmp"
       volumes:
@@ -348,6 +376,12 @@ spec:
           emptyDir:
             sizeLimit: 1Mi
         {{- end }}
+        - name: "log4j2-config"
+          configMap:
+            name: {{ include "txdc.fullname" . }}-log4j2
+            items:
+              - key: "log4j2.yaml"
+                path: "log4j2.yaml"
         - name: "tmp"
           emptyDir: { }
       {{- with .Values.runtime.nodeSelector }}
