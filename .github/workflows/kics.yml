@@ -61,7 +61,7 @@ jobs:
 #          sarif_file: kicsResults/results.sarif
 
       - name: Upload KICS Scan Results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: kics-results
           path: kicsResults/
