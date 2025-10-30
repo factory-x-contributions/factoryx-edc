@@ -20,7 +20,7 @@
 
 package org.factoryx.edc.validation.businesspartner.store;
 
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
+import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

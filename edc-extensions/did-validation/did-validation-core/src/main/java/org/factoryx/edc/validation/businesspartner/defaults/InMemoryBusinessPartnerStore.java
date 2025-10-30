@@ -21,7 +21,7 @@
 package org.factoryx.edc.validation.businesspartner.defaults;
 
 import org.eclipse.edc.spi.result.StoreResult;
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.BusinessPartnerStore;
+import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
 
 import java.util.HashMap;
 import java.util.List;

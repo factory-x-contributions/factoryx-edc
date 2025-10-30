@@ -1,5 +1,4 @@
 /********************************************************************************
- * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -18,19 +17,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.validation.businesspartner;
+package org.factoryx.edc.bdrs.client;
 
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
-import org.factoryx.edc.validation.businesspartner.defaults.InMemoryBusinessPartnerStore;
-import org.factoryx.edc.validation.businesspartner.store.BusinessPartnerStoreTestBase;
+import org.eclipse.tractusx.edc.spi.identity.mapper.BdrsClient;
 
-class InMemoryBusinessPartnerStoreTest extends BusinessPartnerStoreTestBase {
-
-
-    private final InMemoryBusinessPartnerStore store = new InMemoryBusinessPartnerStore();
+/**
+ * A BDRS client implementation that uses DIDs directly as BPNs and vice versa.
+ * In factoryx-edc , the BPN and DID are identical, so no resolution is necessary.
+ */
+public class DidBasedBdrsCient implements BdrsClient {
 
     @Override
-    protected BusinessPartnerStore getStore() {
-        return store;
+    public String resolveDid(String bpn) {
+        return bpn;
+    }
+
+    @Override
+    public String resolveBpn(String did) {
+        return did;
     }
 }

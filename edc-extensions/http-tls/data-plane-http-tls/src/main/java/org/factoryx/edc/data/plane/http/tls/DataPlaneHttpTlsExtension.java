@@ -99,7 +99,7 @@ public class DataPlaneHttpTlsExtension implements ServiceExtension {
         generatorService.addGeneratorFunction(HTTP_TLS_DATA_TYPE, dataAddress -> endpoint);
 
         if (publicApiResponseUrl != null) {
-            generatorService.addGeneratorFunction(HTTP_TLS_DATA_TYPE, () -> Endpoint.url(publicApiResponseUrl));
+            generatorService.addResponseGeneratorFunction(HTTP_TLS_DATA_TYPE, () -> Endpoint.url(publicApiResponseUrl));
         }
     }
 

@@ -1,5 +1,4 @@
 /********************************************************************************
- * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -18,19 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.validation.businesspartner;
+package org.factoryx.edc.bdrs.client;
 
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
-import org.factoryx.edc.validation.businesspartner.defaults.InMemoryBusinessPartnerStore;
-import org.factoryx.edc.validation.businesspartner.store.BusinessPartnerStoreTestBase;
+import org.junit.jupiter.api.Test;
 
-class InMemoryBusinessPartnerStoreTest extends BusinessPartnerStoreTestBase {
+import static org.assertj.core.api.Assertions.assertThat;
 
+class DidBasedBdrsCientTest {
 
-    private final InMemoryBusinessPartnerStore store = new InMemoryBusinessPartnerStore();
+    private static final String TEST_DID = "did:example:123";
+    private final DidBasedBdrsCient client = new DidBasedBdrsCient();
 
-    @Override
-    protected BusinessPartnerStore getStore() {
-        return store;
+    @Test
+    void resolveDid_returnsInputUnchanged() {
+        assertThat(client.resolveDid(TEST_DID)).isEqualTo(TEST_DID);
+    }
+
+    @Test
+    void resolveBpn_returnsInputUnchanged() {
+        assertThat(client.resolveBpn(TEST_DID)).isEqualTo(TEST_DID);
     }
 }

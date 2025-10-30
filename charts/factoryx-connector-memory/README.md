@@ -59,6 +59,8 @@ helm install my-release factory-x-contributions/factoryx-connector-memory --vers
 | iatp.sts.oauth.token_url | string | `"https://changeme.org"` | URL where connectors can request OAuth2 access tokens for DIM access |
 | iatp.trustedIssuers | list | `[]` | Configures the trusted issuers for this runtime |
 | imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
+| log4j2.config | string | `"Appenders:\n  Console:\n    name: CONSOLE\n    JsonTemplateLayout:\n      eventTemplate: |-\n        {\n          \"timestamp\": {\n            \"$resolver\": \"timestamp\",\n            \"pattern\": {\n              \"format\": \"yyyy-MM-dd'T'HH:mm:ss.SSSSSSS\",\n              \"timeZone\": \"UTC\"\n            }\n          },\n          \"level\": {\n            \"$resolver\": \"level\",\n            \"field\": \"severity\",\n            \"severity\": {\n              \"field\": \"keyword\"\n            }\n          },\n          \"message\": {\n            \"$resolver\": \"message\"\n          }\n        }\nLoggers:\n  Root:\n    level: \"OFF\"\n  Logger:\n    name: org.eclipse.edc.monitor.logger\n    level: DEBUG\n    AppenderRef:\n      ref: CONSOLE"` | Log4j2 configuration for json log formatting. |
+| log4j2.enableJsonLogs | bool | `true` | Whether to enable the json log config in log4j2.config |
 | nameOverride | string | `""` |  |
 | participant.id | string | `"did:web:changeme"` | Participant DID Identifier of the connector |
 | runtime.affinity | object | `{}` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on |
@@ -144,6 +146,7 @@ helm install my-release factory-x-contributions/factoryx-connector-memory --vers
 | runtime.podSecurityContext.runAsGroup | int | `10001` | Processes within a pod will belong to this guid |
 | runtime.podSecurityContext.runAsUser | int | `10001` | Runs all processes within a pod with a special uid |
 | runtime.podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Restrict a Container's Syscalls with seccomp |
+| runtime.policy | object | `{"validation":{"enabled":true}}` | configuration for policy engine |
 | runtime.readinessProbe.enabled | bool | `true` | Whether to enable kubernetes [readiness-probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | runtime.readinessProbe.failureThreshold | int | `6` | when a probe fails kubernetes will try 6 times before giving up |
 | runtime.readinessProbe.initialDelaySeconds | int | `30` | seconds to wait before performing the first readiness check |

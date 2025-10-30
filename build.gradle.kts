@@ -41,6 +41,7 @@ buildscript {
     }
     dependencies {
         classpath(libs.edc.build.plugin)
+        classpath(libs.edc.autodoc.plugin)
     }
 }
 
@@ -54,6 +55,7 @@ project.subprojects.forEach {
 
 allprojects {
     apply(plugin = "org.eclipse.edc.edc-build")
+    apply(plugin = "org.eclipse.edc.autodoc")
 
     repositories {
         mavenCentral()
@@ -76,7 +78,7 @@ allprojects {
 
     // configure which version of the annotation processor to use. defaults to the same version as the plugin
     configure<org.eclipse.edc.plugins.autodoc.AutodocExtension> {
-        processorVersion.set(edcVersion)
+        processorVersion.set(edcVersion.asProvider())
         outputDirectory.set(project.layout.buildDirectory.asFile.get())
         // uncomment the following lines to enable the Autodoc-2-Markdown converter
         // only available with EDC 0.2.1 SNAPSHOT

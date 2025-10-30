@@ -139,6 +139,7 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.1
 | controlplane.podSecurityContext.runAsGroup | int | `10001` | Processes within a pod will belong to this guid |
 | controlplane.podSecurityContext.runAsUser | int | `10001` | Runs all processes within a pod with a special uid |
 | controlplane.podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Restrict a Container's Syscalls with seccomp |
+| controlplane.policy | object | `{"validation":{"enabled":true}}` | configuration for policy engine |
 | controlplane.readinessProbe.enabled | bool | `true` | Whether to enable kubernetes [readiness-probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | controlplane.readinessProbe.failureThreshold | int | `6` | when a probe fails kubernetes will try 6 times before giving up |
 | controlplane.readinessProbe.initialDelaySeconds | int | `30` | seconds to wait before performing the first readiness check |
@@ -264,10 +265,12 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.1
 | iatp.sts.oauth.client.id | string | `"client-id"` | Client ID for requesting OAuth2 access token for DIM access |
 | iatp.sts.oauth.client.secret_alias | string | `"client-secret-alias"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
 | iatp.sts.oauth.token_url | string | `"wallet.local"` | URL where connectors can request OAuth2 access tokens for DIM access |
-| iatp.trustedIssuers | list | `[]` | Configures the trusted issuers for this runtime |
+| iatp.trustedIssuers | list | `[]` | Configures the trusted issuers for this runtime. If no supportedTypes are specified, the value defaults to "*" for that issuer |
 | imagePullSecrets | list | `[]` | Existing image pull secret to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
 | install.postgresql | bool | `true` | Deploying a PostgreSQL instance |
 | install.vault | bool | `true` | Deploying a HashiCorp Vault instance |
+| log4j2.config | string | `"Appenders:\n  Console:\n    name: CONSOLE\n    JsonTemplateLayout:\n      eventTemplate: |-\n        {\n          \"timestamp\": {\n            \"$resolver\": \"timestamp\",\n            \"pattern\": {\n              \"format\": \"yyyy-MM-dd'T'HH:mm:ss.SSSSSSS\",\n              \"timeZone\": \"UTC\"\n            }\n          },\n          \"level\": {\n            \"$resolver\": \"level\",\n            \"field\": \"severity\",\n            \"severity\": {\n              \"field\": \"keyword\"\n            }\n          },\n          \"message\": {\n            \"$resolver\": \"message\"\n          }\n        }\nLoggers:\n  Root:\n    level: \"OFF\"\n  Logger:\n    name: org.eclipse.edc.monitor.logger\n    level: DEBUG\n    AppenderRef:\n      ref: CONSOLE"` | Log4j2 configuration for json log formatting. |
+| log4j2.enableJsonLogs | bool | `true` | Whether to enable the json log config in log4j2.config |
 | nameOverride | string | `""` |  |
 | networkPolicy.controlplane | object | `{"from":[{"namespaceSelector":{}}]}` | Configuration of the controlplane component |
 | networkPolicy.controlplane.from | list | `[{"namespaceSelector":{}}]` | Specify from rule network policy for cp (defaults to all namespaces) |
@@ -291,6 +294,7 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.1
 | tests.hookDeletePolicy | string | `"before-hook-creation,hook-succeeded"` | Configure the hook-delete-policy for Helm tests |
 | vault.hashicorp.healthCheck.enabled | bool | `true` |  |
 | vault.hashicorp.healthCheck.standbyOk | bool | `true` |  |
+| vault.hashicorp.paths.folder | string | `""` |  |
 | vault.hashicorp.paths.health | string | `"/v1/sys/health"` |  |
 | vault.hashicorp.paths.secret | string | `"/v1/secret"` |  |
 | vault.hashicorp.timeout | int | `30` |  |

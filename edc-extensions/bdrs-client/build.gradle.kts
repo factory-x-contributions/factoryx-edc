@@ -1,5 +1,4 @@
 /********************************************************************************
- * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -18,19 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.factoryx.edc.validation.businesspartner;
+plugins {
+    `maven-publish`
+    `java-library`
+}
 
-import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
-import org.factoryx.edc.validation.businesspartner.defaults.InMemoryBusinessPartnerStore;
-import org.factoryx.edc.validation.businesspartner.store.BusinessPartnerStoreTestBase;
+dependencies {
+    api(libs.edc.spi.core)
+    api(libs.eclipse.tractusx.spi.bdrs.client)
 
-class InMemoryBusinessPartnerStoreTest extends BusinessPartnerStoreTestBase {
-
-
-    private final InMemoryBusinessPartnerStore store = new InMemoryBusinessPartnerStore();
-
-    @Override
-    protected BusinessPartnerStore getStore() {
-        return store;
-    }
+    testImplementation(libs.edc.junit)
 }
