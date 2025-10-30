@@ -38,6 +38,8 @@ import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.CONSUMER_DID;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.CONSUMER_NAME;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.DSP_08;
+import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.DSP_2025;
+import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.DSP_2025_PATH;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.PROVIDER_DID;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.PROVIDER_NAME;
 import static org.factoryx.edc.e2e.tests.runtimes.Runtimes.pgRuntime;
@@ -48,14 +50,16 @@ public class CatalogTest {
     private static final TransferParticipant CONSUMER = TransferParticipant.Builder.newInstance()
             .name(CONSUMER_NAME)
             .id(CONSUMER_DID)
-            .protocol(DSP_08)
+            .protocol(DSP_2025)
+            .protocolVersionPath(DSP_2025_PATH)
             .build();
 
 
     private static final TransferParticipant PROVIDER = TransferParticipant.Builder.newInstance()
             .name(PROVIDER_NAME)
             .id(PROVIDER_DID)
-            .protocol(DSP_08)
+            .protocol(DSP_2025)
+            .protocolVersionPath(DSP_2025_PATH)
             .build();
 
     @RegisterExtension

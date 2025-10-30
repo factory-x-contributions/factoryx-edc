@@ -33,6 +33,7 @@ dependencies {
     }
 
     // fx-edc extensions
+    runtimeOnly(project(":edc-extensions:bdrs-client"))
     runtimeOnly(project(":edc-extensions:fx-json-ld-core"))
     runtimeOnly(project(":edc-extensions:contract-validation"))
     runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
