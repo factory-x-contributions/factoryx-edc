@@ -335,7 +335,7 @@ spec:
                 path: "opentelemetry.properties"
         - name: "log4j2-config"
           configMap:
-            name: {{ include "txdc.fullname" . }}-log4j2
+            name: {{ include "fxdc.fullname" . }}-log4j2
             items:
               - key: "log4j2.yaml"
                 path: "log4j2.yaml"

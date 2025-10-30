@@ -37,7 +37,6 @@ import static org.eclipse.edc.connector.controlplane.test.system.utils.PolicyFix
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.CONSUMER_DID;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.CONSUMER_NAME;
-import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.DSP_08;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.DSP_2025;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.DSP_2025_PATH;
 import static org.factoryx.edc.e2e.tests.TestRuntimeConfiguration.PROVIDER_DID;
