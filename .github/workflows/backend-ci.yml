@@ -52,15 +52,3 @@ jobs:
 
       - name: Run Backend EndToEnd Tests
         run: ./gradlew test -DincludeTags="EndToEndTest"
-
-      - name: Generate Dependency Report
-        working-directory: ./
-        run: ./gradlew dependencies > dependency-report.txt
-
-      # Upload Dependency Report
-      - name: Upload Dependency Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-report
-          path: ./dependency-report.txt
-

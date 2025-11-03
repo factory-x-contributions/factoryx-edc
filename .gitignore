@@ -109,5 +109,9 @@ buildNumber.properties
 ### Helm
 **/*.lock
 **/*.tgz
+semicolon_delimited_script
 
-edc-tests/miw-tests/src/test/resources/docker-environment/postgres_data/
+# temp files needed for generate-and-check-dependencies action
+dash.jar
+dependency-list
+DEPENDENCIES
