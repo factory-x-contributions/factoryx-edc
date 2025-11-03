@@ -27,7 +27,7 @@ plugins {
     `maven-publish`
     `jacoco-report-aggregation`
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.bmuschko.docker-remote-api") version "9.4.0"
+    id("com.bmuschko.docker-remote-api") version "10.0.0"
 }
 
 val fxScmConnection: String by project
