@@ -36,4 +36,5 @@ jobs:
     permissions:
       contents: write
       pages: write
+      packages: write
     secrets: inherit
