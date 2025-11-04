@@ -1,6 +1,6 @@
 # factoryx-connector-memory
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.3](https://img.shields.io/badge/AppVersion-0.1.3-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.4](https://img.shields.io/badge/AppVersion-0.1.4-informational?style=flat-square)
 
 A Helm chart for Factory-X Eclipse Data Space Connector based on memory. Please only use this for development or testing purposes, never in production workloads!
 
@@ -37,7 +37,7 @@ Combined, run this shell command to start the in-memory Factory-X EDC runtime:
 
 ```shell
 helm repo add factoryx-dev https://factory-x-contributions.github.io/charts/dev
-helm install my-release factory-x-contributions/factoryx-connector-memory --version 0.1.3 \
+helm install my-release factory-x-contributions/factoryx-connector-memory --version 0.1.4 \
      -f <path-to>/tractusx-connector-memory-test.yaml \
      --set vault.secrets="client-secret:$YOUR_CLIENT_SECRET"
 ```
