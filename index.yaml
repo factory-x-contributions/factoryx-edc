@@ -2,8 +2,36 @@ apiVersion: v1
 entries:
   factoryx-connector:
   - apiVersion: v2
+    appVersion: 0.1.4
+    created: "2025-11-04T14:38:18.523940178Z"
+    dependencies:
+    - alias: vault
+      condition: install.vault
+      name: vault
+      repository: https://helm.releases.hashicorp.com
+      version: 0.27.0
+    - alias: postgresql
+      condition: install.postgresql
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.2.1
+    description: 'A Helm chart for Factory-X Eclipse Data Space Connector. The connector
+      deployment consists of two runtimes of a Control Plane and a Data Plane. Note
+      that _no_ external dependencies such as a PostgreSQL database and HashiCorp
+      Vault are included.  This chart is intended for use with an _existing_ PostgreSQL
+      database and an _existing_ HashiCorp Vault. '
+    digest: 4ac1db60c726acf26f0d898720cac3247e77e6916e5f53fd02dd0179f5f29050
+    home: https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector
+    name: factoryx-connector
+    sources:
+    - https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector
+    type: application
+    urls:
+    - https://factory-x-contributions.github.io/factoryx-edc/helm-charts/factoryx-connector-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 0.1.3
-    created: "2025-10-06T16:27:02.346052762Z"
+    created: "2025-11-04T14:38:18.516026119Z"
     dependencies:
     - alias: vault
       condition: install.vault
@@ -31,7 +59,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 0.1.2
-    created: "2025-10-06T16:27:02.337400862Z"
+    created: "2025-11-04T14:38:18.506627274Z"
     dependencies:
     - alias: vault
       condition: install.vault
@@ -59,7 +87,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2025-10-06T16:27:02.329025768Z"
+    created: "2025-11-04T14:38:18.498244031Z"
     dependencies:
     - alias: vault
       condition: install.vault
@@ -87,7 +115,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2025-10-06T16:27:02.320467914Z"
+    created: "2025-11-04T14:38:18.489504575Z"
     dependencies:
     - alias: vault
       condition: install.vault
@@ -115,7 +143,7 @@ entries:
     version: 0.1.0
   - apiVersion: v2
     appVersion: 0.0.3
-    created: "2025-10-06T16:27:02.31151158Z"
+    created: "2025-11-04T14:38:18.480644406Z"
     dependencies:
     - alias: vault
       condition: install.vault
@@ -143,8 +171,23 @@ entries:
     version: 0.0.3
   factoryx-connector-memory:
   - apiVersion: v2
+    appVersion: 0.1.4
+    created: "2025-11-04T14:38:18.530939363Z"
+    description: A Helm chart for Factory-X Eclipse Data Space Connector based on
+      memory. Please only use this for development or testing purposes, never in production
+      workloads!
+    digest: c8fdc3c55cd5fd777cb5df178fbfbf20565d35fb58334b11b2ee35467cb1f414
+    home: https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector-memory
+    name: factoryx-connector-memory
+    sources:
+    - https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector-memory
+    type: application
+    urls:
+    - https://factory-x-contributions.github.io/factoryx-edc/helm-charts/factoryx-connector-memory-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 0.1.3
-    created: "2025-10-06T16:27:02.351143827Z"
+    created: "2025-11-04T14:38:18.529873606Z"
     description: A Helm chart for Factory-X Eclipse Data Space Connector based on
       memory. Please only use this for development or testing purposes, never in production
       workloads!
@@ -159,7 +202,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 0.1.2
-    created: "2025-10-06T16:27:02.350091522Z"
+    created: "2025-11-04T14:38:18.52886164Z"
     description: A Helm chart for Factory-X Eclipse Data Space Connector based on
       memory. Please only use this for development or testing purposes, never in production
       workloads!
@@ -174,7 +217,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2025-10-06T16:27:02.349089872Z"
+    created: "2025-11-04T14:38:18.527848252Z"
     description: A Helm chart for Factory-X Eclipse Data Space Connector based on
       memory. Please only use this for development or testing purposes, never in production
       workloads!
@@ -189,7 +232,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2025-10-06T16:27:02.348086379Z"
+    created: "2025-11-04T14:38:18.526825756Z"
     description: A Helm chart for Factory-X Eclipse Data Space Connector based on
       memory. Please only use this for development or testing purposes, never in production
       workloads!
@@ -204,7 +247,7 @@ entries:
     version: 0.1.0
   - apiVersion: v2
     appVersion: 0.0.3
-    created: "2025-10-06T16:27:02.347072396Z"
+    created: "2025-11-04T14:38:18.525407943Z"
     description: A Helm chart for Factory-X Eclipse Data Space Connector based on
       memory. Please only use this for development or testing purposes, never in production
       workloads!
@@ -217,4 +260,4 @@ entries:
     urls:
     - https://factory-x-contributions.github.io/factoryx-edc/helm-charts/factoryx-connector-memory-0.0.3.tgz
     version: 0.0.3
-generated: "2025-10-06T16:27:02.303009175Z"
+generated: "2025-11-04T14:38:18.471653657Z"
