@@ -111,10 +111,10 @@ allprojects {
             this.source = project.sourceSets.test.get().allSource
         }
 
-        // Create a method that handles task disabling for Sonatype / MavenCentral tasks
-        fun disableSonatypeOrMavenCentralTasks(task: Task) {
-            // Check if the task name contains "sonatype" or "MavenCentral"  (case-insensitive)
-            if (task.name.contains("sonatype", ignoreCase = true) || task.name.contains("MavenCentral", ignoreCase = true)) {
+        // Create a method that handles task disabling for Sonatype tasks
+        fun disableSonatypeTasks(task: Task) {
+            // Check if the task name contains "sonatype" (case insensitive)
+            if (task.name.contains("sonatype", ignoreCase = true)) {
                 task.enabled = false
                 println("Disabled task: ${task.name}")
             }
@@ -123,7 +123,7 @@ allprojects {
 // Ensure to disable all Sonatype-related tasks after task evaluation
         afterEvaluate {
             tasks.forEach { task ->
-                disableSonatypeOrMavenCentralTasks(task)
+                disableSonatypeTasks(task)
             }
         }
 
