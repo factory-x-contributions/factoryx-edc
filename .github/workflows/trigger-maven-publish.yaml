@@ -90,4 +90,4 @@ jobs:
           fi
 
           echo "Publishing Version $VERSION to GitHub Packages"
-          ./gradlew publish -Pversion=$VERSION --stacktrace
+          ./gradlew publishAllPublicationsToGitHubPackagesRepository -Pversion=$VERSION --stacktrace
