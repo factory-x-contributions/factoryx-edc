@@ -73,7 +73,6 @@ edc-spi-identitytrust = { module = "org.eclipse.edc:identity-trust-spi", version
 eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", version.ref = "tractusx"}
 eclipse-tractusx-spi-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-core = { module = "org.eclipse.tractusx.edc:core-spi", version.ref = "tractusx"}
-eclipse-tractusx-spi-bdrs-client = { module = "org.eclipse.tractusx.edc:bdrs-client-spi", version.ref = "tractusx"}
 
 #tractusx runtime modules
 eclipse-tractusx-edc-controlplane-base = {module = "org.eclipse.tractusx.edc:edc-controlplane-base", version.ref = "tractusx"}

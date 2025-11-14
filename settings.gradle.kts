@@ -29,7 +29,6 @@ include(":spi:mqtt:mqtt-data-endpoint-spi")
 include(":spi:mqtt:mqtt-data-params-spi")
 
 // extensions - control plane
-include(":edc-extensions:bdrs-client")
 include(":edc-extensions:fx-json-ld-core")
 include(":edc-extensions:fx-policy")
 include(":edc-extensions:data-flow-properties-provider")
