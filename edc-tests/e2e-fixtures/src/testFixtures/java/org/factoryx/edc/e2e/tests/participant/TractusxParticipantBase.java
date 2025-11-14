@@ -107,7 +107,6 @@ public abstract class TractusxParticipantBase extends IdentityParticipant {
                 put("edc.catalog.cache.execution.delay.seconds", "2");
                 put("edc.catalog.cache.execution.period.seconds", "2");
                 put("edc.policy.validation.enabled", "true");
-                put("tractusx.edc.participant.bpn", getDid());
             }
         };
 

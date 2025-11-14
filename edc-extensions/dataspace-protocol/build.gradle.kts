@@ -1,5 +1,6 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2025 Cofinity-X GmbH
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,30 +18,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     `java-library`
-    id("application")
-    alias(libs.plugins.shadow)
 }
 
 dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.postgresql.hashicorp.vault) {
-        exclude("org.eclipse.tractusx.edc", "edc-controlplane-base")
-        exclude("org.eclipse.tractusx.edc", "bpns-evaluation-store-sql")
-    }
-    runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-}
+    implementation(project(":spi:core-spi"))
+    api(libs.edc.spi.core)
+    implementation(libs.eclipse.tractusx.coreutils)
+    implementation(libs.edc.ih.spi.credentials)
+    implementation(libs.edc.spi.identitytrust)
 
+    implementation(libs.dsp.spi.http)
+    implementation(libs.dsp.spi.v08)
+    implementation(libs.dsp.spi.v2025)
 
-tasks.withType<ShadowJar> {
-    exclude("**/pom.properties", "**/pom.xm")
-    mergeServiceFiles()
-    archiveFileName.set("${project.name}.jar")
-}
+    implementation(libs.edc.spi.participant)
+    implementation(libs.edc.spi.protocol)
 
-
-application {
-    mainClass.set("org.eclipse.edc.boot.system.runtime.BaseRuntime")
+    testImplementation(libs.edc.junit)
 }

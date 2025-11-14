@@ -30,15 +30,17 @@ dependencies {
         exclude("org.eclipse.tractusx.edc", "bdrs-client")
         exclude("org.eclipse.tractusx.edc", "data-flow-properties-provider")
         exclude("org.eclipse.tractusx.edc", "bpn-validation")
-        exclude("org.eclipse.tractusx.edc", "bpns-evaluation-core")
+        exclude("org.eclipse.tractusx.edc", "agreements-bpns")
         exclude("org.eclipse.tractusx.edc", "connector-discovery-api")
         exclude( "org.eclipse.tractusx.edc", "provision-additional-headers")
+        exclude( "org.eclipse.tractusx.edc", "dataspace-protocol")
     }
 
     // fx-edc extensions
     runtimeOnly(project(":edc-extensions:fx-json-ld-core"))
     runtimeOnly(project(":edc-extensions:contract-validation"))
     runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
+    runtimeOnly(project(":edc-extensions:dataspace-protocol"))
     runtimeOnly(project(":edc-extensions:mqtt"))
     // Credentials FX policies
     runtimeOnly(project(":edc-extensions:fx-policy"))

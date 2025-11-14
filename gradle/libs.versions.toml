@@ -29,6 +29,7 @@ edc-spi-core = { module = "org.eclipse.edc:core-spi", version.ref = "edc" }
 edc-spi-policy = { module = "org.eclipse.edc:policy-spi", version.ref = "edc" }
 edc-spi-contract = { module = "org.eclipse.edc:contract-spi", version.ref = "edc" }
 edc-spi-participant = { module = "org.eclipse.edc:participant-spi", version.ref = "edc" }
+edc-spi-protocol = { module = "org.eclipse.edc:protocol-spi", version.ref = "edc" }
 edc-spi-policyengine = { module = "org.eclipse.edc:policy-engine-spi", version.ref = "edc" }
 edc-spi-request-policy-context = { module = "org.eclipse.edc:request-policy-context-spi", version.ref = "edc" }
 edc-spi-jsonld = { module = "org.eclipse.edc:json-ld-spi", version.ref = "edc" }
@@ -68,6 +69,16 @@ edc-lib-token = { module = "org.eclipse.edc:token-lib", version.ref = "edc" }
 # DCP Modules
 edc-spi-identity-did = { module = "org.eclipse.edc:identity-did-spi", version.ref = "edc" }
 edc-spi-identitytrust = { module = "org.eclipse.edc:identity-trust-spi", version.ref = "edc" }
+
+
+# DSP libraries
+dsp-spi-http = { module = "org.eclipse.edc:dsp-http-spi", version.ref = "edc" }
+dsp-spi-v08 = { module = "org.eclipse.edc:dsp-spi-08", version.ref = "edc" }
+dsp-spi-v2025 = { module = "org.eclipse.edc:dsp-spi-2025", version.ref = "edc" }
+
+# IH libraries
+edc-ih-spi-credentials = { module = "org.eclipse.edc:verifiable-credential-spi", version.ref = "edc" }
+
 
 # tractusx modules
 eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", version.ref = "tractusx"}

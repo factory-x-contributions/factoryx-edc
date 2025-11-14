@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2025 Cofinity-X GmbH
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,30 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+package org.factoryx.edc.protocol.protocol.identifier;
 
-plugins {
-    `java-library`
-    id("application")
-    alias(libs.plugins.shadow)
-}
-
-dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.postgresql.hashicorp.vault) {
-        exclude("org.eclipse.tractusx.edc", "edc-controlplane-base")
-        exclude("org.eclipse.tractusx.edc", "bpns-evaluation-store-sql")
+public class DidExtractionFunctionTest extends MembershipCredentialIdExtractionFunctionTest {
+    @Override
+    protected MembershipCredentialIdExtractionFunction extractionFunction() {
+        return new DidExtractionFunction();
     }
-    runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-}
-
-
-tasks.withType<ShadowJar> {
-    exclude("**/pom.properties", "**/pom.xm")
-    mergeServiceFiles()
-    archiveFileName.set("${project.name}.jar")
-}
-
-
-application {
-    mainClass.set("org.eclipse.edc.boot.system.runtime.BaseRuntime")
+    
+    @Override
+    protected String expectedId() {
+        return DID;
+    }
 }
