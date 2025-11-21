@@ -31,7 +31,7 @@ jobs:
     name: 'Update snapshot version'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           token: '${{ secrets.GH_PAT }}'
       - name: Set new snapshot version

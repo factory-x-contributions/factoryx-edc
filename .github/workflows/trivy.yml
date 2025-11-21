@@ -57,7 +57,7 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@0.33.1
         with:
@@ -88,7 +88,7 @@ jobs:
           - edc-controlplane-postgresql-hashicorp-vault
           - edc-dataplane-hashicorp-vault
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Authenticate to GHCR
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
