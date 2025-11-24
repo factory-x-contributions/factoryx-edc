@@ -1,5 +1,6 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2021,2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,30 +18,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+package org.factoryx.edc.provision.additionalheaders;
 
-plugins {
-    `java-library`
-    id("application")
-    alias(libs.plugins.shadow)
-}
+import org.eclipse.edc.runtime.metamodel.annotation.Inject;
+import org.eclipse.edc.spi.system.ServiceExtension;
+import org.eclipse.edc.spi.system.ServiceExtensionContext;
+import org.eclipse.edc.spi.types.TypeManager;
 
-dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.postgresql.hashicorp.vault) {
-        exclude("org.eclipse.tractusx.edc", "edc-controlplane-base")
-        exclude("org.eclipse.tractusx.edc", "bpns-evaluation-store-sql")
+public class ProvisionAdditionalHeadersExtension implements ServiceExtension {
+
+    @Inject
+    private TypeManager typeManager;
+
+    @Override
+    public void initialize(ServiceExtensionContext context) {
+        typeManager.registerTypes(AdditionalHeadersResourceDefinition.class, AdditionalHeadersProvisionedResource.class);
     }
-    runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-}
-
-
-tasks.withType<ShadowJar> {
-    mergeServiceFiles()
-    archiveFileName.set("${project.name}.jar")
-    transform(com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer())
-}
-
-
-application {
-    mainClass.set("org.eclipse.edc.boot.system.runtime.BaseRuntime")
 }

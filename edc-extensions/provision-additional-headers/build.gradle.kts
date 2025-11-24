@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,30 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
+    `maven-publish`
     `java-library`
-    id("application")
-    alias(libs.plugins.shadow)
 }
 
 dependencies {
-    runtimeOnly(libs.eclipse.tractusx.edc.controlplane.postgresql.hashicorp.vault) {
-        exclude("org.eclipse.tractusx.edc", "edc-controlplane-base")
-        exclude("org.eclipse.tractusx.edc", "bpns-evaluation-store-sql")
-    }
-    runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-}
+    api(libs.edc.spi.core)
+    implementation(libs.edc.spi.controlplane)
+    implementation(libs.edc.spi.transfer)
 
-
-tasks.withType<ShadowJar> {
-    mergeServiceFiles()
-    archiveFileName.set("${project.name}.jar")
-    transform(com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer())
-}
-
-
-application {
-    mainClass.set("org.eclipse.edc.boot.system.runtime.BaseRuntime")
+    testImplementation(libs.edc.junit)
 }
