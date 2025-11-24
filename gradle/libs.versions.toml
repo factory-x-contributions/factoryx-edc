@@ -17,7 +17,7 @@ rsApi = "4.0.0"
 swagger = "2.2.34"
 testcontainers = "1.21.3"
 titanium = "1.6.0"
-tractusx = "0.11.0"
+tractusx = "0.11.1"
 
 [libraries]
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
