@@ -83,6 +83,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v5
+        with:
+          token: '${{ secrets.GH_PAT }}'
       - name: Create Release or Bugfix branch
         run: git checkout -b ${{ needs.validate-and-prepare.outputs.branch_name }}
       - name: Initialize mandatory git config
