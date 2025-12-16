@@ -42,6 +42,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,6 +51,8 @@ import static org.factoryx.edc.iam.iatp.scope.CredentialScopeExtractor.CERTIFICA
 import static org.mockito.Mockito.mock;
 
 public class CredentialScopeExtractorTest {
+
+    public static final String FX_POLICY_NS_LEGACY_UNSUPPORTED = "https://w3id.org/factoryx/policy/";
 
     private final Monitor monitor = mock();
     private CredentialScopeExtractor extractor;
@@ -60,15 +63,15 @@ public class CredentialScopeExtractorTest {
     }
 
     @DisplayName("Scope extractor with supported messages")
-    @ParameterizedTest(name = "{1}")
+    @ParameterizedTest
     @ArgumentsSource(SupportedMessages.class)
-    void verify_extractScopes(RemoteMessage message) {
+    void verify_extractScopes(RemoteMessage message, String leftValue, String expectedCredentialType) {
         var requestContext = RequestContext.Builder.newInstance().message(message).direction(RequestContext.Direction.Egress).build();
         var ctx = new TestRequestPolicyContext(requestContext, null);
 
-        var scopes = extractor.extractScopes(CoreConstants.FX_POLICY_NS + CERTIFICATION_TYPE_PREFIX + ".pfc", null, null, ctx);
+        var scopes = extractor.extractScopes(leftValue, null, null, ctx);
         System.out.println(scopes);
-        assertThat(scopes).contains(CREDENTIAL_TYPE_NAMESPACE + ":CertificationTypeCredential:read");
+        assertThat(scopes).contains(expectedCredentialType);
     }
 
     @DisplayName("Scope extractor with not supported messages")
@@ -84,10 +87,30 @@ public class CredentialScopeExtractorTest {
     }
 
     @Test
-    void verify_extractScope_Empty() {
+    void verify_extractScope_EmptyRequestContext() {
         var ctx = new TestRequestPolicyContext(null, null);
 
-        var scopes = extractor.extractScopes("wrong", null, null, ctx);
+        var scopes = extractor.extractScopes(null, null, null, ctx);
+        assertThat(scopes).isEmpty();
+    }
+
+    @Test
+    void verify_extractScope_InvalidLeftOperand() {
+        var requestContext = RequestContext.Builder.newInstance().direction(RequestContext.Direction.Egress).build();
+        var ctx = new TestRequestPolicyContext(requestContext, null);
+
+        var scopes = extractor.extractScopes(List.of(), null, null, ctx);
+        assertThat(scopes).isEmpty();
+    }
+
+    @DisplayName("Scope extractor with not supported left operand")
+    @ParameterizedTest
+    @ArgumentsSource(NotSupportedLeftOperand.class)
+    void verify_extractScope_Empty(String leftValue) {
+        var requestContext = RequestContext.Builder.newInstance().message(CatalogRequestMessage.Builder.newInstance().build()).direction(RequestContext.Direction.Egress).build();
+        var ctx = new TestRequestPolicyContext(requestContext, null);
+
+        var scopes = extractor.extractScopes(leftValue, null, null, ctx);
 
         assertThat(scopes).isEmpty();
     }
@@ -97,9 +120,24 @@ public class CredentialScopeExtractorTest {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             var offer = ContractOffer.Builder.newInstance().id("id").assetId("assetId").policy(Policy.Builder.newInstance().build()).build();
             return Stream.of(
-                    Arguments.of(CatalogRequestMessage.Builder.newInstance().build()),
-                    Arguments.of(ContractRequestMessage.Builder.newInstance().contractOffer(offer).callbackAddress("cb").build()),
-                    Arguments.of(TransferRequestMessage.Builder.newInstance().callbackAddress("cb").build())
+                    Arguments.of(ContractRequestMessage.Builder.newInstance().contractOffer(offer).callbackAddress("cb").build(), CoreConstants.FX_POLICY_NS + "Membership",  CREDENTIAL_TYPE_NAMESPACE + ":MembershipCredential:read"),
+                    Arguments.of(TransferRequestMessage.Builder.newInstance().callbackAddress("cb").build(), CoreConstants.FX_POLICY_NS + "FxMembership",  CREDENTIAL_TYPE_NAMESPACE + ":FxMembershipCredential:read"),
+                    Arguments.of(CatalogRequestMessage.Builder.newInstance().build(), CoreConstants.FX_POLICY_NS + CERTIFICATION_TYPE_PREFIX + ".pfc",  CREDENTIAL_TYPE_NAMESPACE + ":CertificationCredential:read")
+            );
+        }
+    }
+
+    private static class NotSupportedLeftOperand implements ArgumentsProvider {
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return Stream.of(
+                    Arguments.of("wrong"),
+                    Arguments.of("BusinessPartnerDID"),
+                    Arguments.of(CoreConstants.FX_POLICY_NS + "BusinessPartnerDID"),
+                    Arguments.of(FX_POLICY_NS_LEGACY_UNSUPPORTED + "BusinessPartnerDID"),
+                    Arguments.of(FX_POLICY_NS_LEGACY_UNSUPPORTED + "Membership"),
+                    Arguments.of(FX_POLICY_NS_LEGACY_UNSUPPORTED + "FxMembership"),
+                    Arguments.of(FX_POLICY_NS_LEGACY_UNSUPPORTED + CERTIFICATION_TYPE_PREFIX)
             );
         }
     }
