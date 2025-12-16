@@ -48,7 +48,7 @@ public class CredentialScopeExtractor implements ScopeExtractor {
     /**
      * Prefix to extract certification type
      */
-    public static final String CERTIFICATION_TYPE_PREFIX = "CertificationType";
+    public static final String CERTIFICATION_TYPE_PREFIX = "Certification";
     public static final String SCOPE_FORMAT = "%s:%s:read";
     /**
      * Scopes ending with Credential
@@ -56,6 +56,11 @@ public class CredentialScopeExtractor implements ScopeExtractor {
     public static final String CREDENTIAL_FORMAT = "%sCredential";
 
     private static final Set<Class<? extends RemoteMessage>> SUPPORTED_MESSAGES = Set.of(CatalogRequestMessage.class, ContractRequestMessage.class, TransferRequestMessage.class);
+    private static final Set<String> FX_CREDENTIALS = Set.of(
+            "MembershipCredential",
+            "FxMembershipCredential",
+            "CertificationCredential"
+    );
 
     private final Monitor monitor;
 
@@ -72,7 +77,11 @@ public class CredentialScopeExtractor implements ScopeExtractor {
             if (leftValue instanceof String leftOperand && leftOperand.startsWith(FX_POLICY_NS) && isMessageSupported(requestContext)) {
                 leftOperand = leftOperand.replace(FX_POLICY_NS, "");
                 var credentialType = extractCredentialType(leftOperand, rightValue);
-                return Set.of(SCOPE_FORMAT.formatted(CREDENTIAL_TYPE_NAMESPACE, CREDENTIAL_FORMAT.formatted(capitalize(credentialType))));
+                var scope = SCOPE_FORMAT.formatted(CREDENTIAL_TYPE_NAMESPACE, CREDENTIAL_FORMAT.formatted(capitalize(credentialType)));
+                if (isSupportedScope(scope)) {
+                    return Set.of(scope);
+                }
+                return emptySet();
             }
 
         } else {
@@ -80,6 +89,15 @@ public class CredentialScopeExtractor implements ScopeExtractor {
         }
 
         return emptySet();
+    }
+
+    private boolean isSupportedScope(String scope) {
+        var matchedType = FX_CREDENTIALS.stream()
+                .filter(scope::contains)
+                .findFirst()
+                .orElse(null);
+
+        return matchedType != null;
     }
 
     private boolean isMessageSupported(RequestContext ctx) {
