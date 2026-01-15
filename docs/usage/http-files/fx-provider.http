@@ -1,0 +1,323 @@
+@hostname = <hostname_of_your_consumer_connector>
+@apiKey = <api_key_of_your_connector>
+@consDid = <did_of_your_data_consumer>
+@contentType = application/json
+@apiVersion = v3
+
+###
+# @name createAsset
+#
+# Creates an asset.
+#
+# Prompts:
+# assetId: Id of the asset.
+# @prompt assetId
+# baseUrl: Base URL of the asset.
+# @prompt baseUrl
+POST https://{{hostname}}/management/{{apiVersion}}/assets HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{
+    "@id": "{{assetId}}",
+    "@type": "Asset",
+    "properties": {},
+    "dataAddress": {
+      "@type": "DataAddress",
+      "proxyPath": "true",
+      "type": "HttpData",
+      "nonChunkedTransfer": "true",
+      "proxyMethod": "true",
+      "proxyQueryParams": "true",
+      "proxyBody": "true",
+      "baseUrl": "{{baseUrl}}"
+    },
+    "@context": {
+      "fx-policy": "https://w3id.org/factoryx/policy/",
+      "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+      "tx-auth": "https://w3id.org/tractusx/auth/",
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+      "odrl": "http://www.w3.org/ns/odrl/2/"
+    }
+  },
+
+
+###
+# @name getCreatedAsset
+#
+# Fetches the created asset.
+#
+# Parameters:
+# assetId: This property is extracted from the response of the previous request and contains the id of the created asset.
+@assetId =  {{createAsset.response.body.$.`@id}}
+POST https://{{hostname}}/management/{{apiVersion}}/assets/request
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{
+    "@context": {
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "odrl": "http://www.w3.org/ns/odrl/2/"
+    },
+    "@type": "QuerySpec",
+    "filterExpression": [
+      {
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "{{assetId}}"
+      }
+    ]
+}
+
+###
+# @name getAllAssets
+#
+# Fetches all available assets.
+#
+# Parameters: N/A
+POST https://{{hostname}}/management/{{apiVersion}}/assets/request
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+
+###
+# @name delAsset
+#
+# Deletes an asset.
+#
+# Prompts:
+# assetId: Id of the asset.
+# @prompt assetId
+DELETE https://{{hostname}}/management/{{apiVersion}}/assets/{{assetId}}
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+
+###
+# @name createDidPolicy
+#
+# Creates an usage policy, which checks the DID of the consumer.
+#
+# Prompts:
+# policyId: Id of the policy.
+# @prompt policyId
+POST https://{{hostname}}/management/{{apiVersion}}/policydefinitions HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{
+  "@context": [
+    "http://www.w3.org/ns/odrl.jsonld",
+    {
+      "edc": "https://w3id.org/edc/v0.0.1/ns/",
+      "fx-policy": "https://w3id.org/factoryx/policy/v1.0/"
+    }
+  ],
+  "@type": "PolicyDefinition",
+  "@id": "{{policyId}}",
+  "edc:policy": {
+    "@type": "Set",
+    "permission": [
+      {
+        "action": {"@id": "use"},
+        "constraint":{
+          "leftOperand": "https://w3id.org/factoryx/policy/v1.0/BusinessPartnerDID",
+          "operator": "eq",
+          "rightOperand": "{{consDid}}"
+         }
+      }
+    ]
+  }
+}
+
+###
+# @name getEvaluationPlan
+#
+# Fetches the evaluation plan of a policy.
+#
+# Prompts:
+# policyId: Id of the policy.
+# @prompt policyId
+POST https://{{hostname}}/management/v3/policydefinitions/{{policyId}}/evaluationplan
+Content-Type: application/json
+X-Api-Key: {{apiKey}}
+
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "policyScope": "contract.negotiation"
+}
+
+###
+# @name createMembershipPolicy
+#
+# Creates an usage policy, which checks for an active membership.
+#
+# Prompts:
+# policyId: Id of the policy.
+# @prompt policyId
+POST https://{{hostname}}/management/{{apiVersion}}/policydefinitions HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{
+  "@context": [
+    "http://www.w3.org/ns/odrl.jsonld",
+    {
+      "edc": "https://w3id.org/edc/v0.0.1/ns/"
+    }
+  ],
+  "@type": "edc:PolicyDefinition",
+  "@id": "fxmembership",
+  "edc:policy":
+    {
+      "@type": "Set",
+      "odrl:permission": {
+        "odrl:action": {
+          "@id": "use"
+        },
+        "odrl:constraint": {
+          "odrl:leftOperand": {
+            "@id": "https://w3id.org/factoryx/policy/v1.0/FxMembership"
+          },
+          "odrl:operator": {
+            "@id": "odrl:eq"
+          },
+          "odrl:rightOperand": "active"
+        }
+      },
+      "odrl:prohibition": [],
+      "odrl:obligation": []
+  } 
+}
+
+###
+# @name deletePolicy
+#
+# Deletes a policy. 
+#
+# Prompts:
+# policyId: Id of the policy.
+# @prompt policyid 
+DELETE https://{{hostname}}/management/{{apiVersion}}/policydefinitions/{{policyid}} HTTP/1.1
+X-Api-Key: {{apiKey}}
+
+###
+# @name getAllPolicyDefinitions
+#
+# Fetches all available policy definitions.
+#
+# Parameters: N/A
+POST https://{{hostname}}/management/{{apiVersion}}/policydefinitions/request
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+###
+# @name getCreatedPolicy
+#
+# Fetches a specified policy.
+#
+# Prompts:
+# policyId: Id of the policy.
+# @prompt policyId
+POST https://{{hostname}}/management/{{apiVersion}}/policydefinitions/request
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{ 
+    "@context": { 
+        "edc": "https://w3id.org/edc/v0.0.1/ns/", 
+        "odrl": "http://www.w3.org/ns/odrl/2/" 
+    }, "@type": "QuerySpec", 
+    "filterExpression": 
+    [ 
+        { 
+            "operandLeft": "id", 
+            "operator": "=", 
+            "operandRight": "{{policyId}}" 
+        }
+    ] 
+}
+
+
+###
+# @name createContractDefinition
+#
+# Creates a contract defintion.
+#
+# Prompts:
+# assetId: Id of the underlying asset.
+# @prompt assetId
+# policyId: Id of the underlying policy.
+# @prompt policyId
+POST https://{{hostname}}/management/{{apiVersion}}/contractdefinitions HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "ContractDefinition",
+  "@id": "{{assetId}}-{{policyId}}",
+  "accessPolicyId": "{{policyId}}",
+  "contractPolicyId": "{{policyId}}",
+  "assetsSelector": 
+    {
+      "@type": "CriterionDto",
+      "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+      "operator": "=",
+      "operandRight": "{{assetId}}"
+    }
+}
+
+###
+# @name getAllContractDefinitions
+#
+# Fetches all available contract defintions.
+#
+# Parameters: N/A
+POST https://{{hostname}}/management/{{apiVersion}}/contractdefinitions/request
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+###
+# @name requestContractDefintions
+#
+# Fetches a specified contract definition
+#
+# Prompts:
+# contractDefinitionId: Id of the contract definition.
+# @prompt contractDefinitionId
+#
+POST https://{{hostname}}/management/{{apiVersion}}/contractdefinitions/request
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{ 
+    "@context": { 
+        "edc": "https://w3id.org/edc/v0.0.1/ns/", 
+        "odrl": "http://www.w3.org/ns/odrl/2/" 
+    }, "@type": "QuerySpec", 
+    "filterExpression": 
+    [ 
+        { 
+            "operandLeft": "id", 
+            "operator": "=", 
+            "operandRight": "{{contractDefinitionId}}" 
+        }
+    ] 
+}
+
+###
+# @name deleteContractDefinition
+#
+# Delets a specified contract definition
+#
+# Prompts:
+# contractDefinitionId: Id of the contract definition.
+# @prompt contractDefinitionId
+DELETE https://{{hostname}}/management/{{apiVersion}}/contractdefinitions/{{contractDefinitionId}}
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
