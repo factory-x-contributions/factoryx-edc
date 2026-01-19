@@ -1,0 +1,189 @@
+@hostname = <hostname_of_your_consumer_connector>
+@apiKey = <api_key_of_your_connector>
+@counterPartyAddress = <dsp_url_of_your_data_provider>
+@counterPartyId = <did_of_your_data_provider>
+@contentType = application/json
+@apiVersion = v3
+
+###
+# @name ping
+#
+# Sends a ping to the connector to check reachability.
+#
+# Parameters: N/A
+POST https://{{hostname}}/management/{{apiVersion}}/assets/request
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+###
+# @name requestCatalog
+#
+# Sends a catalog request to the provider.
+#
+# Parameters:
+# counterPartyId: Must be the provider did. This in not a mandatory property for EDC but it's required for TractusX-EDC. If omitted the catalog request will fail.
+# counterPartyAddress: This property points to the DSP-endpoint of the Data Provider's Control Plane. Usually this ends on /api/v1/dsp/2025-1.
+POST https://{{hostname}}/management/{{apiVersion}}/catalog/request HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
+  },
+  "@type": "CatalogRequest",
+  "counterPartyId": "{{counterPartyId}}",
+  "counterPartyAddress": "{{counterPartyAddress}}",
+  "protocol": "dataspace-protocol-http:2025-1"
+}
+
+###
+# @name requestCatalogWithAssetId
+#
+# Sends a catalog request to the provider to fetch the datasets for one specified asset.
+#
+# Parameters:
+# assetId: This property is extracted from the response of the previous request and contains the id pointing to a specified asset.
+@assetId =  {{requestCatalog.response.body.$.dataset.[0].`@id}}
+# counterPartyId: Must be the provider BPN. This in not a mandatory property for EDC but it's required for TractusX-EDC. If omitted the catalog request will fail.
+# counterPartyAddress: This property points to the DSP-endpoint of the Data Provider's Control Plane. Usually this ends on /api/v1/dsp.
+POST https://{{hostname}}/management/{{apiVersion}}/catalog/request HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: {{contentType}}
+
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
+  },
+  "@type": "CatalogRequest",
+  "counterPartyId": "{{counterPartyId}}",
+  "counterPartyAddress": "{{counterPartyAddress}}",
+  "protocol": "dataspace-protocol-http:2025-1",
+  "querySpec": {
+    "@type": "QuerySpec",
+    "filterExpression": [
+      {
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "{{assetId}}"
+      }
+    ]
+  }
+}
+
+###
+# @name createEDRSRequest
+#
+# Creates edrs request for a specified data offer.
+#
+# Parameters:
+# offerId: This property is extracted from the response of the previous request and contains the id pointing to a specified offer.
+@offerId = {{requestCatalogWithAssetId.response.body.$.dataset.[0].hasPolicy.[0].`@id}}
+# targetId: This property is extracted from the response of the previous request and contains the id pointing to a specified asset.
+@targetId = {{requestCatalogWithAssetId.response.body.$.dataset.[0].id}}
+# participantId: This property is extracted from the response of the previous request and contains the did of the provider.
+@participantId = {{requestCatalogWithAssetId.response.body.$.participantId}}
+# permission: This property is extracted from the response of the previous request and contains the policies of the data offer.
+@permission = {{requestCatalogWithAssetId.response.body.$.dataset.[0].hasPolicy.[0..permission}}
+#
+# IMPORTANT: Set the num of odrl:hasPolicy to the index of your wanted policy
+# JSON Path doesn't support external parameters
+POST https://{{hostname}}/management/{{apiVersion}}/edrs HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: application/json
+
+{
+   "@context": [
+      "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+        "fx-policy": "https://w3id.org/factoryx/policy/v1.0/"      }
+    ],
+    "@type": "ContractRequest",
+    "counterPartyAddress": "{{counterPartyAddress}}",
+    "protocol": "dataspace-protocol-http:2025-1",
+    "policy": {
+      "@id": "{{offerId}}",
+      "@type": "Offer",
+      "assigner": "{{participantId}}",
+      "permission": {{permission}},
+      "prohibition": [],
+      "obligation": [],
+      "target": "{{targetId}}"
+    },
+    "callbackAddresses": []
+}
+
+###
+# @name negotiationStatus
+#
+# Checks the status of a contract negotiation.
+#
+# Parameters:
+# negotiationId: This property is extracted from the response of the previous request and contains the id pointing to the previously created negotiation.
+@negotiationId = {{createEDRSRequest.response.body.$.`@id}}
+GET https://{{hostname}}/management/{{apiVersion}}/contractnegotiations/{{negotiationId}} HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: application/json
+
+###
+# @name queryEdrsCache
+#
+# Queries the edrs cache for edr entries.
+#
+# Parameters:
+# targetId: This property contains the id of the exchanged asset.
+POST https://{{hostname}}/management/{{apiVersion}}/edrs/request HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: application/json
+
+{
+    "@context": {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "@type": "QuerySpec",
+    "sortOrder": "DESC",
+    "sortField": "createdAt",
+    "filterExpression": [
+        {
+            "operandLeft": "assetId",
+            "operator": "=",
+            "operandRight": "{{targetId}}"
+        }
+
+    ]
+}
+
+###
+# @name getDataAddress
+#
+# Fetches the edr entry directly from the vault.
+#
+# Parameters:
+# transferProcessId: This property is extracted from the response of the previous request and contains the id of the transfer process.
+@transferProcessId = {{queryEdrsCache.response.body.$[0].transferProcessId}}
+GET https://{{hostname}}/management/{{apiVersion}}/edrs/{{transferProcessId}}/dataaddress?auto_refresh=true HTTP/1.1
+X-Api-Key: {{apiKey}}
+Content-Type: application/json
+
+###
+# @name requestProviderDataplane
+#
+# Sends a request to the provider dataplane.
+#
+# Prompts:
+# path-elements: Path elements of the request.
+# @prompt path-elements
+#
+# Parameters:
+# endpoint: This property is extracted from the response of the previous request and contains the endpoint from the edr.
+@endpoint = {{getDataAddress.response.body.$.endpoint}}
+# token: This property is extracted from the response of the previous request and contains the authorization token from the edr.
+@token = {{getDataAddress.response.body.$.authorization}}
+POST {{endpoint}}/{{path-elements}} HTTP/1.1
+Authorization: {{token}}
+Content-Type: {{contentType}}
+
+{"id":"ab"}
