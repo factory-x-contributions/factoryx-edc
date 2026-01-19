@@ -628,10 +628,12 @@ postgresql:
   jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
   primary:
     persistence:
-      enabled: false
+      enabled: true
+      size: 4Gi
   readReplicas:
     persistence:
-      enabled: false
+      enabled: true
+      size: 4Gi
   auth:
     database: "edc"
     username: "user"
