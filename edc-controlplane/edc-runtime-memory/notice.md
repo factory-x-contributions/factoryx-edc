@@ -16,7 +16,7 @@ Factory-X product(s) installed within the image:
 - Project license: [Apache License, Version 2.0](https://github.com/factory-x-contributions/factoryx-edc/blob/main/LICENSE)
 
 ## Used base image
-- [eclipse-temurin:23_37-jre-alpine](https://github.com/adoptium/containers)
+- [eclipse-temurin:25.0.1_8-jre-alpine](https://github.com/adoptium/containers)
 - Official Eclipse Temurin DockerHub page: <https://hub.docker.com/_/eclipse-temurin>
 - Eclipse Temurin Project: <https://projects.eclipse.org/projects/adoptium.temurin>
 - Additional information about the Eclipse Temurin
