@@ -79,7 +79,7 @@ jobs:
     uses: ./.github/workflows/trigger-docker-publish.yaml
     secrets: inherit
     with:
-      namespace: "ghcr.io/factory-x-contributions"
+      namespace: "ghcr.io/${{ github.repository_owner }}"
       docker_tag: ${{ needs.determine-version.outputs.VERSION }}
 
   publish-maven-artifacts:
