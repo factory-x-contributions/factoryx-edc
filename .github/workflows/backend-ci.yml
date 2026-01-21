@@ -22,9 +22,9 @@ run-name: ${{ github.actor }} is testing out Factory-X Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "bugfix/*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "bugfix/*" ]
 
 jobs:
   build:
