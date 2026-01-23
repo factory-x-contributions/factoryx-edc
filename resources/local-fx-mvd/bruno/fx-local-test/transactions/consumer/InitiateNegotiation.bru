@@ -1,0 +1,47 @@
+meta {
+  name: InitiateNegotiation
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{CONSUMER_MANAGEMENT}}/v3/contractnegotiations
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+      "odrl": "http://www.w3.org/ns/odrl/2/"
+    },
+    "@type": "ContractRequest",
+    "counterPartyAddress": "http://provider-controlplane:9020/dsp",
+    "connectorId": "did:web:provider-idhub:user:provider",
+    "protocol": "dataspace-protocol-http",
+    "policy": {
+      "@context": "http://www.w3.org/ns/odrl.jsonld",
+      "@id": "{{offerId}}",
+      "@type": "Offer",
+      "assigner": "did:web:provider-idhub:user:provider",
+      "assignee": "did:web:consumer-idhub:user:consumer",
+      "target": "assetId"
+    }
+  }
+}
+
+script:post-response {
+  var x = res.getBody()['@id'];
+  console.log("id " + x);
+  bru.setEnvVar("negotiation-id", res.getBody()['@id']);
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

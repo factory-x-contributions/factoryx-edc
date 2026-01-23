@@ -1,0 +1,36 @@
+meta {
+  name: createAttestation
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{ISSUER_ISS_API}}/v1alpha/participants/ZGlkOndlYjpsb2NhbC1pc3N1ZXItc2VydmljZTpmeC1pc3N1ZXI=/attestations
+  body: json
+  auth: none
+}
+
+headers {
+  ~x-api-key: {{ISSUER_APIKEY}}
+}
+
+body:json {
+  {
+    "attestationType": "presentation",
+    "configuration": {
+      "credentialType": "MembershipCredential",
+      "outputClaim": "isMember",
+      "required": false
+    },
+    "id": "MC-Attestation"
+  }
+}
+
+script:pre-request {
+  req.setHeader("x-api-key", bru.getEnvVar("ISSUER_APIKEY"));
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
