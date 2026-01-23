@@ -1,0 +1,28 @@
+meta {
+  name: addProviderHolder
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{ISSUER_ISS_API}}/v1alpha/participants/ZGlkOndlYjpsb2NhbC1pc3N1ZXItc2VydmljZTpmeC1pc3N1ZXI=/holders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "holderId" : "did:web:provider-idhub:user:provider", 
+    "did" : "did:web:provider-idhub:user:provider", 
+    "name" : "did:web:provider-idhub:user:provider"
+  }
+}
+
+script:pre-request {
+  req.setHeader("x-api-key", bru.getEnvVar("ISSUER_APIKEY"));
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
