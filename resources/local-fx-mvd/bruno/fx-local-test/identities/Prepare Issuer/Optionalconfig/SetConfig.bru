@@ -1,0 +1,33 @@
+meta {
+  name: SetConfig
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{ISSUER_ISS_API}}/v1alpha/credentialsetup/ZGlkOndlYjpsb2NhbC1pc3N1ZXItc2VydmljZTpmeC1pc3N1ZXI=
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-api-key: YWRtaW4.adminKey
+}
+
+body:json {
+  {
+    "MC-Cred-Def": {
+      "blackList": [],
+      "default": {
+        "credentialSubject": {
+          "isMember": true
+        }
+      }
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
