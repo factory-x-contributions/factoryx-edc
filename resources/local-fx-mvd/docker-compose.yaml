@@ -206,15 +206,57 @@ services:
     depends_on:
         shared-postgres:
           condition: service_healthy
+        shared-vault:
+          condition: service_healthy
     entrypoint: [ "java", "-jar", "edc-runtime.jar", "--log-level=DEBUG" ]
     ports:
       - "5005:5005"   # Debugger
       - "29000:9000"  # Default port
       - "29010:9010"  # Management API
       - "29020:9020" # DSP API
-
     networks:
       - fx-test-network
+  consumer-dataplane:
+    container_name: consumer-dataplane
+    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.2.0
+    environment:
+      - web.http.public.port=9500
+      - web.http.public.path=/public
+      - web.http.management.port=9510
+      - web.http.management.path=/management
+      - web.http.control.port=9550
+      - web.http.control.path=/control
+      - edc.hostname=consumer-dataplane
+      - edc.dpf.selector.url=http://consumer-controlplane:9050/control/v1/dataplanes
+      - edc.data.plane.self.unregistration=true
+      - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/cons_dpl
+      - edc.datasource.default.user=admin
+      - edc.datasource.default.password=password
+      - edc.transfer.proxy.token.signer.privatekey.alias=cons_priv
+      - edc.transfer.proxy.token.verifier.publickey.alias=cons_pub
+      - edc.vault.hashicorp.url=http://shared-vault:8200
+      - edc.vault.hashicorp.health.check.enabled=true
+      - edc.vault.hashicorp.token=vaultsecret0123456789
+      - edc.iam.trusted-issuer.example.id=did:web:local-issuer-service:fx-issuer
+      - edc.iam.did.web.use.https=false
+      - edc.iam.sts.oauth.client.secret.alias=consumersecret
+      - edc.iam.credential.revocation.mimetype=application/json
+      - edc.iam.sts.oauth.token.url=http://consumer-idhub:9292/api/sts/token
+      - edc.iam.sts.oauth.client.id=did:web:consumer-idhub:user:consumer
+      - edc.iam.issuer.id=did:web:consumer-idhub:user:consumer
+
+    depends_on:
+      shared-postgres:
+        condition: service_healthy
+      shared-vault:
+        condition: service_healthy
+    entrypoint: [ "java", "-jar", "edc-runtime.jar", "--log-level=DEBUG" ]
+    ports:
+      - "9600:9500" # Public API
+    networks:
+      - fx-test-network
+
+
 
   provider-controlplane:
     container_name: provider-controlplane
@@ -254,6 +296,8 @@ services:
     depends_on:
         shared-postgres:
           condition: service_healthy
+        shared-vault:
+          condition: service_healthy
     entrypoint: [ "java", "-jar", "edc-runtime.jar", "--log-level=DEBUG" ]
     ports:
       - "5006:5005"   # Debugger
@@ -280,8 +324,8 @@ services:
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/prov_dpl
       - edc.datasource.default.user=admin
       - edc.datasource.default.password=password
-      - edc.transfer.proxy.token.signer.privatekey.alias=privkey
-      - edc.transfer.proxy.token.verifier.publickey.alias=pubkey
+      - edc.transfer.proxy.token.signer.privatekey.alias=prov_priv
+      - edc.transfer.proxy.token.verifier.publickey.alias=prov_pub
       - edc.vault.hashicorp.url=http://shared-vault:8200
       - edc.vault.hashicorp.health.check.enabled=true
       - edc.vault.hashicorp.token=vaultsecret0123456789
@@ -295,6 +339,8 @@ services:
 
     depends_on:
       shared-postgres:
+        condition: service_healthy
+      shared-vault:
         condition: service_healthy
     entrypoint: [ "java", "-jar", "edc-runtime.jar", "--log-level=DEBUG" ]
     ports:
