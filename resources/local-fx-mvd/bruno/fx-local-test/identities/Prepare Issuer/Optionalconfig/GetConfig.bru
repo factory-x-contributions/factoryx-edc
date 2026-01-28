@@ -14,36 +14,6 @@ headers {
   x-api-key: YWRtaW4.adminKey
 }
 
-body:json {
-  {
-    "MC-Cred-Def": {
-  
-      "blackList": [],
-  
-      "default": {
-        "credentialSubject": {
-          "isMember": true
-        }
-      },
-  
-      "did:web:idhub-user1-service": {
-        "credentialSubject": {
-          "isMember": true,
-          "anotherProperty": 43,
-          "nestedProperty": {
-            "foo": [
-              1,
-              "bar",
-              false,
-              {}
-            ]
-          }
-        }
-      }
-    }
-  }
-}
-
 settings {
   encodeUrl: true
   timeout: 0
