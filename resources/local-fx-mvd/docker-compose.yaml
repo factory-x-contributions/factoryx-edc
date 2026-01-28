@@ -116,7 +116,6 @@ services:
       - edc.iam.did.web.use.https=false
       - edc.ih.api.superuser.id=admin
       - edc.ih.api.superuser.key=YWRtaW4.adminKey
-#      - edc.issuer.statuslist.signing.key.alias=foo
       - web.http.did.port=80
       - edc.sql.schema.autocreate=true
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/cons_ih_db
@@ -154,7 +153,6 @@ services:
       - edc.iam.did.web.use.https=false
       - edc.ih.api.superuser.id=admin
       - edc.ih.api.superuser.key=YWRtaW4.adminKey
-#      - edc.issuer.statuslist.signing.key.alias=foo
       - web.http.did.port=80
       - edc.sql.schema.autocreate=true
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/prov_ih_db
@@ -170,7 +168,7 @@ services:
 
   consumer-controlplane:
     container_name: consumer-controlplane
-    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.2.0
+    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.2.1
     pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
@@ -218,7 +216,7 @@ services:
       - fx-test-network
   consumer-dataplane:
     container_name: consumer-dataplane
-    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.2.0
+    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.2.1
     environment:
       - web.http.public.port=9500
       - web.http.public.path=/public
@@ -260,7 +258,7 @@ services:
 
   provider-controlplane:
     container_name: provider-controlplane
-    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.2.0
+    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.2.1
     pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
@@ -310,7 +308,7 @@ services:
 
   provider-dataplane:
     container_name: provider-dataplane
-    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.2.0
+    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.2.1
     environment:
       - web.http.public.port=9500
       - web.http.public.path=/public
