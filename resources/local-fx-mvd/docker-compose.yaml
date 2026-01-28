@@ -87,7 +87,7 @@ services:
       VAULT_TOKEN: vaultsecret0123456789
     volumes:
       - ./additional_config/vault-init.sh:/scripts/init.sh:ro
-    entrypoint: [ "sh", "-c", "apk add --no-cache curl jq openssl && sh /scripts/init.sh" ]
+    entrypoint: [ "sh", "-c", "apk add --no-check-certificate --no-cache curl jq openssl && sh /scripts/init.sh" ]
     restart: "no"
     networks:
       - fx-test-network
