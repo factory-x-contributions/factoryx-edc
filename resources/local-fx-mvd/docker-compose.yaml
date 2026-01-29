@@ -1,7 +1,7 @@
 services:
   local-issuer-service:
     container_name: local-issuer-service
-    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/issuerservice:0.0.1 # Note: image pull requires docker login
+    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/issuerservice:0.0.2 # Note: image pull requires docker login
     pull_policy: missing
     depends_on:
       shared-postgres:
@@ -94,7 +94,7 @@ services:
 
   consumer-idhub:
     container_name: consumer-idhub
-    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/identityhub:0.0.1 # Note: image pull requires docker login
+    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/identityhub:0.0.2 # Note: image pull requires docker login
     pull_policy: missing
     depends_on:
       shared-postgres:
@@ -131,7 +131,7 @@ services:
 
   provider-idhub:
     container_name: provider-idhub
-    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/identityhub:0.0.1 # Note: image pull requires docker login
+    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/identityhub:0.0.2 # Note: image pull requires docker login
     pull_policy: missing
     depends_on:
       shared-postgres:
