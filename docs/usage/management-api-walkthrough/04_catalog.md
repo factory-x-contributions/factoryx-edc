@@ -2,8 +2,7 @@
 
 The catalog API is the first request in this sequence that passes through the Dataspace. It is executed by the Data
 Consumer against their own Control Plane and triggers the retrieval of a catalog from a specified Data Provider. The
-request
-looks like this:
+request looks like this:
 
 ```http request
 POST /v3/catalog/request HTTP/1.1
@@ -20,8 +19,8 @@ Content-Type: application/json
   },
   "@type": "CatalogRequest",
   "counterPartyId": "web:did:data-provider.com:dataspace",
-  "counterPartyAddress": "https://provider-control.plane/api/v1/dsp",
-  "protocol": "dataspace-protocol-http",
+  "counterPartyAddress": "https://provider-control.plane/api/v1/dsp/2025-1",
+  "protocol": "dataspace-protocol-http:2025-1",
   "querySpec": {
     "@type": "QuerySpec",
     "offset": 0,
@@ -43,9 +42,9 @@ The request body is lean. Mandatory properties are:
 
 - `counterPartyAddress` (formerly `providerUrl`): This property points to the DSP-endpoint of the Data Provider's
   Control
-  Plane. Usually this ends on `/api/v1/dsp`.
+  Plane. Usually this ends on `/api/v1/dsp/2025-1`.
 - `counterPartyId`: must be the provider did. This property is mandatory. If omitted the catalog request will fail.
-- `protocol`: must be `"dataspace-protocol-http"`.
+- `protocol`: must be `"dataspace-protocol-http:2025-1"`.
 
 The `querySpec` section is optional and allows the Data Consumer to specify what entries from the catalog shall be
 returned. How to write proper `filterExpression`s was previously [explained](03_contractdefinitions.md#assetsselector).
@@ -66,8 +65,6 @@ any further communication between the Business Partners useless.
 
 ## Returned Payload
 
-The returned payload is a `dcat:Catalog` as required by
-the [DSP-Specification v0.8](https://docs.internationaldataspaces.org/ids-knowledgebase/v/dataspace-protocol/catalog/catalog.protocol).
 
 ```json
 {

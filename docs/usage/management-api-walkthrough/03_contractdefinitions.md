@@ -106,8 +106,7 @@ When using a private property as an asset selector, the property defined in the 
 
 ## Side-Effects
 
-The [Domain Model](../README) shows the basic connection between the core concepts of
-the EDC. Contract Offers for a particular Data Consumer are created dynamically from the Contract Definitions created
+Contract Offers for a particular Data Consumer are created dynamically from the Contract Definitions created
 by a Data Provider. The mechanics are explained in the section on the [catalog-API](04_catalog.md). But already at this
 stage, Data Providers must be aware that creating a Contract Definition is sufficient to expose a Backend System
 (as defined in the [Asset](01_assets.md)) to the Dataspace and let third parties access it.
