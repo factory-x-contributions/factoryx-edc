@@ -34,22 +34,22 @@ Content-Type: application/json
 {
   "@context": [
     "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
-    "http://www.w3.org/ns/odrl.jsonld",
+    "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
     {
       "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
     }
   ],
   "@type": "PolicyDefinition",
-  "@id": "{{POLICY_ID}}",
+  "@id": "{{policyId}}",
   "policy": {
     "@type": "Set",
     "permission": [
       {
-        "action": "use",
-        "constraint": {
+        "action": {"@id": "use"},
+        "constraint":{
           "leftOperand": "BusinessPartnerDID",
           "operator": "eq",
-          "rightOperand": "did:web:consumer-on-whitelist.com:path"
+          "rightOperand": "did:web:consumer.example:some:path"
         }
       }
     ]
@@ -95,24 +95,24 @@ extracted from the Factory-X membership credential.
     "odrl": "http://www.w3.org/ns/odrl/2/",
     "dspace": "https://w3id.org/dspace/v0.8/"
   },
-      "@id": "something",
-      "@type": "odrl:Offer",
-      "odrl:permission": {
-        "odrl:action": {
-          "@id": "odrl:use"
-        },
-        "odrl:constraint": {
-          "odrl:leftOperand": {
-            "@id": "BusinessPartnerDID"
-          },
-          "odrl:operator": {
-            "@id": "odrl:eq"
-          },
-          "odrl:rightOperand": "did:web:my-partner.com:who:is:cool"
-        }
+  "@id": "something",
+  "@type": "odrl:Offer",
+  "odrl:permission": {
+    "odrl:action": {
+      "@id": "odrl:use"
+    },
+    "odrl:constraint": {
+      "odrl:leftOperand": {
+        "@id": "BusinessPartnerDID"
       },
-      "odrl:prohibition": [],
-      "odrl:obligation": []
+      "odrl:operator": {
+        "@id": "odrl:eq"
+      },
+      "odrl:rightOperand": "did:web:my-partner.com:who:is:cool"
+    }
+  },
+  "odrl:prohibition": [],
+  "odrl:obligation": []
 }
 ```
 
@@ -143,33 +143,30 @@ extracted from the Factory-X membership credential.
 A policy holding this constraint can be created like this:
 ```json
 {
-  "@context": {
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "dct": "http://purl.org/dc/terms/",
-    "odrl": "http://www.w3.org/ns/odrl/2/"
-  },
-  "@id": "something",
-  "@type": "odrl:Offer",
-  "odrl:permission": {
-    "odrl:action": {
-      "@id": "odrl:use"
-    },
-    "odrl:constraint": {
-      "odrl:leftOperand": {
-        "@id": "https://w3id.org/factoryx/policy/v1.0/Membership"
-      },
-      "odrl:operator": {
-        "@id": "odrl:eq"
-      },
-      "odrl:rightOperand": "active"
+  "@context": [
+    "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
+    "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+    {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
     }
-  },
-  "odrl:prohibition": [],
-  "odrl:obligation": []
+  ],
+  "@type": "PolicyDefinition",
+  "@id": "mem",
+  "policy":
+  {
+    "@type": "Set",
+    "permission": {
+      "action": "use",
+      "constraint": {
+        "leftOperand": "Membership",
+        "operator": "eq",
+        "rightOperand": "active"
+      }
+    },
+    "prohibition": [],
+    "obligation": []
+  }
 }
-
-
-
 ```
 It is validated against the membership credential:
 ```json
@@ -201,31 +198,29 @@ matching examples that follow.
 
 ```json
 {
-  "@context": {
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "dct": "http://purl.org/dc/terms/",
-    "odrl": "http://www.w3.org/ns/odrl/2/",
-    "dspace": "https://w3id.org/dspace/v0.8/"
-  },
-  "@id": "something",
-  "@type": "odrl:Offer",
-  "odrl:permission": {
-    "odrl:action": {
-      "@id": "odrl:use"
-    },
-    "odrl:constraint": {
-      "odrl:leftOperand": {
-        "@id": "https://w3id.org/factoryx/policy/v1.0/certification"
-      },
-      "odrl:operator": {
-        "@id": "odrl:eq"
-      },
-      "odrl:rightOperand": "MyCertification"
+  "@context": [
+    "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
+    "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+    {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
     }
-  },
-  "odrl:prohibition": [],
-  "odrl:obligation": []
-} 
+  ],
+  "@type": "PolicyDefinition",
+  "@id": "cert",
+  "policy": {
+    "@type": "Set",
+    "permission": {
+      "action": "use",
+      "constraint": {
+        "leftOperand": "CertificationType",
+        "operator": "eq",
+        "rightOperand": "ISO9001"
+      }
+    },
+    "prohibition": [],
+    "obligation": []
+  }
+}
 ```
 
 ```json

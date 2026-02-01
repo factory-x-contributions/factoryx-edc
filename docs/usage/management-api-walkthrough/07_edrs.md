@@ -38,44 +38,34 @@ Content-Type: application/json
 ```
 
 ```json
+
 {
-    "@context": [
-        "https://w3id.org/tractusx/policy/v1.0.0",
-        "http://www.w3.org/ns/odrl.jsonld",
-        {
-            "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
-        }
-    ],
-    "@type": "ContractRequest",
-    "counterPartyAddress": "https://provider-control.plane/api/v1/dsp",
-    "protocol": "dataspace-protocol-http",
-    "policy": {
-        "@id": "{{OFFER_ID}}",
-        "@type": "Offer",
-        "assigner": "{{PROVIDER_DID}}",
-        "permission": [
-            {
-                "action": "use",
-                "constraint": {
-                    "or": {
-                        "leftOperand": "FrameworkAgreement",
-                        "operator": "eq",
-                        "rightOperand": "Pcf:<version>"
-                    }
-                }
-            }
-        ],
-        "prohibition": [],
-        "obligation": [],
-        "target": "{{ASSET_ID}}"
-    },
-    "callbackAddresses": []
+  "@context": [
+    "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
+    "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+    {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    }
+  ],
+  "@type": "ContractRequest",
+  "counterPartyAddress": "{{counterPartyAddress}}/2025-1",
+  "protocol": "dataspace-protocol-http:2025-1",
+  "policy": {
+    "@id": "{{offerId}}",
+    "@type": "Offer",
+    "assigner": "{{participantId}}",
+    "permission": {{theBigPermissionObjectFromTheCatalogResponse}},
+"prohibition": [],
+"obligation": [],
+"target": "{{targetId}}"
+},
+"callbackAddresses": []
 }
 ```
 
 - `counterPartyAddress` sets the coordinates for the connector that the Consumer-EDC shall negotiate with (Provider EDC).
-  It will usually end in `/api/v1/dsp`
-- `protocol` must be `dataspace-protocol-http`
+  It will usually end in `/api/v1/dsp/2025-1`
+- `protocol` must be `dataspace-protocol-http:2025-1`
 - In the `policy` section, the Data Consumer specifies the Data Offer for the negotiation. As there may be multiple
   Data Offers for the same DataSet, the Data Consumer must choose one. 
   It must hold an identical copy of the Data Offer's contract policy as provided via the catalog-API in the `odrl:hasPolicy` field plus:
@@ -131,18 +121,19 @@ Content-Type: application/json
 
 ```json
 {
-    "@context": {
-        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
-    },
-    "@type": "QuerySpec",
-    "filterExpression": [
-        {
-            "operandLeft": "assetId",
-            "operator": "=",
-            "operandRight": "1"
-        }
-        
-    ]
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "QuerySpec",
+  "filterExpression": [
+    {
+      "operandLeft": "assetId",
+      "operator": "=",
+      "operandRight": "1"
+    }
+  ],
+  "sortOrder": "DESC",
+  "sortField": "createdAt"
 }
 ```
 
@@ -188,7 +179,6 @@ that is located at `endpoint`.
     "edc": "https://w3id.org/edc/v0.0.1/ns/",
     "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
     "tx-auth": "https://w3id.org/tractusx/auth/",
-    "cx-policy": "https://w3id.org/catenax/policy/",
     "odrl": "http://www.w3.org/ns/odrl/2/"
   }
 }
