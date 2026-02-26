@@ -44,7 +44,6 @@ import static org.mockito.Mockito.when;
 class DataspaceProtocolExtensionTest {
 
     private final String webhook = "https://webhook";
-    private final String did = "did:web:example";
 
     private DataspaceProfileContextRegistry dataspaceProfileContextRegistry = mock();
     private DspBaseWebhookAddress dspBaseWebhookAddress = mock();
@@ -59,21 +58,17 @@ class DataspaceProtocolExtensionTest {
 
     @Test
     void initialize_shouldRegisterProfileContexts(ObjectFactory factory, ServiceExtensionContext context) {
-        when(context.getParticipantId()).thenReturn(did);
-
         factory.constructInstance(DataspaceProtocolExtension.class).initialize(context);
 
         verify(dataspaceProfileContextRegistry).register(argThat(
                 dataspaceProfileContext -> dataspaceProfileContext.name().equals(DATASPACE_PROTOCOL_HTTP) &&
                         dataspaceProfileContext.protocolVersion().equals(V_08) &&
                         dataspaceProfileContext.webhook().url().equals(webhook) &&
-                        dataspaceProfileContext.participantId().equals(did) &&
                         dataspaceProfileContext.idExtractionFunction() instanceof DidExtractionFunction));
         verify(dataspaceProfileContextRegistry).register(argThat(
                 dataspaceProfileContext -> dataspaceProfileContext.name().equals(DATASPACE_PROTOCOL_HTTP_V_2025_1) &&
                         dataspaceProfileContext.protocolVersion().equals(V_2025_1) &&
                         dataspaceProfileContext.webhook().url().equals(webhook + V_2025_1_PATH) &&
-                        dataspaceProfileContext.participantId().equals(did) &&
                         dataspaceProfileContext.idExtractionFunction() instanceof DidExtractionFunction));
     }
 }
