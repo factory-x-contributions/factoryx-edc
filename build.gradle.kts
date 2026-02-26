@@ -26,7 +26,7 @@ plugins {
     `maven-publish`
     `jacoco-report-aggregation`
     alias(libs.plugins.shadow) apply false
-    id("com.bmuschko.docker-remote-api") version "9.4.0"
+    alias(libs.plugins.docker)
 }
 
 val fxScmConnection: String by project
@@ -66,10 +66,10 @@ allprojects {
         testImplementation(platform("org.junit:junit-bom:5.11.4"))
 
         constraints {
-            implementation("org.yaml:snakeyaml:2.4") {
+            implementation("org.yaml:snakeyaml:2.5") {
                 because("version 1.33 has vulnerabilities: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-1471.")
             }
-            implementation("net.minidev:json-smart:2.5.2") {
+            implementation("net.minidev:json-smart:2.6.0") {
                 because("version 2.4.8 has vulnerabilities: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-1370.")
             }
         }
@@ -147,7 +147,7 @@ allprojects {
 subprojects {
     afterEvaluate {
         // the "dockerize" task is added to all projects that use the `shadowJar` plugin
-        if (project.plugins.hasPlugin("com.gradleup.shadow")) {
+        if (project.plugins.hasPlugin(libs.plugins.shadow.get().pluginId)) {
             val downloadOpentelemetryAgent = tasks.register("downloadOpentelemetryAgent", Copy::class) {
                 val openTelemetry = configurations.create("open-telemetry")
 
@@ -180,7 +180,7 @@ subprojects {
                 .dependsOn(downloadOpentelemetryAgent)
 
             //actually apply the plugin to the (sub-)project
-            apply(plugin = "com.bmuschko.docker-remote-api")
+            apply(plugin = libs.plugins.docker.get().pluginId)
 
             tasks.register("dockerize", DockerBuildImage::class) {
                 dependsOn(shadowJarTask)
