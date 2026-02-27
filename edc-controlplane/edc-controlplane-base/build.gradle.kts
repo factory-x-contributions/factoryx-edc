@@ -32,6 +32,7 @@ dependencies {
         exclude("org.eclipse.tractusx.edc", "bpn-validation")
         exclude("org.eclipse.tractusx.edc", "agreements-bpns")
         exclude("org.eclipse.tractusx.edc", "connector-discovery-api")
+        exclude("org.eclipse.tractusx.edc", "cx-connector-discovery")
         exclude( "org.eclipse.tractusx.edc", "provision-additional-headers")
         exclude( "org.eclipse.tractusx.edc", "dataspace-protocol")
         exclude( "org.eclipse.tractusx.edc", "json-ld-core")
