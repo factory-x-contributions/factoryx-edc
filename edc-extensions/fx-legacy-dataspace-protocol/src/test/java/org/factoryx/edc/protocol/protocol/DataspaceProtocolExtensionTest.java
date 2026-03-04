@@ -21,11 +21,11 @@
 package org.factoryx.edc.protocol.protocol;
 
 import org.eclipse.edc.boot.system.injection.ObjectFactory;
+import org.eclipse.edc.iam.decentralizedclaims.core.defaults.DefaultDcpParticipantIdExtractionFunction;
 import org.eclipse.edc.junit.extensions.DependencyInjectionExtension;
 import org.eclipse.edc.protocol.dsp.http.spi.api.DspBaseWebhookAddress;
 import org.eclipse.edc.protocol.spi.DataspaceProfileContextRegistry;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.factoryx.edc.protocol.protocol.identifier.DidExtractionFunction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,11 +64,11 @@ class DataspaceProtocolExtensionTest {
                 dataspaceProfileContext -> dataspaceProfileContext.name().equals(DATASPACE_PROTOCOL_HTTP) &&
                         dataspaceProfileContext.protocolVersion().equals(V_08) &&
                         dataspaceProfileContext.webhook().url().equals(webhook) &&
-                        dataspaceProfileContext.idExtractionFunction() instanceof DidExtractionFunction));
+                        dataspaceProfileContext.idExtractionFunction() instanceof DefaultDcpParticipantIdExtractionFunction));
         verify(dataspaceProfileContextRegistry).register(argThat(
                 dataspaceProfileContext -> dataspaceProfileContext.name().equals(DATASPACE_PROTOCOL_HTTP_V_2025_1) &&
                         dataspaceProfileContext.protocolVersion().equals(V_2025_1) &&
                         dataspaceProfileContext.webhook().url().equals(webhook + V_2025_1_PATH) &&
-                        dataspaceProfileContext.idExtractionFunction() instanceof DidExtractionFunction));
+                        dataspaceProfileContext.idExtractionFunction() instanceof DefaultDcpParticipantIdExtractionFunction));
     }
 }
