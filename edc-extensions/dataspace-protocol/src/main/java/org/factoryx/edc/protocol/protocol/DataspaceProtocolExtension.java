@@ -30,9 +30,6 @@ import org.factoryx.edc.protocol.protocol.identifier.DidExtractionFunction;
 
 import static org.eclipse.edc.protocol.dsp.http.spi.types.HttpMessageProtocol.DATASPACE_PROTOCOL_HTTP;
 import static org.eclipse.edc.protocol.dsp.spi.type.Dsp08Constants.V_08;
-import static org.eclipse.edc.protocol.dsp.spi.type.Dsp2025Constants.DATASPACE_PROTOCOL_HTTP_V_2025_1;
-import static org.eclipse.edc.protocol.dsp.spi.type.Dsp2025Constants.V_2025_1;
-import static org.eclipse.edc.protocol.dsp.spi.type.Dsp2025Constants.V_2025_1_PATH;
 
 public class DataspaceProtocolExtension implements ServiceExtension {
 
@@ -44,6 +41,5 @@ public class DataspaceProtocolExtension implements ServiceExtension {
     @Override
     public void initialize(ServiceExtensionContext context) {
         contextRegistry.register(new DataspaceProfileContext(DATASPACE_PROTOCOL_HTTP, V_08, () -> dspWebhookAddress.get(), new DidExtractionFunction()));
-        contextRegistry.register(new DataspaceProfileContext(DATASPACE_PROTOCOL_HTTP_V_2025_1, V_2025_1, () -> dspWebhookAddress.get() + V_2025_1_PATH, new DidExtractionFunction()));
     }
 }

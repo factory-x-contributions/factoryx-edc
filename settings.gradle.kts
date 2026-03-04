@@ -29,7 +29,7 @@ include(":spi:mqtt:mqtt-data-endpoint-spi")
 include(":spi:mqtt:mqtt-data-params-spi")
 
 // extensions - control plane
-include(":edc-extensions:fx-json-ld-core")
+include(":edc-extensions:json-ld-fx")
 include(":edc-extensions:fx-policy")
 include(":edc-extensions:data-flow-properties-provider")
 include(":edc-extensions:dataspace-protocol")

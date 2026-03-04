@@ -26,8 +26,7 @@ dependencies {
     implementation(project(":spi:core-spi"))
     implementation(libs.edc.spi.jsonld)
     implementation(libs.eclipse.tractusx.spi.core)
-    implementation(libs.dsp.spi.v08)
-    implementation(libs.dsp.spi.v2025)
+    implementation(libs.eclipse.tractusx.coreutils)
 
     testImplementation(testFixtures(libs.edc.junit))
 }
