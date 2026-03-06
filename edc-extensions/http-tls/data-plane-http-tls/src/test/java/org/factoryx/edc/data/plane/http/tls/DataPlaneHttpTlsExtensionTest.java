@@ -19,6 +19,9 @@
 
 package org.factoryx.edc.data.plane.http.tls;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import org.eclipse.edc.connector.dataplane.http.spi.HttpRequestParamsProvider;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.PipelineService;
 import org.eclipse.edc.connector.dataplane.spi.pipeline.StreamResult;
@@ -34,25 +37,27 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.mockserver.integration.ClientAndServer;
-import org.mockserver.model.HttpResponse;
 
 import java.util.UUID;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static java.util.Collections.emptyMap;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.edc.util.io.Ports.getFreePort;
 import static org.mockito.Mockito.mock;
-import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.stop.Stop.stopQuietly;
 
 @ComponentTest
 public class DataPlaneHttpTlsExtensionTest {
 
-    private static ClientAndServer sourceServer;
-    private static ClientAndServer destinationServer;
+    private static WireMockServer sourceServer;
+    private static WireMockServer destinationServer;
     private static final int SOURCE_PORT = getFreePort();
     private static final int DESTINATION_PORT = getFreePort();
 
@@ -62,14 +67,18 @@ public class DataPlaneHttpTlsExtensionTest {
 
     @BeforeAll
     public static void setUp() {
-        sourceServer = startClientAndServer(SOURCE_PORT);
-        destinationServer = startClientAndServer(DESTINATION_PORT);
+        sourceServer = new WireMockServer(WireMockConfiguration.options().port(SOURCE_PORT));
+        destinationServer = new WireMockServer(WireMockConfiguration.options().port(DESTINATION_PORT));
+        sourceServer.start();
+        destinationServer.start();
+        WireMock.configureFor("localhost", SOURCE_PORT);
+        WireMock.configureFor("localhost", DESTINATION_PORT);
     }
 
     @AfterAll
     public static void tearDown() {
-        stopQuietly(sourceServer);
-        stopQuietly(destinationServer);
+        sourceServer.stop();
+        destinationServer.stop();
     }
 
     @Test
@@ -82,8 +91,8 @@ public class DataPlaneHttpTlsExtensionTest {
                 .type(HttpTlsDataAddressSchema.HTTP_TLS_DATA_TYPE)
                 .property(HttpDataAddressSchema.BASE_URL, "http://localhost:" + DESTINATION_PORT)
                 .build();
-        sourceServer.when(request()).respond(HttpResponse.response().withStatusCode(200));
-        destinationServer.when(request()).respond(HttpResponse.response().withStatusCode(200));
+        sourceServer.stubFor(get(urlMatching(".*")).willReturn(aResponse().withStatus(200)));
+        destinationServer.stubFor(post(urlMatching(".*")).willReturn(aResponse().withStatus(200)));
 
         var request = DataFlowStartMessage.Builder.newInstance()
                 .processId(UUID.randomUUID().toString())
@@ -96,8 +105,8 @@ public class DataPlaneHttpTlsExtensionTest {
 
         assertThat(future).succeedsWithin(10, SECONDS)
                 .matches(StreamResult::succeeded);
-        sourceServer.verify(request().withMethod("GET"));
-        destinationServer.verify(request().withMethod("POST"));
+        sourceServer.verify(getRequestedFor(urlMatching(".*")));
+        destinationServer.verify(postRequestedFor(urlMatching(".*")));
     }
 
     @Test
@@ -112,8 +121,8 @@ public class DataPlaneHttpTlsExtensionTest {
                 .type(HttpTlsDataAddressSchema.HTTP_TLS_DATA_TYPE)
                 .property(HttpDataAddressSchema.BASE_URL, "http://localhost:" + DESTINATION_PORT)
                 .build();
-        sourceServer.when(request()).respond(HttpResponse.response().withStatusCode(200));
-        destinationServer.when(request()).respond(HttpResponse.response().withStatusCode(200));
+        sourceServer.stubFor(get(urlMatching(".*")).willReturn(aResponse().withStatus(200)));
+        destinationServer.stubFor(post(urlMatching(".*")).willReturn(aResponse().withStatus(200)));
 
         var request = DataFlowStartMessage.Builder.newInstance()
                 .processId(UUID.randomUUID().toString())
@@ -126,7 +135,7 @@ public class DataPlaneHttpTlsExtensionTest {
 
         assertThat(future).succeedsWithin(10, SECONDS)
                 .matches(StreamResult::succeeded);
-        sourceServer.verify(request().withMethod("GET").withHeader("customSourceHeader", "customValue"));
-        destinationServer.verify(request().withMethod("POST").withHeader("customSinkHeader", "customValue"));
+        sourceServer.verify(getRequestedFor(urlMatching(".*")).withHeader("customSourceHeader", equalTo("customValue")));
+        destinationServer.verify(postRequestedFor(urlMatching(".*")).withHeader("customSinkHeader", equalTo("customValue")));
     }
 }

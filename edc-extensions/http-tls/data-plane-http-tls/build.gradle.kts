@@ -34,7 +34,7 @@ dependencies {
     testImplementation(libs.edc.dataplane.core)
     testImplementation(libs.edc.core.connector)
     testImplementation(libs.edc.core.runtime)
-    testImplementation(libs.mockserver.netty)
+    testImplementation(libs.wiremock)
     testImplementation(libs.edc.spi.dataplane)
     testImplementation(project(":edc-extensions:http-tls:http-tls-client"))
     testImplementation(project(":edc-extensions:http-tls:http-tls-client-lib"))
