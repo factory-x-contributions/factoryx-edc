@@ -17,7 +17,7 @@ rsApi = "4.0.0"
 swagger = "2.2.42"
 testcontainers = "2.0.3"
 titanium = "1.7.0"
-tractusx = "0.12.0-rc3"
+tractusx = "0.12.0-rc4"
 
 [libraries]
 edc-spi-catalog = { module = "org.eclipse.edc:catalog-spi", version.ref = "edc" }
@@ -52,7 +52,6 @@ edc-core-runtime = { module = "org.eclipse.edc:runtime-core", version.ref = "edc
 edc-core-api = { module = "org.eclipse.edc:api-core", version.ref = "edc" }
 edc-dataplane-core = { module = "org.eclipse.edc:data-plane-core", version.ref = "edc" }
 edc-dataplane-http = { module = "org.eclipse.edc:data-plane-http", version.ref = "edc" }
-edc-dataplane-util = { module = "org.eclipse.edc:data-plane-util", version.ref = "edc" }
 edc-http-lib = { module = "org.eclipse.edc:http-lib", version.ref = "edc" }
 mockserver-netty = { module = "org.mock-server:mockserver-netty", version.ref = "netty-mockserver" }
 restAssured = { module = "io.rest-assured:rest-assured", version.ref = "restAssured" }
@@ -84,6 +83,7 @@ edc-ih-spi-credentials = { module = "org.eclipse.edc:verifiable-credential-spi",
 eclipse-tractusx-coreutils = { module = "org.eclipse.tractusx.edc:core-utils", version.ref = "tractusx"}
 eclipse-tractusx-spi-bpn-validation = { module = "org.eclipse.tractusx.edc:bpn-validation-spi", version.ref = "tractusx"}
 eclipse-tractusx-spi-core = { module = "org.eclipse.tractusx.edc:core-spi", version.ref = "tractusx"}
+eclipse-tractusx-dataplane-util = { module = "org.eclipse.tractusx.edc:dataplane-util", version.ref = "tractusx"}
 
 #tractusx runtime modules
 eclipse-tractusx-edc-controlplane-base = {module = "org.eclipse.tractusx.edc:edc-controlplane-base", version.ref = "tractusx"}

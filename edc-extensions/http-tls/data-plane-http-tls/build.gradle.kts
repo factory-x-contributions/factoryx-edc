@@ -24,7 +24,7 @@ plugins {
 dependencies {
     implementation(libs.edc.spi.core)
     implementation(libs.edc.dataplane.http)
-    implementation(libs.edc.dataplane.util)
+    implementation(libs.eclipse.tractusx.dataplane.util)
     implementation(libs.edc.validator.data.address.http.data)
     implementation(libs.edc.spi.validator)
     implementation(project(":spi:http-tls:http-tls-client-spi"))
