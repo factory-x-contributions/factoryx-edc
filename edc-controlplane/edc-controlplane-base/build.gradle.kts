@@ -42,7 +42,7 @@ dependencies {
     runtimeOnly(project(":edc-extensions:json-ld-fx"))
     runtimeOnly(project(":edc-extensions:contract-validation"))
     runtimeOnly(project(":edc-extensions:data-flow-properties-provider"))
-    runtimeOnly(project(":edc-extensions:dataspace-protocol"))
+    runtimeOnly(project(":edc-extensions:fx-legacy-dataspace-protocol"))
     runtimeOnly(project(":edc-extensions:mqtt"))
     // Credentials FX policies
     runtimeOnly(project(":edc-extensions:fx-policy"))
