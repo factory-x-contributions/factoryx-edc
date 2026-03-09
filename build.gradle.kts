@@ -59,6 +59,13 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    // org.eclipse.edc:data-plane-util was replaced by org.eclipse.tractusx.edc:dataplane-util midstream
+    // Exclude it globally so it can never slip onto any classpath via a transitive dependency.
+    configurations.all {
+        exclude(group = "org.eclipse.edc", module = "data-plane-util")
+    }
+
     dependencies {
         implementation("org.slf4j:slf4j-api:2.0.17")
         // this is used to counter version conflicts between the JUnit version pulled in by the plugin,
