@@ -35,6 +35,7 @@ dependencies {
         exclude("org.eclipse.tractusx.edc", "cx-connector-discovery")
         exclude( "org.eclipse.tractusx.edc", "provision-additional-headers")
         exclude( "org.eclipse.tractusx.edc", "cx-dataspace-protocol")
+        exclude( "org.eclipse.tractusx.edc", "dataspace-protocol-core")
         exclude( "org.eclipse.tractusx.edc", "json-ld-cx")
     }
 

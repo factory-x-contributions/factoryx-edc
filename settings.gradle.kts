@@ -64,9 +64,6 @@ include(":edc-tests:e2e-fixtures")
 include(":edc-tests:e2e:catalog-tests")
 include(":edc-tests:runtime:runtime-postgresql")
 
-include(":samples:multi-tenancy")
-
-
 // this is needed to have access to snapshot builds of plugins
 //pluginManagement {
 //    repositories {
