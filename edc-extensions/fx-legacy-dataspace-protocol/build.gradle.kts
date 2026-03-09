@@ -31,6 +31,7 @@ dependencies {
 
     implementation(libs.dsp.spi.http)
     implementation(libs.dsp.spi.v08)
+    implementation(libs.dsp.spi.v2025)
 
     implementation(libs.edc.spi.participant)
     implementation(libs.edc.spi.protocol)

@@ -32,6 +32,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.eclipse.edc.protocol.dsp.http.spi.types.HttpMessageProtocol.DATASPACE_PROTOCOL_HTTP;
 import static org.eclipse.edc.protocol.dsp.spi.type.Dsp08Constants.V_08;
+import static org.eclipse.edc.protocol.dsp.spi.type.Dsp2025Constants.DATASPACE_PROTOCOL_HTTP_V_2025_1;
+import static org.eclipse.edc.protocol.dsp.spi.type.Dsp2025Constants.V_2025_1;
+import static org.eclipse.edc.protocol.dsp.spi.type.Dsp2025Constants.V_2025_1_PATH;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -61,6 +64,11 @@ class DataspaceProtocolExtensionTest {
                 dataspaceProfileContext -> dataspaceProfileContext.name().equals(DATASPACE_PROTOCOL_HTTP) &&
                         dataspaceProfileContext.protocolVersion().equals(V_08) &&
                         dataspaceProfileContext.webhook().url().equals(webhook) &&
+                        dataspaceProfileContext.idExtractionFunction() instanceof DidExtractionFunction));
+        verify(dataspaceProfileContextRegistry).register(argThat(
+                dataspaceProfileContext -> dataspaceProfileContext.name().equals(DATASPACE_PROTOCOL_HTTP_V_2025_1) &&
+                        dataspaceProfileContext.protocolVersion().equals(V_2025_1) &&
+                        dataspaceProfileContext.webhook().url().equals(webhook + V_2025_1_PATH) &&
                         dataspaceProfileContext.idExtractionFunction() instanceof DidExtractionFunction));
     }
 }
