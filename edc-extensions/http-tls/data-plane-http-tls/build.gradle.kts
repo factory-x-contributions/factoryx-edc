@@ -24,7 +24,7 @@ plugins {
 dependencies {
     implementation(libs.edc.spi.core)
     implementation(libs.edc.dataplane.http)
-    implementation(libs.edc.dataplane.util)
+    implementation(libs.eclipse.tractusx.dataplane.util)
     implementation(libs.edc.validator.data.address.http.data)
     implementation(libs.edc.spi.validator)
     implementation(project(":spi:http-tls:http-tls-client-spi"))
@@ -34,7 +34,7 @@ dependencies {
     testImplementation(libs.edc.dataplane.core)
     testImplementation(libs.edc.core.connector)
     testImplementation(libs.edc.core.runtime)
-    testImplementation(libs.mockserver.netty)
+    testImplementation(libs.wiremock)
     testImplementation(libs.edc.spi.dataplane)
     testImplementation(project(":edc-extensions:http-tls:http-tls-client"))
     testImplementation(project(":edc-extensions:http-tls:http-tls-client-lib"))

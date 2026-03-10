@@ -1,5 +1,6 @@
 /********************************************************************************
- * Copyright (c) 2024 T-Systems International GmbH
+ * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2025 SAP SE
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,28 +20,13 @@
 
 plugins {
     `java-library`
-    id("application")
-    alias(libs.plugins.shadow)
 }
 
 dependencies {
-    runtimeOnly(project(":edc-controlplane:edc-controlplane-base"))
-    runtimeOnly(project(":edc-dataplane:edc-dataplane-base")) {
-        exclude("org.eclipse.edc", "data-plane-selector-client")
-    }
-    runtimeOnly(libs.eclipse.tractusx.edc.runtime.memory) {
-        exclude("org.eclipse.tractusx.edc", "edc-controlplane-base")
-        exclude("org.eclipse.tractusx.edc", "edc-dataplane-base")
-    }
-}
+    implementation(project(":spi:core-spi"))
+    implementation(libs.edc.spi.jsonld)
+    implementation(libs.eclipse.tractusx.spi.core)
+    implementation(libs.eclipse.tractusx.coreutils)
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    exclude("**/pom.properties", "**/pom.xm")
-    mergeServiceFiles()
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    archiveFileName.set("${project.name}.jar")
-}
-
-application {
-    mainClass.set("org.eclipse.edc.boot.system.runtime.BaseRuntime")
+    testImplementation(testFixtures(libs.edc.junit))
 }

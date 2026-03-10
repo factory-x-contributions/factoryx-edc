@@ -168,7 +168,7 @@ services:
 
   consumer-controlplane:
     container_name: consumer-controlplane
-    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.2.1
+    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.3.0-SNAPSHOT
     pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
@@ -191,6 +191,7 @@ services:
       - web.http.control.path=/control
       - edc.hostname=consumer-controlplane
       - edc.participant.id=did:web:consumer-idhub:user:consumer
+      - edc.participant.context.id=05e50130-9e67-48d4-80c9-b7200ab3e8e3
       - edc.dsp.callback.address=http://consumer-controlplane:9020/dsp
       - edc.sql.schema.autocreate=true
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/cons_cpl
@@ -217,7 +218,7 @@ services:
 
   consumer-dataplane:
     container_name: consumer-dataplane
-    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.2.1
+    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.3.0-SNAPSHOT
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
       - web.http.public.port=9500
@@ -244,6 +245,7 @@ services:
       - edc.iam.sts.oauth.token.url=http://consumer-idhub:9292/api/sts/token
       - edc.iam.sts.oauth.client.id=did:web:consumer-idhub:user:consumer
       - edc.iam.issuer.id=did:web:consumer-idhub:user:consumer
+      - edc.participant.context.id=05e50130-9e67-48d4-80c9-b7200ab3e8e3
     depends_on:
       shared-postgres:
         condition: service_healthy
@@ -260,7 +262,7 @@ services:
 
   provider-controlplane:
     container_name: provider-controlplane
-    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.2.1
+    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.3.0-SNAPSHOT
     pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
@@ -283,6 +285,7 @@ services:
       - web.http.control.path=/control
       - edc.hostname=provider-controlplane
       - edc.participant.id=did:web:provider-idhub:user:provider
+      - edc.participant.context.id=c4172878-79da-466b-9079-9b11795e7eed
       - edc.dsp.callback.address=http://provider-controlplane:9020/dsp
       - edc.sql.schema.autocreate=true
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/prov_cpl
@@ -310,7 +313,7 @@ services:
 
   provider-dataplane:
     container_name: provider-dataplane
-    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.2.1
+    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.3.0-SNAPSHOT
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
       - web.http.public.port=9500
@@ -337,6 +340,7 @@ services:
       - edc.iam.sts.oauth.token.url=http://provider-idhub:9292/api/sts/token
       - edc.iam.sts.oauth.client.id=did:web:provider-idhub:user:provider
       - edc.iam.issuer.id=did:web:provider-idhub:user:provider
+      - edc.participant.context.id=c4172878-79da-466b-9079-9b11795e7eed
 
     depends_on:
       shared-postgres:

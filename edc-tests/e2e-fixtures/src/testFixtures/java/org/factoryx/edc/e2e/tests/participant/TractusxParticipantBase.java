@@ -20,8 +20,8 @@
 
 package org.factoryx.edc.e2e.tests.participant;
 
-import org.eclipse.edc.connector.controlplane.test.system.utils.LazySupplier;
 import org.eclipse.edc.connector.controlplane.test.system.utils.Participant;
+import org.eclipse.edc.junit.utils.LazySupplier;
 import org.eclipse.edc.spi.system.configuration.Config;
 import org.eclipse.edc.spi.system.configuration.ConfigFactory;
 import org.jetbrains.annotations.NotNull;
@@ -48,6 +48,8 @@ public abstract class TractusxParticipantBase extends IdentityParticipant {
     private final LazySupplier<URI> dataPlanePublic = new LazySupplier<>(() -> URI.create("http://localhost:" + getFreePort() + "/public"));
     private final LazySupplier<URI> federatedCatalog = new LazySupplier<>(() -> URI.create("http://localhost:" + getFreePort() + "/api/catalog"));
 
+    private static final String CONNECTOR_UNDER_TEST = "participantContextId";
+
     protected String did;
 
     public void createAsset(String id) {
@@ -73,6 +75,7 @@ public abstract class TractusxParticipantBase extends IdentityParticipant {
             {
                 put("edc.runtime.id", name);
                 put("edc.participant.id", getDid());
+                put("edc.participant.context.id", CONNECTOR_UNDER_TEST);
                 put("web.http.port", String.valueOf(getFreePort()));
                 put("web.http.path", "/api");
                 put("web.http.protocol.port", String.valueOf(controlPlaneProtocol.get().getPort()));

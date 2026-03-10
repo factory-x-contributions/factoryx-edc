@@ -29,10 +29,10 @@ include(":spi:mqtt:mqtt-data-endpoint-spi")
 include(":spi:mqtt:mqtt-data-params-spi")
 
 // extensions - control plane
-include(":edc-extensions:fx-json-ld-core")
+include(":edc-extensions:json-ld-fx")
 include(":edc-extensions:fx-policy")
 include(":edc-extensions:data-flow-properties-provider")
-include(":edc-extensions:dataspace-protocol")
+include(":edc-extensions:fx-legacy-dataspace-protocol")
 include(":edc-extensions:dcp:fx-dcp")
 include(":edc-extensions:did-validation")
 include(":edc-extensions:did-validation:did-validation-core")
@@ -63,9 +63,6 @@ include(":edc-dataplane:edc-dataplane-hashicorp-vault")
 include(":edc-tests:e2e-fixtures")
 include(":edc-tests:e2e:catalog-tests")
 include(":edc-tests:runtime:runtime-postgresql")
-
-include(":samples:multi-tenancy")
-
 
 // this is needed to have access to snapshot builds of plugins
 //pluginManagement {

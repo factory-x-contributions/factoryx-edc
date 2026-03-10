@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.github.jengelman.gradle.plugins.shadow.ShadowJavaPlugin
 import java.time.Duration
 
 plugins {
@@ -26,8 +25,8 @@ plugins {
     `java-library`
     `maven-publish`
     `jacoco-report-aggregation`
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.bmuschko.docker-remote-api") version "9.4.0"
+    alias(libs.plugins.shadow) apply false
+    alias(libs.plugins.docker)
 }
 
 val fxScmConnection: String by project
@@ -60,6 +59,13 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    // org.eclipse.edc:data-plane-util was replaced by org.eclipse.tractusx.edc:dataplane-util midstream
+    // Exclude it globally so it can never slip onto any classpath via a transitive dependency.
+    configurations.all {
+        exclude(group = "org.eclipse.edc", module = "data-plane-util")
+    }
+
     dependencies {
         implementation("org.slf4j:slf4j-api:2.0.17")
         // this is used to counter version conflicts between the JUnit version pulled in by the plugin,
@@ -67,10 +73,10 @@ allprojects {
         testImplementation(platform("org.junit:junit-bom:5.11.4"))
 
         constraints {
-            implementation("org.yaml:snakeyaml:2.4") {
+            implementation("org.yaml:snakeyaml:2.5") {
                 because("version 1.33 has vulnerabilities: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-1471.")
             }
-            implementation("net.minidev:json-smart:2.5.2") {
+            implementation("net.minidev:json-smart:2.6.0") {
                 because("version 2.4.8 has vulnerabilities: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-1370.")
             }
         }
@@ -89,7 +95,6 @@ allprojects {
     configure<org.eclipse.edc.plugins.edcbuild.extensions.BuildExtension> {
         pom {
             // this is actually important, so we can publish under the correct GID
-            groupId = project.group.toString()
             projectName.set(project.name)
             description.set("edc :: ${project.name}")
             projectUrl.set(fxWebsiteUrl)
@@ -149,8 +154,8 @@ allprojects {
 subprojects {
     afterEvaluate {
         // the "dockerize" task is added to all projects that use the `shadowJar` plugin
-        if (project.plugins.hasPlugin("com.github.johnrengelman.shadow")) {
-            val downloadOpentelemetryAgent = tasks.create("downloadOpentelemetryAgent", Copy::class) {
+        if (project.plugins.hasPlugin(libs.plugins.shadow.get().pluginId)) {
+            val downloadOpentelemetryAgent = tasks.register("downloadOpentelemetryAgent", Copy::class) {
                 val openTelemetry = configurations.create("open-telemetry")
 
                 dependencies {
@@ -162,19 +167,19 @@ subprojects {
                 rename { "opentelemetry-javaagent.jar" }
             }
 
-            val copyLegalDocs = tasks.create("copyLegalDocs", Copy::class) {
+            val copyLegalDocs = tasks.register("copyLegalDocs", Copy::class) {
                 from(project.rootProject.projectDir)
                 into("build/legal")
                 include("SECURITY.md", "NOTICE.md", "DEPENDENCIES", "LICENSE")
             }
 
-            val copyDockerfile = tasks.create("copyDockerfile", Copy::class) {
+            val copyDockerfile = tasks.register("copyDockerfile", Copy::class) {
                 from(rootProject.projectDir.toPath().resolve("resources"))
                 into(project.layout.buildDirectory.dir("resources").get().dir("docker"))
                 include("Dockerfile")
             }
 
-            val shadowJarTask = tasks.named(ShadowJavaPlugin.SHADOW_JAR_TASK_NAME).get()
+            val shadowJarTask = tasks.named("shadowJar").get()
 
             shadowJarTask
                 .dependsOn(copyDockerfile)
@@ -182,9 +187,10 @@ subprojects {
                 .dependsOn(downloadOpentelemetryAgent)
 
             //actually apply the plugin to the (sub-)project
-            apply(plugin = "com.bmuschko.docker-remote-api")
+            apply(plugin = libs.plugins.docker.get().pluginId)
 
-            val dockerTask: DockerBuildImage = tasks.create("dockerize", DockerBuildImage::class) {
+            tasks.register("dockerize", DockerBuildImage::class) {
+                dependsOn(shadowJarTask)
                 dockerFile.set(File("build/resources/docker/Dockerfile"))
 
                 val dockerContextDir = project.projectDir
@@ -200,8 +206,6 @@ subprojects {
                 buildArgs.put("ADDITIONAL_FILES", "build/legal/*")
                 inputDir.set(file(dockerContextDir))
             }
-
-            dockerTask.dependsOn(shadowJarTask)
         }
     }
 
@@ -238,7 +242,8 @@ fun childrenDependencies(dependency: ResolvedDependency): List<ResolvedDependenc
 
 fun downloadYamlArtifact(dep: ResolvedDependency, classifier: String, destinationDirectory: java.nio.file.Path) {
     try {
-        val managementApi = dependencies.create(dep.moduleGroup, dep.moduleName, dep.moduleVersion, classifier = classifier, ext = "yaml")
+        val managementApiNotation = "${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}:${classifier}@yaml"
+        val managementApi = dependencies.create(managementApiNotation)
         configurations
             .detachedConfiguration(managementApi)
             .resolve()

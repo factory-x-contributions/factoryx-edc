@@ -112,7 +112,7 @@ public class MqttDataFlowController implements DataFlowController {
     }
 
     @Override
-    public StatusResult<DataFlowResponse> provision(TransferProcess transferProcess, Policy policy) {
+    public StatusResult<DataFlowResponse> prepare(TransferProcess transferProcess, Policy policy) {
 
         var selection = selectorClient.select(selectionStrategy, dataPlane -> dataPlane.canProvisionDestination(transferProcess.getDataDestination()));
         if (selection.failed()) {
@@ -157,7 +157,7 @@ public class MqttDataFlowController implements DataFlowController {
 
         var dataPlaneInstance = selection.getContent();
         return clientFactory.createClient(dataPlaneInstance)
-                .provision(dataFlowRequest)
+                .prepare(dataFlowRequest)
                 .map(it -> toResponse(it, dataPlaneInstance));
     }
 

@@ -160,9 +160,9 @@ class MqttDataFlowControllerTest {
         when(addressValidatorRegistry.validateSource(any(DataAddress.class))).thenReturn(ValidationResult.success());
         when(paramsProvider.provideParams(any(MqttDataAddress.class))).thenReturn(MqttParams.Builder.newInstance().build());
         when(dataPlaneClientFactory.createClient(dataPlaneInstance)).thenReturn(dataPlaneClient);
-        when(dataPlaneClient.provision(any(DataFlowProvisionMessage.class))).thenReturn(StatusResult.success(DataFlowResponseMessage.Builder.newInstance().provisioning(true).build()));
+        when(dataPlaneClient.prepare(any(DataFlowProvisionMessage.class))).thenReturn(StatusResult.success(DataFlowResponseMessage.Builder.newInstance().provisioning(true).build()));
 
-        var result = flowController.provision(transferProcess, policy);
+        var result = flowController.prepare(transferProcess, policy);
 
         assertThat(result).isSucceeded();
     }
@@ -179,7 +179,7 @@ class MqttDataFlowControllerTest {
 
         when(selectorService.select(anyString(), any())).thenReturn(ServiceResult.notFound("Not Found"));
 
-        var result = flowController.provision(transferProcess, policy);
+        var result = flowController.prepare(transferProcess, policy);
 
         assertThat(result).withFailMessage("Not Found").isFailed();
     }
@@ -198,7 +198,7 @@ class MqttDataFlowControllerTest {
         when(selectorService.select(anyString(), any())).thenReturn(ServiceResult.success(dataPlaneInstance));
         when(transferTypeParser.parse(MQTT_DATA_PULL)).thenReturn(Result.failure("Transfer Type Parse Failed"));
 
-        var result = flowController.provision(transferProcess, policy);
+        var result = flowController.prepare(transferProcess, policy);
 
         assertThat(result).withFailMessage("Transfer Type Parse Failed").isFailed();
 
@@ -219,7 +219,7 @@ class MqttDataFlowControllerTest {
         when(transferTypeParser.parse(MQTT_DATA_PULL)).thenReturn(Result.success(new TransferType(MQTT_DATA_ADDRESS_TYPE, FlowType.PULL)));
         when(propertiesProvider.propertiesFor(transferProcess, policy)).thenReturn(StatusResult.failure(ResponseStatus.FATAL_ERROR, "Property Provider failed"));
 
-        var result = flowController.provision(transferProcess, policy);
+        var result = flowController.prepare(transferProcess, policy);
 
         assertThat(result).withFailMessage("Property Provider failed").isFailed();
     }
@@ -238,7 +238,7 @@ class MqttDataFlowControllerTest {
         when(transferTypeParser.parse(MQTT_DATA_PULL)).thenReturn(Result.success(new TransferType(MQTT_DATA_ADDRESS_TYPE, FlowType.PULL)));
         when(propertiesProvider.propertiesFor(transferProcess, policy)).thenReturn(StatusResult.success(Map.of()));
 
-        var result = flowController.provision(transferProcess, policy);
+        var result = flowController.prepare(transferProcess, policy);
 
         assertThat(result).withFailMessage("Content Data Address is missing, can't find mqtt properties").isFailed();
     }
@@ -259,7 +259,7 @@ class MqttDataFlowControllerTest {
         when(propertiesProvider.propertiesFor(transferProcess, policy)).thenReturn(StatusResult.success(Map.of()));
         when(addressValidatorRegistry.validateSource(any(DataAddress.class))).thenReturn(ValidationResult.failure(violation("data address validation failed", null)));
 
-        var result = flowController.provision(transferProcess, policy);
+        var result = flowController.prepare(transferProcess, policy);
 
         assertThat(result).withFailMessage("data address validation failed").isFailed();
     }
@@ -285,9 +285,9 @@ class MqttDataFlowControllerTest {
         when(addressValidatorRegistry.validateSource(any(DataAddress.class))).thenReturn(ValidationResult.success());
         when(paramsProvider.provideParams(any(MqttDataAddress.class))).thenReturn(MqttParams.Builder.newInstance().build());
         when(dataPlaneClientFactory.createClient(dataPlaneInstance)).thenReturn(dataPlaneClient);
-        when(dataPlaneClient.provision(any(DataFlowProvisionMessage.class))).thenReturn(StatusResult.success(DataFlowResponseMessage.Builder.newInstance().provisioning(true).build()));
+        when(dataPlaneClient.prepare(any(DataFlowProvisionMessage.class))).thenReturn(StatusResult.success(DataFlowResponseMessage.Builder.newInstance().provisioning(true).build()));
 
-        var result = flowController.provision(transferProcess, policy);
+        var result = flowController.prepare(transferProcess, policy);
 
         assertThat(result).isSucceeded();
     }

@@ -23,10 +23,11 @@ package org.factoryx.edc.e2e.tests.runtimes;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.Curve;
 import com.nimbusds.jose.jwk.gen.ECKeyGenerator;
+import org.eclipse.edc.iam.decentralizedclaims.spi.SecureTokenService;
 import org.eclipse.edc.iam.did.spi.resolution.DidPublicKeyResolver;
-import org.eclipse.edc.iam.identitytrust.spi.SecureTokenService;
 import org.eclipse.edc.junit.extensions.EmbeddedRuntime;
 import org.eclipse.edc.junit.extensions.RuntimePerClassExtension;
+import org.eclipse.edc.keys.spi.PrivateKeyResolver;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.security.token.jwt.DefaultJwsSignerProvider;
 import org.eclipse.edc.spi.iam.TokenParameters;
@@ -77,8 +78,19 @@ public class ParticipantRuntimeExtension extends RuntimePerClassExtension implem
                 KeyPool.register(kid, runtimeKeyPair.toKeyPair());
                 var privateKey = runtimeKeyPair.toPrivateKey();
 
-                var jwtGenerationService = new JwtGenerationService(new DefaultJwsSignerProvider(s -> Result.success(privateKey)));
-                participantRuntimeExtension.registerServiceMock(SecureTokenService.class, (claims, bearerAccessScope) -> {
+                var privateKeyFinal = privateKey;
+                var jwtGenerationService = new JwtGenerationService(new DefaultJwsSignerProvider(new PrivateKeyResolver() {
+                    @Override
+                    public Result<java.security.PrivateKey> resolvePrivateKey(String id) {
+                        return Result.success(privateKeyFinal);
+                    }
+
+                    @Override
+                    public Result<java.security.PrivateKey> resolvePrivateKey(String participantContextId, String id) {
+                        return Result.success(privateKeyFinal);
+                    }
+                }));
+                participantRuntimeExtension.registerServiceMock(SecureTokenService.class, (participantContextId, claims, bearerAccessScope) -> {
                     var decorator = new TokenDecorator() {
                         @Override
                         public TokenParameters.Builder decorate(TokenParameters.Builder tokenParameters) {

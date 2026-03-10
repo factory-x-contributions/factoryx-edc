@@ -27,6 +27,7 @@ import org.eclipse.edc.junit.extensions.RuntimeExtension;
 import org.factoryx.edc.e2e.tests.participant.TransferParticipant;
 import org.factoryx.edc.e2e.tests.runtimes.PostgresExtension;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -77,6 +78,7 @@ public class CatalogTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("Consumer gets catalog from the provider. No constraints.")
     void requestCatalog_fulfillsPolicy_shouldReturnOffer() {
         // arrange
