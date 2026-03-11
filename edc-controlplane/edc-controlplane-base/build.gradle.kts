@@ -37,6 +37,7 @@ dependencies {
         exclude( "org.eclipse.tractusx.edc", "cx-dataspace-protocol")
         exclude( "org.eclipse.tractusx.edc", "dataspace-protocol-core")
         exclude( "org.eclipse.tractusx.edc", "json-ld-cx")
+        exclude("org.eclipse.tractusx.edc", "cx-policy-legacy")
     }
 
     // fx-edc extensions
