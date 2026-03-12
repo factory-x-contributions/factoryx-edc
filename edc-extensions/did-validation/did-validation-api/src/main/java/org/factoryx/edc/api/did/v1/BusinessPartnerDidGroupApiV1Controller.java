@@ -43,6 +43,7 @@ import static org.eclipse.edc.api.ApiWarnings.deprecationWarning;
  *
  * @deprecated since 0.1.0, use {@link org.factoryx.edc.api.did.v3.BusinessPartnerDidGroupApiV3Controller} instead
  */
+@Deprecated(since = "0.1.0")
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 @Path("/v1/business-partner-did-groups")

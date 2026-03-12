@@ -56,6 +56,7 @@ public interface BusinessPartnerDidGroupApiV1 {
      * @return JSON object containing the DID and its groups
      * @deprecated since 0.1.0, use v3 API instead
      */
+    @Deprecated(since = "0.1.0")
     @Operation(description = "Resolves all groups for a particular DID",
             deprecated = true,
             responses = {
@@ -72,6 +73,7 @@ public interface BusinessPartnerDidGroupApiV1 {
      * @param did the business partner DID
      * @deprecated since 0.1.0, use v3 API instead
      */
+    @Deprecated(since = "0.1.0")
     @Operation(description = "Deletes the entry for a particular DID",
             deprecated = true,
             responses = {
@@ -88,6 +90,7 @@ public interface BusinessPartnerDidGroupApiV1 {
      * @param object JSON object containing the DID and its groups
      * @deprecated since 0.1.0, use v3 API instead
      */
+    @Deprecated(since = "0.1.0")
     @Operation(description = "Updates the entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
             deprecated = true,
@@ -105,6 +108,7 @@ public interface BusinessPartnerDidGroupApiV1 {
      * @param entry JSON object containing the DID and its groups
      * @deprecated since 0.1.0, use v3 API instead
      */
+    @Deprecated(since = "0.1.0")
     @Operation(description = "Creates an entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
             deprecated = true,
@@ -124,6 +128,7 @@ public interface BusinessPartnerDidGroupApiV1 {
      * @param groups the set of groups associated with the DID
      * @deprecated since 0.1.0, use v3 API instead
      */
+    @Deprecated(since = "0.1.0")
     @Schema(name = "List", example = ListSchema.EXAMPLE, deprecated = true)
     record ListSchema(
             @Schema(name = ID) String id,
