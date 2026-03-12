@@ -56,6 +56,9 @@ public class BusinessPartnerDidPermissionFunction<C extends ParticipantAgentPoli
             Operator.HAS_PART
     );
 
+    /**
+     * Prefix for DID web identifiers.
+     */
     public static final String DID_WEB = "did:web:";
 
     @Override

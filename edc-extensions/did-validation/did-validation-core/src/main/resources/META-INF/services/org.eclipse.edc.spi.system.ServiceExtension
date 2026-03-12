@@ -19,6 +19,6 @@
 #  SPDX-License-Identifier: Apache-2.0
 #################################################################################
 
-org.factoryx.edc.validation.businesspartner.BusinessPartnerValidationExtension
+org.factoryx.edc.validation.businesspartner.BusinessPartnerDidGroupValidationExtension
 org.factoryx.edc.validation.businesspartner.defaults.DefaultStoreProviderExtension
 org.factoryx.edc.validation.businesspartner.BusinessPartnerDidValidationExtension

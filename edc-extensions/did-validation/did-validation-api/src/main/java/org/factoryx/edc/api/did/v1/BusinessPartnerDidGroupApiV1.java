@@ -37,12 +37,25 @@ import java.util.Set;
 
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 
+/**
+ * Business Partner DID Group API version 1.
+ * Provides endpoints for managing DID to group mappings.
+ *
+ * @deprecated since 0.1.0, use {@link org.factoryx.edc.api.did.v3.BusinessPartnerDidGroupApiV3} instead
+ */
 @OpenAPIDefinition(info = @Info(description = "With this API clients can create, read, update and delete BusinessPartnerDID groups. It allows the assigning of DIDs to groups.", title = "Business Partner DID Group API"))
 @Tag(name = "Business Partner DID Group")
 @Deprecated(since = "0.1.0")
 public interface BusinessPartnerDidGroupApiV1 {
 
 
+    /**
+     * Resolves all groups for a particular DID.
+     *
+     * @param did the business partner DID
+     * @return JSON object containing the DID and its groups
+     * @deprecated since 0.1.0, use v3 API instead
+     */
     @Operation(description = "Resolves all groups for a particular DID",
             deprecated = true,
             responses = {
@@ -53,6 +66,12 @@ public interface BusinessPartnerDidGroupApiV1 {
             })
     JsonObject resolveV1(@Parameter(name = "did", description = "The business partner did") String did);
 
+    /**
+     * Deletes the entry for a particular DID.
+     *
+     * @param did the business partner DID
+     * @deprecated since 0.1.0, use v3 API instead
+     */
     @Operation(description = "Deletes the entry for a particular DID",
             deprecated = true,
             responses = {
@@ -63,6 +82,12 @@ public interface BusinessPartnerDidGroupApiV1 {
             })
     void deleteEntryV1(@Parameter(name = "did", description = "The business partner did") String did);
 
+    /**
+     * Updates the entry for a particular DID.
+     *
+     * @param object JSON object containing the DID and its groups
+     * @deprecated since 0.1.0, use v3 API instead
+     */
     @Operation(description = "Updates the entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
             deprecated = true,
@@ -74,6 +99,12 @@ public interface BusinessPartnerDidGroupApiV1 {
             })
     void updateEntryV1(JsonObject object);
 
+    /**
+     * Creates an entry for a particular DID.
+     *
+     * @param entry JSON object containing the DID and its groups
+     * @deprecated since 0.1.0, use v3 API instead
+     */
     @Operation(description = "Creates an entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
             deprecated = true,
@@ -86,11 +117,21 @@ public interface BusinessPartnerDidGroupApiV1 {
     void createEntryV1(JsonObject entry);
 
 
+    /**
+     * Schema for list representation in API responses.
+     *
+     * @param id the DID identifier
+     * @param groups the set of groups associated with the DID
+     * @deprecated since 0.1.0, use v3 API instead
+     */
     @Schema(name = "List", example = ListSchema.EXAMPLE, deprecated = true)
     record ListSchema(
             @Schema(name = ID) String id,
             Set<String> groups
     ) {
+        /**
+         * Example JSON representation of a ListSchema.
+         */
         public static final String EXAMPLE = """
                 {
                     "@context": {

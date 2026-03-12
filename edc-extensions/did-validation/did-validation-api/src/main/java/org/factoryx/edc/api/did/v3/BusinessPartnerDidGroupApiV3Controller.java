@@ -43,11 +43,21 @@ import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
 
+/**
+ * Controller implementation for Business Partner DID Group API version 3.
+ * Provides REST endpoints for managing DID to group mappings.
+ */
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
 @Path("/v3/business-partner-groups")
 public class BusinessPartnerDidGroupApiV3Controller extends BaseBusinessPartnerDidGroupApiController implements BusinessPartnerDidGroupApiV3 {
 
+    /**
+     * Constructs a new BusinessPartnerDidGroupApiV3Controller.
+     *
+     * @param businessPartnerService the business partner store
+     * @param validator the JSON object validator registry
+     */
     public BusinessPartnerDidGroupApiV3Controller(BusinessPartnerStore businessPartnerService, JsonObjectValidatorRegistry validator) {
         super(businessPartnerService, validator);
     }

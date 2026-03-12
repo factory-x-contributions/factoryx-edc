@@ -36,11 +36,21 @@ import java.util.Set;
 
 import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.ID;
 
+/**
+ * Business Partner DID Group API version 3.
+ * Provides endpoints for managing DID to group mappings and querying groups.
+ */
 @OpenAPIDefinition(info = @Info(description = "With this API clients can create, read, update and delete BusinessPartnerDID groups. It allows the assigning of DIDs to groups.", title = "Business Partner DID Group API"))
 @Tag(name = "Business Partner DID Group")
 public interface BusinessPartnerDidGroupApiV3 {
 
 
+    /**
+     * Resolves all groups for a particular DID.
+     *
+     * @param did the business partner DID
+     * @return JSON object containing the DID and its groups
+     */
     @Operation(description = "Resolves all groups for a particular DID",
             responses = {
                     @ApiResponse(responseCode = "200", description = "An object containing an array with the assigned groups"),
@@ -50,6 +60,12 @@ public interface BusinessPartnerDidGroupApiV3 {
             })
     JsonObject resolveV3(@Parameter(name = "did", description = "The business partner did") String did);
 
+    /**
+     * Resolves all DIDs for a particular DID group.
+     *
+     * @param group the business partner DID group
+     * @return JSON object containing the group and its associated DIDs
+     */
     @Operation(description = "Resolves all DIDs for a particular DID group",
             responses = {
                     @ApiResponse(responseCode = "200", description = "An object containing an array with the dids assigned to the group"),
@@ -59,6 +75,11 @@ public interface BusinessPartnerDidGroupApiV3 {
             })
     JsonObject resolveGroupV3(@Parameter(name = "group", description = "The business partner did group") String group);
 
+    /**
+     * Resolves all DID Groups.
+     *
+     * @return JSON object containing all DID groups
+     */
     @Operation(description = "Resolves all DID Groups",
             responses = {
                     @ApiResponse(responseCode = "200", description = "An object containing an array with the all DID groups"),
@@ -67,6 +88,11 @@ public interface BusinessPartnerDidGroupApiV3 {
             })
     JsonObject resolveGroupsV3();
 
+    /**
+     * Deletes the entry for a particular DID.
+     *
+     * @param did the business partner DID
+     */
     @Operation(description = "Deletes the entry for a particular DID",
             responses = {
                     @ApiResponse(responseCode = "204", description = "The object was successfully deleted"),
@@ -76,6 +102,11 @@ public interface BusinessPartnerDidGroupApiV3 {
             })
     void deleteEntryV3(@Parameter(name = "did", description = "The business partner did") String did);
 
+    /**
+     * Updates the entry for a particular DID.
+     *
+     * @param object JSON object containing the DID and its groups
+     */
     @Operation(description = "Updates the entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
 
@@ -87,6 +118,11 @@ public interface BusinessPartnerDidGroupApiV3 {
             })
     void updateEntryV3(JsonObject object);
 
+    /**
+     * Creates an entry for a particular DID.
+     *
+     * @param entry JSON object containing the DID and its groups
+     */
     @Operation(description = "Creates an entry for a particular DID",
             requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = ListSchema.class))),
 
@@ -99,11 +135,20 @@ public interface BusinessPartnerDidGroupApiV3 {
     void createEntryV3(JsonObject entry);
 
 
+    /**
+     * Schema for list representation in API responses.
+     *
+     * @param id the DID identifier
+     * @param groups the set of groups associated with the DID
+     */
     @Schema(name = "List", example = ListSchema.EXAMPLE)
     record ListSchema(
             @Schema(name = ID) String id,
             Set<String> groups
     ) {
+        /**
+         * Example JSON representation of a ListSchema.
+         */
         public static final String EXAMPLE = """
                 {
                     "@context": {
