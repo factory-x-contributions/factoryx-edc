@@ -1,19 +1,18 @@
 # factoryx-connector-memory
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.2.0](https://img.shields.io/badge/AppVersion-0.2.0-informational?style=flat-square)
+
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector based on memory. Please only use this for development or testing purposes, never in production workloads!
 
 **Homepage:** <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector-memory>
 
-## Setting up IATP
+## Setting up DCP
 
 ### Preconditions
 
-- You'll need an account with DIM, the wallet for VerifiableCredentials
-- the necessary set of VerifiableCredentials for this participant must already be issued to your DIM tenant. This is typically done by the
-  Portal during participant onboarding
-- the client ID and client secret corresponding to that account must be known
+- You'll need an a DCP-compatible wallet for VerifiableCredentials with an STS incl OAuth2 Credentials and DID Doc.
+- The necessary set of VerifiableCredentials for this participant must already be issued to your wallet. This is typically done by a trusted issuer which may be identical with the Data Provider.
 
 ### Preparatory work
 
@@ -31,20 +30,24 @@ Be sure to provide the following configuration entries to your Factory-X EDC Hel
 
 ### Launching the application
 
-As an easy starting point, please consider using [this example configuration](../../edc-tests/deployment/src/main/resources/helm/tractusx-connector-memory-test.yaml)
-to launch the application. The configuration values mentioned above (`controlplane.ssi.*`) will have to be adapted manually.
-Combined, run this shell command to start the in-memory Factory-X EDC runtime:
+As an easy starting point, please consider using [this example configuration](../../edc-tests/deployment/src/main/resources/helm/tractusx-connector-test.yaml)
+to launch the application. The configuration values mentioned above (`controlplane.iatp.*`) will have to be adapted manually.
+Combined, run this shell command to start the Factory-X EDC runtime:
 
 ```shell
 helm repo add factoryx-dev https://factory-x-contributions.github.io/charts/dev
-helm install my-release factory-x-contributions/factoryx-connector-memory --version 0.2.0 \
+helm install my-release factory-x-contributions/factoryx-connector-memory --version 0.3.0 \
      -f <path-to>/tractusx-connector-memory-test.yaml \
      --set vault.secrets="client-secret:$YOUR_CLIENT_SECRET"
 ```
 
+
+
 ## Source Code
 
 * <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector-memory>
+
+
 
 ## Values
 
@@ -62,6 +65,7 @@ helm install my-release factory-x-contributions/factoryx-connector-memory --vers
 | log4j2.config | string | `"Appenders:\n  Console:\n    name: CONSOLE\n    JsonTemplateLayout:\n      eventTemplate: |-\n        {\n          \"timestamp\": {\n            \"$resolver\": \"timestamp\",\n            \"pattern\": {\n              \"format\": \"yyyy-MM-dd'T'HH:mm:ss.SSSSSSS\",\n              \"timeZone\": \"UTC\"\n            }\n          },\n          \"level\": {\n            \"$resolver\": \"level\",\n            \"field\": \"severity\",\n            \"severity\": {\n              \"field\": \"keyword\"\n            }\n          },\n          \"message\": {\n            \"$resolver\": \"message\"\n          }\n        }\nLoggers:\n  Root:\n    level: \"OFF\"\n  Logger:\n    name: org.eclipse.edc.monitor.logger\n    level: DEBUG\n    AppenderRef:\n      ref: CONSOLE"` | Log4j2 configuration for json log formatting. |
 | log4j2.enableJsonLogs | bool | `true` | Whether to enable the json log config in log4j2.config |
 | nameOverride | string | `""` |  |
+| participant.contextId | string | `"UUID CHANGEME"` | Participant Context Id - Newly introduced id for a connector instance (needed for multitenancy) |
 | participant.id | string | `"did:web:changeme"` | Participant DID Identifier of the connector |
 | runtime.affinity | object | `{}` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to configure which nodes the pods can be scheduled on |
 | runtime.autoscaling.enabled | bool | `false` | Enables [horizontal pod autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |

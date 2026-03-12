@@ -147,6 +147,8 @@ spec:
             ########################
             - name: EDC_PARTICIPANT_ID
               value: {{ .Values.participant.id | required ".Values.participant.id is required" | quote }}
+            - name: "EDC_PARTICIPANT_CONTEXT_ID"
+              value: {{ .Values.participant.contextId | required ".Values.participant.contextId is required" | quote }}
             - name: "EDC_IAM_ISSUER_ID"
               value: {{ .Values.participant.id | required ".Values.participant.id is required" | quote }}
 
@@ -254,9 +256,20 @@ spec:
             {{- end }}
             {{- end }}
             {{- end }}
+            - name: "TX_EDC_DID_SERVICE_SELF_REGISTRATION_ENABLED"
+              value: {{ .Values.iatp.didService.selfRegistration.enabled | quote }}
+            - name: "TX_EDC_DID_SERVICE_SELF_DEREGISTRATION_ENABLED"
+              value: "false"
+            - name: "TX_EDC_DID_SERVICE_SELF_REGISTRATION_ID"
+              value: {{ .Values.iatp.didService.selfRegistration.id | quote }}
+            - name: "TX_EDC_DCP_CACHE_ENABLED"
+              value: {{ .Values.iatp.cache.enabled | quote }}
+            - name: "TX_EDC_DCP_CACHE_VALIDITY_SECONDS"
+              value: {{ .Values.iatp.cache.validity | quote }}
 
 
-            ################
+
+              ################
             ## DATA PLANE ##
             ################
             - name: "EDC_DATAPLANE_API_PUBLIC_BASEURL"
@@ -296,7 +309,7 @@ spec:
             ###########
 
             # see extension https://github.com/eclipse-tractusx/tractusx-edc/tree/develop/edc-extensions/hashicorp-vault
-            - name: "EDC_VAULT_SECRETS"
+            - name: "TX_EDC_VAULT_SECRETS"
               value: {{ .Values.vault.secrets | quote}}
 
 

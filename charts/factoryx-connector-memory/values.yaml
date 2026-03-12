@@ -35,6 +35,8 @@ customLabels: {}
 participant:
   # -- Participant DID Identifier of the connector
   id: "did:web:changeme"
+  # -- Participant Context Id - Newly introduced id for a connector instance (needed for multitenancy)
+  contextId: "UUID CHANGEME"
 
 iatp:
   # -- Configures the trusted issuers for this runtime
@@ -55,6 +57,20 @@ iatp:
         id: "test-client-id"
         # -- Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access
         secret_alias: "test-alias"
+
+  didService:
+    selfRegistration:
+      # -- Whether Service Self Registration is enabled
+      enabled: false
+      # -- Unique id of connector to be used for register / unregister service inside did document (must be valid URI)
+      id: "did:web:changeme"
+
+  # - Configures the Verifiable Presentation cache
+  cache:
+    # -- Whether the Verifiable Presentation cache is enabled
+    enabled: true
+    # -- Validity of the Verifiable Presentation cache in seconds
+    validity: 86400
 
 # -- Add custom ca certificates to the truststore
 customCaCerts: {}
