@@ -67,7 +67,7 @@ edc-lib-token = { module = "org.eclipse.edc:token-lib", version.ref = "edc" }
 # DCP Modules
 edc-spi-identity-did = { module = "org.eclipse.edc:identity-did-spi", version.ref = "edc" }
 edc-spi-identitytrust = { module = "org.eclipse.edc:decentralized-claims-spi", version.ref = "edc" }
-
+edc-dcp-core = { module = "org.eclipse.edc:decentralized-claims-core", version.ref = "edc"}
 
 # DSP libraries
 dsp-spi-http = { module = "org.eclipse.edc:dsp-http-spi", version.ref = "edc" }

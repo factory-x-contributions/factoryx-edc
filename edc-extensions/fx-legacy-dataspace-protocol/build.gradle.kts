@@ -35,6 +35,7 @@ dependencies {
 
     implementation(libs.edc.spi.participant)
     implementation(libs.edc.spi.protocol)
+    implementation(libs.edc.dcp.core)
 
     testImplementation(libs.edc.junit)
 }

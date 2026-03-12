@@ -20,13 +20,13 @@
 
 package org.factoryx.edc.protocol.protocol;
 
+import org.eclipse.edc.iam.decentralizedclaims.core.defaults.DefaultDcpParticipantIdExtractionFunction;
 import org.eclipse.edc.protocol.dsp.http.spi.api.DspBaseWebhookAddress;
 import org.eclipse.edc.protocol.spi.DataspaceProfileContext;
 import org.eclipse.edc.protocol.spi.DataspaceProfileContextRegistry;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
-import org.factoryx.edc.protocol.protocol.identifier.DidExtractionFunction;
 
 import static org.eclipse.edc.protocol.dsp.http.spi.types.HttpMessageProtocol.DATASPACE_PROTOCOL_HTTP;
 import static org.eclipse.edc.protocol.dsp.spi.type.Dsp08Constants.V_08;
@@ -44,7 +44,7 @@ public class DataspaceProtocolExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        contextRegistry.register(new DataspaceProfileContext(DATASPACE_PROTOCOL_HTTP, V_08, () -> dspWebhookAddress.get(), new DidExtractionFunction()));
-        contextRegistry.register(new DataspaceProfileContext(DATASPACE_PROTOCOL_HTTP_V_2025_1, V_2025_1, () -> dspWebhookAddress.get() + V_2025_1_PATH, new DidExtractionFunction()));
+        contextRegistry.register(new DataspaceProfileContext(DATASPACE_PROTOCOL_HTTP, V_08, () -> dspWebhookAddress.get(), new DefaultDcpParticipantIdExtractionFunction()));
+        contextRegistry.register(new DataspaceProfileContext(DATASPACE_PROTOCOL_HTTP_V_2025_1, V_2025_1, () -> dspWebhookAddress.get() + V_2025_1_PATH, new DefaultDcpParticipantIdExtractionFunction()));
     }
 }
