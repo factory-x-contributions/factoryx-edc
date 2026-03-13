@@ -28,6 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * In-memory implementation of the BusinessPartnerStore.
+ * This implementation stores DID to group mappings in a HashMap.
+ */
 public class InMemoryBusinessPartnerStore implements BusinessPartnerStore {
     private final Map<String, List<String>> cache = new HashMap<>();
 

@@ -38,6 +38,12 @@ import org.factoryx.edc.api.did.BaseBusinessPartnerDidGroupApiController;
 
 import static org.eclipse.edc.api.ApiWarnings.deprecationWarning;
 
+/**
+ * Controller implementation for Business Partner DID Group API version 1.
+ *
+ * @deprecated since 0.1.0, use {@link org.factoryx.edc.api.did.v3.BusinessPartnerDidGroupApiV3Controller} instead
+ */
+@Deprecated(since = "0.1.0")
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 @Path("/v1/business-partner-did-groups")
@@ -45,6 +51,13 @@ public class BusinessPartnerDidGroupApiV1Controller extends BaseBusinessPartnerD
 
     private final Monitor monitor;
 
+    /**
+     * Constructs a new BusinessPartnerDidGroupApiV1Controller.
+     *
+     * @param businessPartnerService the business partner store
+     * @param validator the JSON object validator registry
+     * @param monitor the monitor for logging deprecation warnings
+     */
     public BusinessPartnerDidGroupApiV1Controller(BusinessPartnerStore businessPartnerService, JsonObjectValidatorRegistry validator, Monitor monitor) {
         super(businessPartnerService, validator);
         this.monitor = monitor;

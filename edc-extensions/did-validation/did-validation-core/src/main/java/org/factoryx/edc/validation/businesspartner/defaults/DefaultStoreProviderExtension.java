@@ -25,9 +25,17 @@ import org.eclipse.edc.runtime.metamodel.annotation.Provider;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.tractusx.edc.validation.businesspartner.spi.store.BusinessPartnerStore;
 
+/**
+ * Extension that provides a default in-memory implementation of the BusinessPartnerStore.
+ */
 @Extension("Provides a default BusinessPartnerGroupStore")
 public class DefaultStoreProviderExtension implements ServiceExtension {
 
+    /**
+     * Creates and provides an in-memory business partner store.
+     *
+     * @return a new in-memory business partner store instance
+     */
     @Provider(isDefault = true)
     public BusinessPartnerStore createInMemStore() {
         return new InMemoryBusinessPartnerStore();

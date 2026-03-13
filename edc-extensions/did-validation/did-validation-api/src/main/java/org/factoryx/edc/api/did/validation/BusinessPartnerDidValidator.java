@@ -30,8 +30,17 @@ import org.eclipse.edc.validator.spi.Violation;
 import static org.factoryx.edc.api.did.BusinessPartnerDidSchema.DID_GROUP_TYPE;
 
 
+/**
+ * Validator for Business Partner DID objects.
+ * Ensures that DID values are valid and that groups are properly specified.
+ */
 public class BusinessPartnerDidValidator {
 
+    /**
+     * Creates a validator instance for Business Partner DID objects.
+     *
+     * @return a configured JSON object validator
+     */
     public static JsonObjectValidator instance() {
         return JsonObjectValidator.newValidator()
                 .verifyId(DidValidator::new)
@@ -39,10 +48,19 @@ public class BusinessPartnerDidValidator {
                 .build();
     }
 
+    /**
+     * Validator for DID format.
+     * Ensures DIDs start with "did:web:" and do not end with a colon.
+     */
     public static class DidValidator implements Validator<JsonString> {
 
         private final JsonLdPath path;
 
+        /**
+         * Constructs a new DidValidator.
+         *
+         * @param path the JSON-LD path for validation reporting
+         */
         public DidValidator(JsonLdPath path) {
             this.path = path;
         }

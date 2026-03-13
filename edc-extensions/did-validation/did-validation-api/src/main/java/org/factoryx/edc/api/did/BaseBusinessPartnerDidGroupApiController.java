@@ -40,17 +40,36 @@ import static org.eclipse.edc.jsonld.spi.JsonLdKeywords.VALUE;
 import static org.factoryx.edc.api.did.BusinessPartnerDidSchema.BUSINESS_PARTNER_DID_TYPE;
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
-
+/**
+ * Base controller for Business Partner DID Group API operations.
+ * Provides common CRUD operations for managing DID to group mappings.
+ */
 public abstract class BaseBusinessPartnerDidGroupApiController {
 
+    /**
+     * Store for business partner DID data.
+     */
     protected final BusinessPartnerStore businessPartnerService;
     private final JsonObjectValidatorRegistry validator;
 
+    /**
+     * Constructs a new BaseBusinessPartnerDidGroupApiController.
+     *
+     * @param businessPartnerService the business partner store
+     * @param validator the JSON object validator registry
+     */
     public BaseBusinessPartnerDidGroupApiController(BusinessPartnerStore businessPartnerService, JsonObjectValidatorRegistry validator) {
         this.businessPartnerService = businessPartnerService;
         this.validator = validator;
     }
 
+    /**
+     * Resolves the groups associated with a specific DID.
+     *
+     * @param did the DID to resolve groups for
+     * @return JSON object containing the DID and its associated groups
+     * @throws ObjectNotFoundException if the DID is not found
+     */
     public JsonObject resolve(String did) {
 
         // StoreResult does not support the .map() operator, because it does not override newInstance()
@@ -62,11 +81,24 @@ public abstract class BaseBusinessPartnerDidGroupApiController {
         throw new ObjectNotFoundException(List.class, result.getFailureDetail());
     }
 
+    /**
+     * Deletes a DID entry from the store.
+     *
+     * @param did the DID to delete
+     * @throws ObjectNotFoundException if the DID is not found
+     */
     public void deleteEntry(@PathParam("did") String did) {
         businessPartnerService.delete(did)
                 .orElseThrow(f -> new ObjectNotFoundException(List.class, f.getFailureDetail()));
     }
 
+    /**
+     * Updates an existing DID entry with new group assignments.
+     *
+     * @param object JSON object containing the DID and its groups
+     * @throws ValidationFailureException if the object fails validation
+     * @throws ObjectNotFoundException if the DID is not found
+     */
     public void updateEntry(@RequestBody JsonObject object) {
         validator.validate(BUSINESS_PARTNER_DID_TYPE, object).orElseThrow(ValidationFailureException::new);
 
@@ -76,6 +108,13 @@ public abstract class BaseBusinessPartnerDidGroupApiController {
                 .orElseThrow(f -> new ObjectNotFoundException(List.class, f.getFailureDetail()));
     }
 
+    /**
+     * Creates a new DID entry with group assignments.
+     *
+     * @param object JSON object containing the DID and its groups
+     * @throws ValidationFailureException if the object fails validation
+     * @throws ObjectConflictException if the DID already exists
+     */
     public void createEntry(@RequestBody JsonObject object) {
         validator.validate(BUSINESS_PARTNER_DID_TYPE, object).orElseThrow(ValidationFailureException::new);
 

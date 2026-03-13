@@ -35,6 +35,10 @@ import org.factoryx.edc.api.did.validation.BusinessPartnerDidValidator;
 
 import static org.factoryx.edc.api.did.BusinessPartnerDidSchema.BUSINESS_PARTNER_DID_TYPE;
 
+/**
+ * Extension for registering the Business Partner DID Group API.
+ * Sets up the API controllers and validators for managing DID to group mappings.
+ */
 @Extension(value = "Registers the Business Partner DID Group API")
 public class BusinessPartnerDidGroupApiExtension implements ServiceExtension {
 

@@ -62,7 +62,13 @@ public class BusinessPartnerDidValidationExtension implements ServiceExtension {
      * </pre>
      */
     public static final String BUSINESS_PARTNER_CONSTRAINT_KEY = "BusinessPartnerDID";
+    /**
+     * Fully qualified key for business partner DID constraints with FactoryX namespace.
+     */
     public static final String FX_BUSINESS_PARTNER_CONSTRAINT_KEY = FX_POLICY_NS + BUSINESS_PARTNER_CONSTRAINT_KEY;
+    /**
+     * Name of this extension.
+     */
     protected static final String NAME = "Business Partner Validation Extension";
     @Inject
     private RuleBindingRegistry ruleBindingRegistry;

@@ -21,8 +21,18 @@ package org.factoryx.edc.api.did;
 
 import static org.factoryx.edc.edr.spi.CoreConstants.FX_POLICY_NS;
 
+/**
+ * Schema constants for Business Partner DID entities.
+ */
 public interface BusinessPartnerDidSchema {
 
+    /**
+     * Type identifier for Business Partner DID entities.
+     */
     String BUSINESS_PARTNER_DID_TYPE = FX_POLICY_NS + "BusinessPartnerDID";
+
+    /**
+     * Property name for DID groups.
+     */
     String DID_GROUP_TYPE = FX_POLICY_NS + "groups";
 }
