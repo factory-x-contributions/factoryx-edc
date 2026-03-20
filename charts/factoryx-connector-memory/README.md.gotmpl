@@ -1,28 +1,23 @@
 {{ template "chart.header" . }}
 
-{{ template "chart.deprecationWarning" . }}
-
 {{ template "chart.badgesSection" . }}
 
 {{ template "chart.description" . }}
 
 {{ template "chart.homepageLine" . }}
 
-## Setting up IATP
+## Setting up DCP
 
 ### Preconditions
 
-- You'll need an account with DIM, the wallet for VerifiableCredentials
-- the necessary set of VerifiableCredentials for this participant must already be issued to your DIM tenant. This is typically done by the
-  Portal during participant onboarding
-- the client ID and client secret corresponding to that account must be known
+- You'll need an a DCP-compatible wallet for VerifiableCredentials with an STS incl OAuth2 Credentials and DID Doc.
+- The necessary set of VerifiableCredentials for this participant must already be issued to your wallet. This is typically done by a trusted issuer which may be identical with the Data Provider.
 
 ### Preparatory work
 
 - store client secret in the HashiCorp vault using an alias. The exact procedure will depend on your deployment of HashiCorp Vault and
   is out of scope of this document. But by default, Factory-X EDC expects to find the secret under `secret/client-secret`. The alias must be configured
   using the `iatp.sts.oauth.client.secret_alias` Helm value.
-
 
 ### Configure the chart
 
@@ -32,12 +27,11 @@ Be sure to provide the following configuration entries to your Factory-X EDC Hel
 - `iatp.sts.oauth.client.secret_alias`: alias under which you saved your DIM client secret in the vault
 - `iatp.sts.dim.url`: the base URL for DIM
 
-
 ### Launching the application
 
-As an easy starting point, please consider using [this example configuration](../../edc-tests/deployment/src/main/resources/helm/tractusx-connector-memory-test.yaml)
-to launch the application. The configuration values mentioned above (`controlplane.ssi.*`) will have to be adapted manually.
-Combined, run this shell command to start the in-memory Factory-X EDC runtime:
+As an easy starting point, please consider using [this example configuration](../../edc-tests/deployment/src/main/resources/helm/tractusx-connector-test.yaml)
+to launch the application. The configuration values mentioned above (`controlplane.iatp.*`) will have to be adapted manually.
+Combined, run this shell command to start the Factory-X EDC runtime:
 
 ```shell
 helm repo add factoryx-dev https://factory-x-contributions.github.io/charts/dev

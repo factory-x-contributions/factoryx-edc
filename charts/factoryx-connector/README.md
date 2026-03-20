@@ -1,22 +1,22 @@
 # factoryx-connector
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.2.0](https://img.shields.io/badge/AppVersion-0.2.0-informational?style=flat-square)
+
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square) 
 
 A Helm chart for Factory-X Eclipse Data Space Connector. The connector deployment consists of two runtimes of a
 Control Plane and a Data Plane. Note that _no_ external dependencies such as a PostgreSQL database and HashiCorp Vault are included.
 
 This chart is intended for use with an _existing_ PostgreSQL database and an _existing_ HashiCorp Vault.
 
+
 **Homepage:** <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector>
 
-## Setting up IATP
+## Setting up DCP
 
 ### Preconditions
 
-- You'll need an account with DIM, the wallet for VerifiableCredentials
-- the necessary set of VerifiableCredentials for this participant must already be issued to your DIM tenant. This is typically done by the
-  Portal during participant onboarding
-- the client ID and client secret corresponding to that account must be known
+- You'll need an a DCP-compatible wallet for VerifiableCredentials with an STS incl OAuth2 Credentials and DID Doc.
+- The necessary set of VerifiableCredentials for this participant must already be issued to your wallet. This is typically done by a trusted issuer which may be identical with the Data Provider.
 
 ### Preparatory work
 
@@ -35,14 +35,16 @@ Be sure to provide the following configuration entries to your Factory-X EDC Hel
 ### Launching the application
 
 As an easy starting point, please consider using [this example configuration](../../edc-tests/deployment/src/main/resources/helm/tractusx-connector-test.yaml)
-to launch the application. The configuration values mentioned above (`controlplane.ssi.*`) will have to be adapted manually.
+to launch the application. The configuration values mentioned above (`controlplane.iatp.*`) will have to be adapted manually.
 Combined, run this shell command to start the Factory-X EDC runtime:
 
 ```shell
 helm repo add factoryx-dev https://factory-x-contributions.github.io/charts/dev
-helm install my-release factory-x-contributions/factoryx-connector --version 0.2.0 \
+helm install my-release factory-x-contributions/factoryx-connector --version 0.3.0 \
      -f <path-to>/tractusx-connector-test.yaml
 ```
+
+
 
 ## Source Code
 
@@ -261,6 +263,10 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.2
 | dataplane.volumeMounts | string | `nil` | declare where to mount [volumes](https://kubernetes.io/docs/concepts/storage/volumes/) into the container |
 | dataplane.volumes | string | `nil` | [volume](https://kubernetes.io/docs/concepts/storage/volumes/) directories |
 | fullnameOverride | string | `""` |  |
+| iatp.cache.enabled | bool | `true` | Whether the Verifiable Presentation cache is enabled |
+| iatp.cache.validity | int | `86400` | Validity of the Verifiable Presentation cache in seconds |
+| iatp.didService.selfRegistration.enabled | bool | `false` | Whether Service Self Registration is enabled |
+| iatp.didService.selfRegistration.id | string | `"did:web:changeme"` | Unique id of connector to be used for register / unregister service inside did document (must be valid URI) |
 | iatp.sts.dim.url | string | `nil` | URL where connectors can request SI tokens |
 | iatp.sts.oauth.client.id | string | `"client-id"` | Client ID for requesting OAuth2 access token for DIM access |
 | iatp.sts.oauth.client.secret_alias | string | `"client-secret-alias"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
@@ -277,6 +283,7 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.2
 | networkPolicy.dataplane | object | `{"from":[{"namespaceSelector":{}}]}` | Configuration of the dataplane component |
 | networkPolicy.dataplane.from | list | `[{"namespaceSelector":{}}]` | Specify from rule network policy for dp (defaults to all namespaces) |
 | networkPolicy.enabled | bool | `false` | If `true` network policy will be created to restrict access to control- and dataplane |
+| participant.contextId | string | `"UUID CHANGEME"` | Participant Context Id - Newly introduced id for a connector instance (needed for multitenancy) |
 | participant.id | string | `"did:web:changeme"` | Participant DID Identifier of the connector |
 | postgresql.auth.database | string | `"edc"` |  |
 | postgresql.auth.password | string | `"password"` |  |
@@ -284,8 +291,10 @@ helm install my-release factory-x-contributions/factoryx-connector --version 0.2
 | postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | postgresql.image.tag | string | `"16.2.0-debian-12-r10"` |  |
 | postgresql.jdbcUrl | string | `"jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"` |  |
-| postgresql.primary.persistence.enabled | bool | `false` |  |
-| postgresql.readReplicas.persistence.enabled | bool | `false` |  |
+| postgresql.primary.persistence.enabled | bool | `true` |  |
+| postgresql.primary.persistence.size | string | `"4Gi"` |  |
+| postgresql.readReplicas.persistence.enabled | bool | `true` |  |
+| postgresql.readReplicas.persistence.size | string | `"4Gi"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.imagePullSecrets | list | `[]` | Existing image pull secret bound to the service account to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry) |
