@@ -10,19 +10,34 @@ post {
   auth: inherit
 }
 
+headers {
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
+}
+
 body:json {
   {
     "@context": {
       "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
     },
-    "counterPartyAddress": "http://provider-controlplane:9020/dsp",
-    "counterPartyId": "did:web:provider-idhub:user:provider",
-    "protocol": "dataspace-protocol-http"
+    "counterPartyAddress": "{{PROVIDER_ENDPOINT}}",
+    "counterPartyId": "{{DID_WEB_ID_PROVIDER}}",
+    "protocol": "dataspace-protocol-http",
+    "querySpec": {
+      "offset": 0,
+      "limit": 50,
+      "filterExpression": [
+        {
+          "operandLeft": "id",
+          "operator": "=",
+          "operandRight": "assetId"
+        }
+      ]
+    }
   }
 }
 
 script:post-response {
-  const offerId = res.getBody()['dcat:dataset']['odrl:hasPolicy']['@id'];
+  const offerId = res.getBody()['dcat:dataset']['odrl:hasPolicy'][0]['@id'];
   
   bru.setEnvVar("offerId", offerId);
 }

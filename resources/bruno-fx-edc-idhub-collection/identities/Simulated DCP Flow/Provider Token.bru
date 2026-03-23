@@ -13,8 +13,8 @@ post {
 body:form-urlencoded {
   grant_type: client_credentials
   client_secret: {{PROVIDER_STS_SECRET}}
-  client_id: did:web:provider-idhub:user:provider
-  audience: did:web:consumer-idhub:user:consumer
+  client_id: {{DID_WEB_ID_PROVIDER}}
+  audience: {{DID_WEB_ID_CONSUMER}}
   token: {{cons_access_token}}
 }
 

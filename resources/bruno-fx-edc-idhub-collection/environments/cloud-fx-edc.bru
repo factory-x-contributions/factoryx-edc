@@ -1,0 +1,45 @@
+vars {
+  ISSUER_HOST: issuerservice.example.com
+  ISSUER_DID_API: https://{{ISSUER_HOST}}
+  ISSUER_ID_API: https://{{ISSUER_HOST}}/api/identity
+  ISSUER_ISS_API: https://{{ISSUER_HOST}}/api/admin
+  CONSUMER_IDHUB_HOST: con-identityhub.example.com
+  CONSUMER_IDHUB_CREDS_API: https://{{CONSUMER_IDHUB_HOST}}/api/credentials
+  CONSUMER_IDHUB_DID_API: https://{{CONSUMER_IDHUB_HOST}}
+  CONSUMER_IDHUB_ID_API: https://{{CONSUMER_IDHUB_HOST}}/api/identity
+  CONSUMER_IDHUB_STS_API: https://{{CONSUMER_IDHUB_HOST}}/api/sts
+  PROVIDER_IDHUB_HOST: prov-identityhub.example.com
+  PROVIDER_IDHUB_DID_API: https://{{PROVIDER_IDHUB_HOST}}
+  PROVIDER_IDHUB_ID_API: https://{{PROVIDER_IDHUB_HOST}}/api/identity
+  PROVIDER_IDHUB_STS_API: https://{{PROVIDER_IDHUB_HOST}}/api/sts
+  DID_WEB_ID_ISSUER: did:web:{{ISSUER_HOST}}:fx-issuer
+  DID_WEB_CONSUMER_IDHUB: did:web:{{CONSUMER_IDHUB_HOST}}
+  DID_WEB_ID_CONSUMER: did:web:{{CONSUMER_IDHUB_HOST}}:user:{{DID_WEB_ID_CONSUMER_NAME}}
+  VAULTURL: https://vault.example.com
+  VAULT_PATH: secret
+  VAULT_CONSUMER_SECRET_PATH: secret/data/{{DID_WEB_ID_CONSUMER_NAME}}secret
+  DID_WEB_ID_PROVIDER: did:web:{{PROVIDER_IDHUB_HOST}}:user:{{DID_WEB_ID_PROVIDER_NAME}}
+  VAULT_PROVIDER_SECRET_PATH: secret/data/{{DID_WEB_ID_PROVIDER_NAME}}secret
+  PROVIDER_MANAGEMENT: https://prov-edc-controlplane.example.com/management
+  CONSUMER_MANAGEMENT: https://con-edc-controlplane.example.com/management
+  PROVIDER_DATAPLANE_PUBLIC: https://fx-edc6-dataplane.factory-x.catena-x.net/api/public
+  DID_WEB_ID_ISSUER_B64: Will be derived by Pre-Request hook
+  DID_WEB_ID_PROVIDER_B64: Will be derived by Pre-Request hook
+  DID_WEB_ID_CONSUMER_B64: Will be derived by Pre-Request hook
+  cons_access_token: Will be derived by Post-Request hook
+  prov_access_token: Will be derived by Post-Request hook
+  PROVIDER_IH_APIKEY: Will be derived by Post-Request hook
+  PROVIDER_STS_SECRET: Will be derived by Post-Request hook
+  CONSUMER_IH_APIKEY: Will be derived by Post-Request hook
+  CONSUMER_STS_SECRET: Will be derived by Post-Request hook
+  DID_WEB_ID_CONSUMER_NAME: edc-consumer
+  DID_WEB_ID_PROVIDER_NAME: edc-provider
+  PROVIDER_ENDPOINT: https://prov-edc-controlplane.example.com/api/v1/dsp
+}
+vars:secret [
+  API_KEY,
+  ISSUER_APIKEY,
+  VAULT_TOKEN,
+  PROVIDER_MANAGEMENT_API_KEY,
+  CONSUMER_MANAGEMENT_API_KEY
+]
