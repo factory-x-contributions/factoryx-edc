@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "fx-local-test",
+  "name": "bruno-fx-edc-idhub-collection",
   "type": "collection",
   "ignore": [
     "node_modules",
