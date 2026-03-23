@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "bruno-fx-edc-idhub-collection",
+  "name": "Factory-X EDC IDHub Collection",
   "type": "collection",
   "ignore": [
     "node_modules",

@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{CONSUMER_IDHUB_DID_API}}/user/consumer
+  url: {{CONSUMER_IDHUB_DID_API}}/user/{{DID_WEB_ID_CONSUMER_NAME}}
   body: none
   auth: inherit
 }
 
 headers {
-  Host: consumer-idhub
+  ~Host: consumer-idhub
 }
 
 settings {

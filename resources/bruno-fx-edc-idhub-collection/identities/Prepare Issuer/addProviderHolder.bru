@@ -5,21 +5,29 @@ meta {
 }
 
 post {
-  url: {{ISSUER_ISS_API}}/v1alpha/participants/ZGlkOndlYjpsb2NhbC1pc3N1ZXItc2VydmljZTpmeC1pc3N1ZXI=/holders
+  url: {{ISSUER_ISS_API}}/v1alpha/participants/{{DID_WEB_ID_ISSUER_B64}}/holders
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "holderId" : "did:web:provider-idhub:user:provider", 
-    "did" : "did:web:provider-idhub:user:provider", 
-    "name" : "did:web:provider-idhub:user:provider"
+    "holderId": "{{DID_WEB_ID_PROVIDER}}", 
+    "did": "{{DID_WEB_ID_PROVIDER}}", 
+    "name": "{{DID_WEB_ID_PROVIDER}}"
   }
 }
 
 script:pre-request {
   req.setHeader("x-api-key", bru.getEnvVar("ISSUER_APIKEY"));
+  
+  bru.setEnvVar(
+    "DID_WEB_ID_ISSUER_B64",
+    Buffer.from(
+      bru.interpolate(bru.getEnvVar("DID_WEB_ID_ISSUER")),
+      "utf8"
+    ).toString("base64")
+  );
 }
 
 settings {
