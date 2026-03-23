@@ -12,11 +12,17 @@ get {
 
 headers {
   Accept: application/json
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
 }
 
 script:post-response {
-  const authToken = res.getBody().authorization; 
+  const body = res.getBody();
+  
+  const authToken = body.authorization;
+  const providerDataplanePublic = body.endpoint;
+  
   bru.setEnvVar("pullSecret", authToken);
+  bru.setEnvVar("PROVIDER_DATAPLANE_PUBLIC", providerDataplanePublic);
 }
 
 settings {

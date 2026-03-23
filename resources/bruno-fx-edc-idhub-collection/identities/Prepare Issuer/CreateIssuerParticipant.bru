@@ -11,7 +11,7 @@ post {
 }
 
 headers {
-  x-api-key: YWRtaW4.adminKey
+  x-api-key: {{API_KEY}}
 }
 
 body:json {
@@ -21,21 +21,31 @@ body:json {
       {
         "id": "Issuer-IssuerService", 
         "type": "IssuerService", 
-        "serviceEndpoint": "http://local-issuer-service:13132/api/issuance/v1alpha/participants/ZGlkOndlYjpsb2NhbC1pc3N1ZXItc2VydmljZTpmeC1pc3N1ZXI="
+        "serviceEndpoint": "{{ISSUER_DID_API}}/api/issuance/v1alpha/participants/{{DID_WEB_ID_ISSUER_B64}}"
       }
     ],
     "active": true,
-    "participantId": "did:web:local-issuer-service:fx-issuer",
-    "did": "did:web:local-issuer-service:fx-issuer",
+    "participantId": "{{DID_WEB_ID_ISSUER}}",
+    "did": "{{DID_WEB_ID_ISSUER}}",
     "key": {
-      "keyId": "did:web:local-issuer-service:fx-issuer#key-1",
-      "privateKeyAlias": "did:web:local-issuer-service:fx-issuer-alias",
+      "keyId": "{{DID_WEB_ID_ISSUER}}#key-1",
+      "privateKeyAlias": "{{DID_WEB_ID_ISSUER}}-alias",
       "keyGeneratorParams": {
         "algorithm": "EdDSA",
         "curve": "Ed25519"
       }
     }
   }
+}
+
+script:pre-request {
+  bru.setEnvVar(
+    "DID_WEB_ID_ISSUER_B64",
+    Buffer.from(
+      bru.interpolate(bru.getEnvVar("DID_WEB_ID_ISSUER")),
+      "utf8"
+    ).toString("base64")
+  );
 }
 
 script:post-response {

@@ -11,7 +11,7 @@ post {
 }
 
 headers {
-  x-api-key: YWRtaW4.adminKey
+  x-api-key: {{API_KEY}}
 }
 
 body:json {
@@ -20,20 +20,30 @@ body:json {
       "serviceEndpoints":[{
         "id": "ConsumerCredentialService-ID",
         "type": "CredentialService", 
-        "serviceEndpoint": "http://consumer-idhub:13131/api/credentials/v1/participants/ZGlkOndlYjpjb25zdW1lci1pZGh1Yjp1c2VyOmNvbnN1bWVy"
+        "serviceEndpoint": "{{CONSUMER_IDHUB_DID_API}}/api/credentials/v1/participants/{{DID_WEB_ID_CONSUMER_B64}}"
       }],
       "active": true,
-      "participantId": "did:web:consumer-idhub:user:consumer",
-      "did": "did:web:consumer-idhub:user:consumer",
+      "participantId": "{{DID_WEB_ID_CONSUMER}}",
+      "did": "{{DID_WEB_ID_CONSUMER}}",
       "key":{
-          "keyId": "did:web:consumer-idhub:user:consumer#key-1",
-          "privateKeyAlias": "did:web:consumer-idhub:user:consumer-alias",
+          "keyId": "{{DID_WEB_ID_CONSUMER}}#key-1",
+          "privateKeyAlias": "{{DID_WEB_ID_CONSUMER}}-alias",
           "keyGeneratorParams":{
               "algorithm": "EdDSA",
               "curve": "Ed25519"
           }
       }
   }
+}
+
+script:pre-request {
+  bru.setEnvVar(
+    "DID_WEB_ID_CONSUMER_B64",
+    Buffer.from(
+      bru.interpolate(bru.getEnvVar("DID_WEB_ID_CONSUMER")),
+      "utf8"
+    ).toString("base64")
+  );
 }
 
 script:post-response {

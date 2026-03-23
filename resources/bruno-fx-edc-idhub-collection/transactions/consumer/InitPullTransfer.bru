@@ -10,6 +10,10 @@ post {
   auth: inherit
 }
 
+headers {
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
+}
+
 body:json {
   {
       "@context": {
@@ -18,8 +22,8 @@ body:json {
       "@type": "TransferRequestDto",
       "protocol": "dataspace-protocol-http",
       "contractId": "{{contractId}}",
-      "counterPartyAddress": "http://provider-controlplane:9020/dsp",
-      "connectorId": "did:web:provider-idhub:user:provider",
+      "counterPartyAddress": "{{PROVIDER_ENDPOINT}}",
+      "connectorId": "{{DID_WEB_ID_PROVIDER}}",
       "transferType": "HttpData-PULL"
   }
 }

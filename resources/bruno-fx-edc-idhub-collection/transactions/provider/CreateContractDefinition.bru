@@ -10,6 +10,10 @@ post {
   auth: inherit
 }
 
+headers {
+  x-api-key: {{PROVIDER_MANAGEMENT_API_KEY}}
+}
+
 body:json {
   {
     "@context": {

@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{PROVIDER_IDHUB_DID_API}}/user/provider
+  url: {{PROVIDER_IDHUB_DID_API}}/user/{{DID_WEB_ID_PROVIDER_NAME}}
   body: none
   auth: inherit
 }
 
 headers {
-  Host: provider-idhub
+  ~Host: provider-idhub
 }
 
 settings {
