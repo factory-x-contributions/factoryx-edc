@@ -23,6 +23,10 @@ plugins {
     id(libs.plugins.swagger.get().pluginId)
 }
 
+configurations.all {
+    exclude("org.eclipse.edc", "decentralized-claims-sts-remote-client")
+}
+
 dependencies {
     runtimeOnly(libs.eclipse.tractusx.edc.controlplane.base) {
         exclude("org.eclipse.tractusx.edc", "cx-policy")
