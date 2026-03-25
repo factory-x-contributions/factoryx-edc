@@ -21,13 +21,16 @@
 
 package org.factoryx.edc.e2e.tests.catalog;
 
+import io.restassured.RestAssured;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.mapper.ObjectMapperType;
 import org.eclipse.edc.jsonld.spi.JsonLd;
 import org.eclipse.edc.junit.annotations.EndToEndTest;
 import org.eclipse.edc.junit.extensions.RuntimeExtension;
 import org.factoryx.edc.e2e.tests.participant.TransferParticipant;
 import org.factoryx.edc.e2e.tests.runtimes.PostgresExtension;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -54,7 +57,6 @@ public class CatalogTest {
             .protocolVersionPath(DSP_2025_PATH)
             .build();
 
-
     private static final TransferParticipant PROVIDER = TransferParticipant.Builder.newInstance()
             .name(PROVIDER_NAME)
             .id(PROVIDER_DID)
@@ -72,13 +74,17 @@ public class CatalogTest {
     @RegisterExtension
     private static final RuntimeExtension PROVIDER_RUNTIME = pgRuntime(PROVIDER, POSTGRES);
 
+    @BeforeAll
+    static void beforeAll() {
+        RestAssured.config = RestAssured.config().objectMapperConfig(ObjectMapperConfig.objectMapperConfig().defaultObjectMapperType(ObjectMapperType.JACKSON_2));
+    }
+
     @BeforeEach
     void setup() {
         CONSUMER.setJsonLd(CONSUMER_RUNTIME.getService(JsonLd.class));
     }
 
     @Test
-    @Disabled
     @DisplayName("Consumer gets catalog from the provider. No constraints.")
     void requestCatalog_fulfillsPolicy_shouldReturnOffer() {
         // arrange
