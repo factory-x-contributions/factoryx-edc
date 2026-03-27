@@ -1,0 +1,37 @@
+meta {
+  name: CreatePolicy
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{PROVIDER_MANAGEMENT}}/v3/policydefinitions
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-api-key: {{PROVIDER_MANAGEMENT_API_KEY}}
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+      "odrl": "http://www.w3.org/ns/odrl/2/"
+    },
+    "@id": "aPolicy",
+    "policy": {
+      "@context": "http://www.w3.org/ns/odrl.jsonld",
+      "@type": "Set",
+      "permission": [],
+      "prohibition": [],
+      "obligation": []
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

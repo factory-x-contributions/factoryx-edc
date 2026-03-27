@@ -1,0 +1,26 @@
+meta {
+  name: Get EDR
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{CONSUMER_MANAGEMENT}}/v3/edrs/{{transferId}}/dataaddress
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
+}
+
+script:post-response {
+  const authToken = res.getBody().authorization; 
+  bru.setEnvVar("pullSecret", authToken);
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

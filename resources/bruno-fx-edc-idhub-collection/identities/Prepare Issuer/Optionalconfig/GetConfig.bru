@@ -1,0 +1,30 @@
+meta {
+  name: GetConfig
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{ISSUER_ISS_API}}/v1alpha/credentialsetup/{{DID_WEB_ID_ISSUER_B64}}
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-api-key: {{API_KEY}}
+}
+
+script:pre-request {
+  bru.setEnvVar(
+    "DID_WEB_ID_ISSUER_B64",
+    Buffer.from(
+      bru.interpolate(bru.getEnvVar("DID_WEB_ID_ISSUER")),
+      "utf8"
+    ).toString("base64")
+  );
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

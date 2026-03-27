@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Factory-X EDC IDHub Collection",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
