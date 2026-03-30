@@ -5,13 +5,19 @@ meta {
 }
 
 get {
-  url: {{CONSUMER_IDHUB_DID_API}}/user/{{DID_WEB_ID_CONSUMER_NAME}}
+  url: {{CONSUMER_IDHUB_DID_API_ENDPOINT}}/user/{{DID_WEB_ID_CONSUMER_NAME}}
   body: none
   auth: inherit
 }
 
-headers {
-  ~Host: consumer-idhub
+script:pre-request {
+  const url = req.getUrl();
+  const configuredLocalHost = bru.getEnvVar('CONSUMER_IDHUB_DOCKER_HOST') || 'consumer-idhub';
+  const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//i.test(bru.interpolate(url));
+  
+  if (isLocalhost) {
+    req.setHeader('host', configuredLocalHost);
+  }
 }
 
 settings {
