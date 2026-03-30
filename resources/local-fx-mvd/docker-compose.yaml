@@ -230,6 +230,8 @@ services:
       - edc.hostname=consumer-dataplane
       - edc.dpf.selector.url=http://consumer-controlplane:9050/control/v1/dataplanes
       - edc.data.plane.self.unregistration=true
+      # MUST BE UPDATED if port mapping changes: Externally reachable host + external public API port
+      - edc.dataplane.api.public.baseurl=http://localhost:9600/public
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/cons_dpl
       - edc.datasource.default.user=admin
       - edc.datasource.default.password=password
@@ -325,6 +327,8 @@ services:
       - edc.hostname=provider-dataplane
       - edc.dpf.selector.url=http://provider-controlplane:9050/control/v1/dataplanes
       - edc.data.plane.self.unregistration=true
+      # MUST BE UPDATED if port mapping changes: Externally reachable host + external public API port
+      - edc.dataplane.api.public.baseurl=http://localhost:9500/public
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/prov_dpl
       - edc.datasource.default.user=admin
       - edc.datasource.default.password=password

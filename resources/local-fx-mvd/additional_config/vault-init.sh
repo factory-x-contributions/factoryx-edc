@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 
 VAULT="${VAULT_ADDR:-http://shared-vault:8200}"
