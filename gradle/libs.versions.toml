@@ -107,4 +107,4 @@ testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgres
 [plugins]
 docker = { id = "com.bmuschko.docker-remote-api", version = "10.0.0" }
 swagger = { id = "io.swagger.core.v3.swagger-gradle-plugin", version.ref = "swagger" }
-shadow = { id = "com.gradleup.shadow", version = "9.3.1" }
+shadow = { id = "com.gradleup.shadow", version = "9.4.1" }
