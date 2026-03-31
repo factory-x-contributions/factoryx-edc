@@ -1,7 +1,6 @@
 # factoryx-connector-memory
 
-
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square) 
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square)
 
 A Helm chart for Factory-X Eclipse Data Space Connector based on memory. Please only use this for development or testing purposes, never in production workloads!
 
@@ -41,13 +40,9 @@ helm install my-release factory-x-contributions/factoryx-connector-memory --vers
      --set vault.secrets="client-secret:$YOUR_CLIENT_SECRET"
 ```
 
-
-
 ## Source Code
 
 * <https://github.com/factory-x-contributions/factoryx-edc/tree/main/charts/factoryx-connector-memory>
-
-
 
 ## Values
 
@@ -56,6 +51,10 @@ helm install my-release factory-x-contributions/factoryx-connector-memory --vers
 | customCaCerts | object | `{}` | Add custom ca certificates to the truststore |
 | customLabels | object | `{}` | Add some custom labels |
 | fullnameOverride | string | `""` |  |
+| iatp.cache.enabled | bool | `true` | Whether the Verifiable Presentation cache is enabled |
+| iatp.cache.validity | int | `86400` | Validity of the Verifiable Presentation cache in seconds |
+| iatp.didService.selfRegistration.enabled | bool | `false` | Whether Service Self Registration is enabled |
+| iatp.didService.selfRegistration.id | string | `"did:web:changeme"` | Unique id of connector to be used for register / unregister service inside did document (must be valid URI) |
 | iatp.sts.dim.url | string | `"http://localhost:8080/"` | URL where connectors can request SI tokens |
 | iatp.sts.oauth.client.id | string | `"test-client-id"` | Client ID for requesting OAuth2 access token for DIM access |
 | iatp.sts.oauth.client.secret_alias | string | `"test-alias"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
