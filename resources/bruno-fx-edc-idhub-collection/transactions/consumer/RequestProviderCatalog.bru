@@ -21,7 +21,7 @@ body:json {
     },
     "counterPartyAddress": "{{PROVIDER_ENDPOINT}}",
     "counterPartyId": "{{DID_WEB_ID_PROVIDER}}",
-    "protocol": "dataspace-protocol-http",
+    "protocol": "dataspace-protocol-http:2025-1",
     "querySpec": {
       "offset": 0,
       "limit": 50,
@@ -37,7 +37,7 @@ body:json {
 }
 
 script:post-response {
-  const policy = res.getBody()['dcat:dataset']['odrl:hasPolicy'];
+  const policy = res.getBody()['dataset'][0]['hasPolicy'];
   const offerId = policy?.['@id'] || policy?.[0]?.['@id'];
   
   bru.setEnvVar("offerId", offerId);

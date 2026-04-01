@@ -1,8 +1,8 @@
 vars {
-  ISSUER_DID_API: http://localhost:10000
+  ISSUER_DID_API: http://local-issuer-service:13132
   ISSUER_ID_API: http://localhost:10100/api/identity
   ISSUER_ISS_API: http://localhost:10200/api/issuer
-  CONSUMER_IDHUB_DID_API: http://localhost:20000
+  CONSUMER_IDHUB_DID_API: http://consumer-idhub:13131
   CONSUMER_IDHUB_ID_API: http://localhost:20100/api/identity
   CONSUMER_IDHUB_STS_API: http://localhost:20500/api/sts
   CONSUMER_IDHUB_CREDS_API: http://localhost:20600/api/credentials
@@ -15,7 +15,7 @@ vars {
   PROVIDER_MANAGEMENT: http://localhost:39010/management
   CONSUMER_MANAGEMENT: http://localhost:29010/management
   PROVIDER_DATAPLANE_PUBLIC: Extracted from EDR response
-  PROVIDER_IDHUB_DID_API: http://localhost:21000
+  PROVIDER_IDHUB_DID_API: http://provider-idhub:13131
   PROVIDER_IDHUB_ID_API: http://localhost:21100/api/identity
   PROVIDER_IDHUB_STS_API: http://localhost:21500/api/sts
   PROVIDER_IDHUB_CREDS_API: http://localhost:21600/api/credentials
@@ -32,5 +32,9 @@ vars {
   DID_WEB_ID_PROVIDER: did:web:provider-idhub:user:provider
   DID_WEB_ID_PROVIDER_B64: ZGlkOndlYjpwcm92aWRlci1pZGh1Yjp1c2VyOnByb3ZpZGVy
   VAULT_PROVIDER_SECRET_PATH: providersecret
-  PROVIDER_ENDPOINT: http://provider-controlplane:9020/dsp
+  PROVIDER_ENDPOINT: http://provider-controlplane:9020/dsp/2025-1
+  DID_WEB_ID_CONSUMER_NAME: consumer
+  DID_WEB_ID_PROVIDER_NAME: provider
+  CONSUMER_IDHUB_DID_API_ENDPOINT: http://localhost:20000
+  PROVIDER_IDHUB_DID_API_ENDPOINT: http://localhost:21000
 }

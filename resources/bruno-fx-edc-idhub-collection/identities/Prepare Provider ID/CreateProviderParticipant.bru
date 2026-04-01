@@ -48,13 +48,20 @@ script:pre-request {
 
 script:post-response {
   const apiKey = res.getBody().apiKey.trim();
-  if (apiKey) {
-    bru.setEnvVar("PROVIDER_IH_APIKEY", apiKey);
-  }
   const stsSecret = res.getBody().clientSecret.trim();
-  if (stsSecret) {
-    bru.setEnvVar("PROVIDER_STS_SECRET", stsSecret)
+  
+  if (!apiKey) {
+    throw new Error("No apiKey found in response");
   }
+  if (!stsSecret) {
+    throw new Error("No clientSecret found in response");
+  }
+  
+  bru.deleteEnvVar("PROVIDER_IH_APIKEY")
+  bru.setEnvVar("PROVIDER_IH_APIKEY", apiKey);
+  
+  bru.deleteEnvVar("PROVIDER_STS_SECRET")
+  bru.setEnvVar("PROVIDER_STS_SECRET", stsSecret)
 }
 
 settings {
