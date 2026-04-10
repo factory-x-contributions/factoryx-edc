@@ -1,0 +1,16 @@
+meta {
+  name: without credential
+  seq: 2
+}
+
+auth {
+  mode: inherit
+}
+
+docs {
+  This section demonstrates the negative case: the consumer requests the provider's catalog for an asset that requires an ISO9001 CertificationCredential.
+
+  Since the consumer only holds a MembershipCredential (issued during identity setup) and does NOT have a CertificationCredential, the provider's access policy filters the asset from the catalog response.
+
+  Expected result: The catalog response contains no matching dataset for `certification-gated-asset`. The `dataset` array will be empty or absent.
+}

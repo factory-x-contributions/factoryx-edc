@@ -1,0 +1,47 @@
+meta {
+  name: CreateMembershipPolicy
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{PROVIDER_MANAGEMENT}}/v3/policydefinitions
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-api-key: {{PROVIDER_MANAGEMENT_API_KEY}}
+}
+
+body:json {
+  {
+    "@context": [
+      "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
+      "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      }
+    ],
+    "@type": "PolicyDefinition",
+    "@id": "membershipPolicy",
+    "policy": {
+      "@type": "Set",
+      "permission": {
+        "action": "use",
+        "constraint": {
+          "leftOperand": "https://w3id.org/factoryx/policy/v1.0/FxMembership",
+          "operator": "eq",
+          "rightOperand": "active"
+        }
+      },
+      "prohibition": [],
+      "obligation": []
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -40,6 +40,8 @@ script:post-response {
   var x = res.getBody()['@id'];
   console.log("id " + x);
   bru.setEnvVar("negotiation-id", res.getBody()['@id']);
+  
+  await bru.sleep(2500);
 }
 
 settings {

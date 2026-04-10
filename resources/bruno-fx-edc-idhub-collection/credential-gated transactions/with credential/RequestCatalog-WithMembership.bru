@@ -1,0 +1,91 @@
+meta {
+  name: RequestCatalog-WithMembership
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{CONSUMER_MANAGEMENT}}/v3/catalog/request
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "counterPartyAddress": "{{PROVIDER_ENDPOINT}}",
+    "counterPartyId": "{{DID_WEB_ID_PROVIDER}}",
+    "protocol": "dataspace-protocol-http:2025-1",
+    "querySpec": {
+      "offset": 0,
+      "limit": 50,
+      "filterExpression": [
+        {
+          "operandLeft": "id",
+          "operator": "=",
+          "operandRight": "membership-gated-asset"
+        }
+      ]
+    }
+  }
+}
+
+script:post-response {
+  const clearNegotiationVars = () => {
+    bru.deleteEnvVar("protectedOfferId");
+    bru.deleteEnvVar("protectedAssetId");
+    bru.deleteEnvVar("protectedOfferPermission");
+    bru.deleteEnvVar("protectedOfferProhibition");
+    bru.deleteEnvVar("protectedOfferObligation");
+  };
+  
+  const body = res.getBody();
+  const dataset = body['dataset'];
+  const ds = Array.isArray(dataset) ? dataset[0] : dataset;
+  
+  if (!ds) {
+    clearNegotiationVars();
+    return;
+  }
+  
+  const policy = ds['hasPolicy'];
+  const offer = Array.isArray(policy) ? policy[0] : policy;
+  
+  if (!offer) {
+    clearNegotiationVars();
+    return;
+  }
+  
+  const target = ds['id'] || "membership-gated-asset";
+  
+  bru.setEnvVar("protectedOfferId", offer['@id']);
+  bru.setEnvVar("protectedAssetId", target);
+  bru.setEnvVar("protectedOfferPermission", JSON.stringify(offer['permission'] || []));
+  bru.setEnvVar("protectedOfferProhibition", JSON.stringify(offer['prohibition'] || []));
+  bru.setEnvVar("protectedOfferObligation", JSON.stringify(offer['obligation'] || []));
+}
+
+tests {
+  test("should return membership-gated asset with a negotiable offer", function () {
+    const body = res.getBody();
+    const dataset = body['dataset'];
+    const ds = Array.isArray(dataset) ? dataset[0] : dataset;
+    const policy = ds && (Array.isArray(ds['hasPolicy']) ? ds['hasPolicy'][0] : ds['hasPolicy']);
+  
+    expect(ds).to.exist;
+    expect(ds['id']).to.equal("membership-gated-asset");
+    expect(policy).to.exist;
+    expect(policy['@id']).to.exist;
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

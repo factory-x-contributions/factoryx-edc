@@ -158,7 +158,7 @@ A policy holding this constraint can be created like this:
     "permission": {
       "action": "use",
       "constraint": {
-        "leftOperand": "Membership",
+        "leftOperand": "https://w3id.org/factoryx/policy/v1.0/FxMembership",
         "operator": "eq",
         "rightOperand": "active"
       }

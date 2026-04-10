@@ -1,0 +1,22 @@
+meta {
+  name: with credential
+  seq: 3
+}
+
+auth {
+  mode: inherit
+}
+
+docs {
+  This section demonstrates the positive case: the consumer requests the provider's catalog for an asset that requires a MembershipCredential.
+
+  During identity setup the consumer was issued a MembershipCredential by the trusted issuer. The provider's access policy for `membership-gated-asset` requires `Membership = active`. Because the consumer holds the correct credential, the asset appears in the catalog and the full negotiation and transfer flow succeeds.
+
+  Steps:
+  1. Request the catalog — the membership-gated asset is visible
+  2. Initiate contract negotiation using the offer from the catalog
+  3. Check the negotiation result — expect `FINALIZED`
+  4. Initiate a pull transfer
+  5. Retrieve the EDR (Endpoint Data Reference) with the authorization token
+  6. Pull the actual data using the EDR token
+}
