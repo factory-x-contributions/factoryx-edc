@@ -45,6 +45,8 @@ import static org.factoryx.edc.iam.iatp.constant.FxDcpConstants.CREDENTIAL_TYPE_
  * The left operand should be bound to the namespace {@link CoreConstants#FX_CREDENTIAL_NS}
  */
 public class CredentialScopeExtractor implements ScopeExtractor {
+    private static final String MEMBERSHIP_LITERAL = "Membership";
+    private static final String FX_MEMBERSHIP_LITERAL = "FxMembership";
     /**
      * Prefix to extract certification type
      */
@@ -117,6 +119,9 @@ public class CredentialScopeExtractor implements ScopeExtractor {
     private String extractCredentialType(String leftOperand, Object rightValue) {
         var ix = leftOperand.indexOf(".");
         leftOperand = ix > 0 ? leftOperand.substring(0, ix) : leftOperand;
+        if (FX_MEMBERSHIP_LITERAL.equals(leftOperand) || MEMBERSHIP_LITERAL.equals(leftOperand)) {
+            return MEMBERSHIP_LITERAL;
+        }
         return leftOperand;
     }
 

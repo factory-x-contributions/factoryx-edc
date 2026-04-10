@@ -1,0 +1,31 @@
+meta {
+  name: Get EDR
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{CONSUMER_MANAGEMENT}}/v3/edrs/{{protectedTransferId}}/dataaddress
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
+}
+
+script:post-response {
+  const body = res.getBody();
+  
+  const authToken = body.authorization;
+  const providerDataplanePublic = body.endpoint;
+  
+  bru.setEnvVar("protectedPullSecret", authToken);
+  bru.setEnvVar("PROVIDER_DATAPLANE_PUBLIC", providerDataplanePublic);
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

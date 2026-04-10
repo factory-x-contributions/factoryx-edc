@@ -65,6 +65,21 @@ are interested
 in a more detailed explanation of these interactions, please see
 the [EDC Samples](https://github.com/eclipse-edc/Samples/tree/main/transfer).
 
+### Credential-gated policy example
+
+The Bruno collection also includes a credential-gated policy section under `transactions`. This example demonstrates
+how access to provider assets can be restricted based on verifiable credentials held by the consumer.
+
+Two assets are created — one gated by a `MembershipCredential` (which the consumer holds) and one gated by an ISO9001
+`CertificationCredential` (which the consumer does not hold). The catalog request for the membership-gated asset
+succeeds, while the certification-gated asset is filtered out.
+
+> [!NOTE]
+> Run this example before the default transaction flow, or in a fresh environment. The default flow creates
+> a contract definition with an empty asset selector that would bypass the credential-gated access policies.
+
+For detailed instructions, see [Credential-Gated Policy Example](./credential-gated-policy.md).
+
 When you're done testing and want to end your session (using 'CTRL-C' on the terminal, where you started docker
 compose),
 you may want to run

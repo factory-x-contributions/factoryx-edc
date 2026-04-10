@@ -1,0 +1,40 @@
+meta {
+  name: CreateCertificationGatedAsset
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{PROVIDER_MANAGEMENT}}/v3/assets
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-api-key: {{PROVIDER_MANAGEMENT_API_KEY}}
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "@id": "certification-gated-asset",
+    "properties": {
+      "name": "Certification-gated product data",
+      "description": "This asset is only accessible to consumers with an ISO9001 CertificationCredential.",
+      "contenttype": "application/json"
+    },
+    "dataAddress": {
+      "type": "HttpData",
+      "name": "Certification-gated test data",
+      "baseUrl": "https://jsonplaceholder.typicode.com/comments",
+      "proxyPath": "true"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
