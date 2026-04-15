@@ -1,0 +1,34 @@
+meta {
+  name: credential-gated transactions
+  seq: 4
+}
+
+auth {
+  mode: inherit
+}
+
+docs {
+  # Credential-gated Example
+  
+  It demonstrates how Factory-X EDC policies can gate access to assets based on verifiable credentials held by the consumer.
+  
+  ## Overview
+  
+  The provider creates two assets, each protected by a different credential-based policy:
+  - membership-gated-asset: Requires a valid `MembershipCredential` (the consumer has this)
+  - certification-gated-asset: Requires an `ISO9001` `CertificationCredential` which the consumer won't have
+  
+  ## Test Scenarios
+  
+  1. Without credential – The consumer requests the catalog for the certification-gated asset. Because the consumer lacks an ISO9001 CertificationCredential, the asset is filtered from the catalog response.
+  2. With credential – The consumer requests the catalog for the membership-gated asset. Because the consumer holds a valid MembershipCredential, the asset is visible. The consumer then completes the full negotiation and data transfer.
+  
+  ## Prerequisites
+  
+  - Run all steps in the `identities` folder first (issuer setup, consumer/provider identity creation, credential issuance)
+  - Run this example before the default `provider`/`consumer` transaction flow, or in a fresh environment. The default flow creates a contract definition with an empty asset selector (matching all assets), which would bypass the credential-gated access policies.
+  
+  ## No Third EDC Required
+  
+  Both the positive and negative cases are demonstrated using the existing consumer and provider. The consumer holds a MembershipCredential but lacks a CertificationCredential. This asymmetry is used to show both outcomes without requiring a third participant.
+}

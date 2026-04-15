@@ -1,0 +1,50 @@
+meta {
+  name: RequestCatalog-NoCertification
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{CONSUMER_MANAGEMENT}}/v3/catalog/request
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "counterPartyAddress": "{{PROVIDER_ENDPOINT}}",
+    "counterPartyId": "{{DID_WEB_ID_PROVIDER}}",
+    "protocol": "dataspace-protocol-http:2025-1",
+    "querySpec": {
+      "offset": 0,
+      "limit": 50,
+      "filterExpression": [
+        {
+          "operandLeft": "id",
+          "operator": "=",
+          "operandRight": "certification-gated-asset"
+        }
+      ]
+    }
+  }
+}
+
+tests {
+  test("should not return certification-gated asset if consumer lacks ISO9001 CertificationCredential", function () {
+    const body = res.getBody();
+    const dataset = body['dataset'];
+    expect(dataset).to.satisfy(d => !d || (Array.isArray(d) && d.length === 0));
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

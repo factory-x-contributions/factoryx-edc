@@ -168,7 +168,7 @@ services:
 
   consumer-controlplane:
     container_name: consumer-controlplane
-    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.3.0-SNAPSHOT
+    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.4.0-SNAPSHOT
     pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
@@ -218,7 +218,7 @@ services:
 
   consumer-dataplane:
     container_name: consumer-dataplane
-    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.3.0-SNAPSHOT
+    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.4.0-SNAPSHOT
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
       - web.http.public.port=9500
@@ -264,7 +264,7 @@ services:
 
   provider-controlplane:
     container_name: provider-controlplane
-    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.3.0-SNAPSHOT
+    image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.4.0-SNAPSHOT
     pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
@@ -315,7 +315,7 @@ services:
 
   provider-dataplane:
     container_name: provider-dataplane
-    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.3.0-SNAPSHOT
+    image: ghcr.io/factory-x-contributions/edc-dataplane-hashicorp-vault:0.4.0-SNAPSHOT
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
       - web.http.public.port=9500

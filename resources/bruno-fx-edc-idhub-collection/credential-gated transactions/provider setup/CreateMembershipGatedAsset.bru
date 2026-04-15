@@ -1,0 +1,40 @@
+meta {
+  name: CreateMembershipGatedAsset
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{PROVIDER_MANAGEMENT}}/v3/assets
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-api-key: {{PROVIDER_MANAGEMENT_API_KEY}}
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "@id": "membership-gated-asset",
+    "properties": {
+      "name": "Membership-gated product data",
+      "description": "This asset is only accessible to consumers with a valid MembershipCredential.",
+      "contenttype": "application/json"
+    },
+    "dataAddress": {
+      "type": "HttpData",
+      "name": "Membership-gated test data",
+      "baseUrl": "https://jsonplaceholder.typicode.com/posts",
+      "proxyPath": "true"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

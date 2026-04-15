@@ -121,7 +121,8 @@ public class CredentialScopeExtractorTest {
             var offer = ContractOffer.Builder.newInstance().id("id").assetId("assetId").policy(Policy.Builder.newInstance().build()).build();
             return Stream.of(
                     Arguments.of(ContractRequestMessage.Builder.newInstance().contractOffer(offer).callbackAddress("cb").build(), CoreConstants.FX_POLICY_NS + "Membership",  CREDENTIAL_TYPE_NAMESPACE + ":MembershipCredential:read"),
-                    Arguments.of(TransferRequestMessage.Builder.newInstance().callbackAddress("cb").build(), CoreConstants.FX_POLICY_NS + "FxMembership",  CREDENTIAL_TYPE_NAMESPACE + ":FxMembershipCredential:read"),
+                    Arguments.of(ContractRequestMessage.Builder.newInstance().contractOffer(offer).callbackAddress("cb").build(), CoreConstants.FX_POLICY_NS + "FxMembership",  CREDENTIAL_TYPE_NAMESPACE + ":MembershipCredential:read"),
+                    Arguments.of(TransferRequestMessage.Builder.newInstance().callbackAddress("cb").build(), CoreConstants.FX_POLICY_NS + "FxMembership",  CREDENTIAL_TYPE_NAMESPACE + ":MembershipCredential:read"),
                     Arguments.of(CatalogRequestMessage.Builder.newInstance().build(), CoreConstants.FX_POLICY_NS + CERTIFICATION_TYPE_PREFIX + ".pfc",  CREDENTIAL_TYPE_NAMESPACE + ":CertificationCredential:read")
             );
         }

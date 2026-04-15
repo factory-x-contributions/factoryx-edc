@@ -1,0 +1,68 @@
+meta {
+  name: InitiateNegotiation
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{CONSUMER_MANAGEMENT}}/v3/contractnegotiations
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  x-api-key: {{CONSUMER_MANAGEMENT_API_KEY}}
+}
+
+body:json {
+  {
+    "@context": [
+      "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
+      "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      }
+    ],
+    "@type": "ContractRequest",
+    "counterPartyAddress": "{{PROVIDER_ENDPOINT}}",
+    "protocol": "dataspace-protocol-http:2025-1",
+    "policy": {
+      "@id": "{{protectedOfferId}}",
+      "@type": "Offer",
+      "assigner": "{{DID_WEB_ID_PROVIDER}}",
+      "permission": [],
+      "prohibition": [],
+      "obligation": [],
+      "target": "{{protectedAssetId}}"
+    },
+    "callbackAddresses": []
+  }
+}
+
+script:pre-request {
+  const permission = bru.getEnvVar("protectedOfferPermission");
+  
+  if (!permission) {
+    throw new Error("Missing protectedOfferPermission. Run RequestCatalog-WithMembership first.");
+  }
+  
+  const body = req.getBody();
+  body.policy.permission = JSON.parse(permission);
+  body.policy.prohibition = JSON.parse(bru.getEnvVar("protectedOfferProhibition") || "[]");
+  body.policy.obligation = JSON.parse(bru.getEnvVar("protectedOfferObligation") || "[]");
+  
+  req.setBody(body);
+}
+
+script:post-response {
+  var negotiationId = res.getBody()['@id'];
+  bru.setEnvVar("protectedNegotiationId", negotiationId);
+  
+  await bru.sleep(2500);
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

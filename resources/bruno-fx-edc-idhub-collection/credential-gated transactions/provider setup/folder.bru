@@ -1,0 +1,17 @@
+meta {
+  name: provider setup
+  seq: 1
+}
+
+auth {
+  mode: inherit
+}
+
+docs {
+  The provider creates two data assets, each protected by a credential-based policy:
+
+  1. A membership-gated asset bound to a policy requiring `Membership = active`. Any Factory-X dataspace member with a valid MembershipCredential can access this asset.
+  2. A certification-gated asset bound to a policy requiring `CertificationType = ISO9001`. Only consumers holding an ISO9001 CertificationCredential can access this asset.
+
+  Each asset is linked to its policy via a dedicated contract definition with a specific asset selector.
+}
