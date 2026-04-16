@@ -94,7 +94,7 @@ services:
 
   consumer-idhub:
     container_name: consumer-idhub
-    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/identityhub:0.0.2 # Note: image pull requires docker login
+    image: docker.io/tractusx/identityhub:0.2.0
     pull_policy: missing
     depends_on:
       shared-postgres:
@@ -117,6 +117,7 @@ services:
       - edc.ih.api.superuser.id=admin
       - edc.ih.api.superuser.key=YWRtaW4.adminKey
       - web.http.did.port=80
+      - web.http.credentials.path=/api/credentials
       - edc.sql.schema.autocreate=true
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/cons_ih_db
       - edc.datasource.default.user=admin
@@ -131,7 +132,7 @@ services:
 
   provider-idhub:
     container_name: provider-idhub
-    image: ghcr.io/factory-x-contributions/fx-id-hub-charts/identityhub:0.0.2 # Note: image pull requires docker login
+    image: docker.io/tractusx/identityhub:0.2.0
     pull_policy: missing
     depends_on:
       shared-postgres:
@@ -154,6 +155,7 @@ services:
       - edc.ih.api.superuser.id=admin
       - edc.ih.api.superuser.key=YWRtaW4.adminKey
       - web.http.did.port=80
+      - web.http.credentials.path=/api/credentials
       - edc.sql.schema.autocreate=true
       - edc.datasource.default.url=jdbc:postgresql://shared-postgres:5432/prov_ih_db
       - edc.datasource.default.user=admin
@@ -179,6 +181,10 @@ services:
       - edc.iam.sts.oauth.token.url=http://consumer-idhub:9292/api/sts/token
       - edc.iam.sts.oauth.client.id=did:web:consumer-idhub:user:consumer
       - edc.iam.issuer.id=did:web:consumer-idhub:user:consumer
+      # Hint: tx.edc.iam.iatp.* will be changed to tx.edc.iam.dcp.* upstream in Tractus-X with 0.13.0!
+      - tx.edc.iam.iatp.default-scopes.membership.alias=org.eclipse.tractusx.vc.type
+      - tx.edc.iam.iatp.default-scopes.membership.type=MembershipCredential
+      - tx.edc.iam.iatp.default-scopes.membership.operation=read
       - web.http.port=9000
       - web.http.path=/api
       - web.http.management.port=9010
@@ -275,6 +281,10 @@ services:
       - edc.iam.sts.oauth.token.url=http://provider-idhub:9292/api/sts/token
       - edc.iam.sts.oauth.client.id=did:web:provider-idhub:user:provider
       - edc.iam.issuer.id=did:web:provider-idhub:user:provider
+      # Hint: tx.edc.iam.iatp.* will be changed to tx.edc.iam.dcp.* upstream in Tractus-X with 0.13.0!
+      - tx.edc.iam.iatp.default-scopes.membership.alias=org.eclipse.tractusx.vc.type
+      - tx.edc.iam.iatp.default-scopes.membership.type=MembershipCredential
+      - tx.edc.iam.iatp.default-scopes.membership.operation=read
       - web.http.port=9000
       - web.http.path=/api
       - web.http.management.port=9010
