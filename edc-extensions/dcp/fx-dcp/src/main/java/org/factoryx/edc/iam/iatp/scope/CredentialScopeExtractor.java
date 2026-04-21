@@ -30,6 +30,7 @@ import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.types.domain.message.RemoteMessage;
 import org.factoryx.edc.edr.spi.CoreConstants;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -65,9 +66,18 @@ public class CredentialScopeExtractor implements ScopeExtractor {
     );
 
     private final Monitor monitor;
+    private final String scopeAlias;
 
     public CredentialScopeExtractor(Monitor monitor) {
+        this(monitor, CREDENTIAL_TYPE_NAMESPACE);
+    }
+
+    public CredentialScopeExtractor(Monitor monitor, String scopeAlias) {
         this.monitor = monitor;
+        this.scopeAlias = Objects.requireNonNull(scopeAlias, "scopeAlias").trim();
+        if (this.scopeAlias.isBlank()) {
+            throw new IllegalArgumentException("scopeAlias cannot be blank");
+        }
     }
 
     @Override
@@ -79,7 +89,7 @@ public class CredentialScopeExtractor implements ScopeExtractor {
             if (leftValue instanceof String leftOperand && leftOperand.startsWith(FX_POLICY_NS) && isMessageSupported(requestContext)) {
                 leftOperand = leftOperand.replace(FX_POLICY_NS, "");
                 var credentialType = extractCredentialType(leftOperand, rightValue);
-                var scope = SCOPE_FORMAT.formatted(CREDENTIAL_TYPE_NAMESPACE, CREDENTIAL_FORMAT.formatted(capitalize(credentialType)));
+                var scope = SCOPE_FORMAT.formatted(scopeAlias, CREDENTIAL_FORMAT.formatted(capitalize(credentialType)));
                 if (isSupportedScope(scope)) {
                     return Set.of(scope);
                 }

@@ -182,6 +182,7 @@ services:
       - edc.iam.sts.oauth.client.id=did:web:consumer-idhub:user:consumer
       - edc.iam.issuer.id=did:web:consumer-idhub:user:consumer
       # Hint: tx.edc.iam.iatp.* will be changed to tx.edc.iam.dcp.* upstream in Tractus-X with 0.13.0!
+      - tx.edc.iam.iatp.scope-alias=org.eclipse.tractusx.vc.type
       - tx.edc.iam.iatp.default-scopes.membership.alias=org.eclipse.tractusx.vc.type
       - tx.edc.iam.iatp.default-scopes.membership.type=MembershipCredential
       - tx.edc.iam.iatp.default-scopes.membership.operation=read
@@ -282,6 +283,7 @@ services:
       - edc.iam.sts.oauth.client.id=did:web:provider-idhub:user:provider
       - edc.iam.issuer.id=did:web:provider-idhub:user:provider
       # Hint: tx.edc.iam.iatp.* will be changed to tx.edc.iam.dcp.* upstream in Tractus-X with 0.13.0!
+      - tx.edc.iam.iatp.scope-alias=org.eclipse.tractusx.vc.type
       - tx.edc.iam.iatp.default-scopes.membership.alias=org.eclipse.tractusx.vc.type
       - tx.edc.iam.iatp.default-scopes.membership.type=MembershipCredential
       - tx.edc.iam.iatp.default-scopes.membership.operation=read

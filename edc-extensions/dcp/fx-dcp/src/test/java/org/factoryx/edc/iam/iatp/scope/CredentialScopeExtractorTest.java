@@ -74,6 +74,21 @@ public class CredentialScopeExtractorTest {
         assertThat(scopes).contains(expectedCredentialType);
     }
 
+    @Test
+    void verify_extractScopes_usesConfiguredScopeAlias() {
+        extractor = new CredentialScopeExtractor(monitor, "org.eclipse.tractusx.vc.type");
+
+        var requestContext = RequestContext.Builder.newInstance()
+                .message(CatalogRequestMessage.Builder.newInstance().build())
+                .direction(RequestContext.Direction.Egress)
+                .build();
+        var ctx = new TestRequestPolicyContext(requestContext, null);
+
+        var scopes = extractor.extractScopes(CoreConstants.FX_POLICY_NS + "Membership", null, null, ctx);
+
+        assertThat(scopes).contains("org.eclipse.tractusx.vc.type:MembershipCredential:read");
+    }
+
     @DisplayName("Scope extractor with not supported messages")
     @ParameterizedTest(name = "{1}")
     @ArgumentsSource(NotSupportedMessages.class)
