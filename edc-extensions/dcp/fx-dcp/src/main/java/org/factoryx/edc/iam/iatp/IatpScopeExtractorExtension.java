@@ -22,17 +22,27 @@ package org.factoryx.edc.iam.iatp;
 import org.eclipse.edc.iam.decentralizedclaims.spi.scope.ScopeExtractorRegistry;
 import org.eclipse.edc.runtime.metamodel.annotation.Extension;
 import org.eclipse.edc.runtime.metamodel.annotation.Inject;
+import org.eclipse.edc.runtime.metamodel.annotation.Setting;
+import org.eclipse.edc.spi.EdcException;
 import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.spi.system.ServiceExtension;
 import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.factoryx.edc.iam.iatp.scope.CredentialScopeExtractor;
 
 import static org.factoryx.edc.iam.iatp.IatpScopeExtractorExtension.NAME;
+import static org.factoryx.edc.iam.iatp.constant.FxDcpConstants.CREDENTIAL_TYPE_NAMESPACE;
 
 
 @Extension(NAME)
 public class IatpScopeExtractorExtension implements ServiceExtension {
     static final String NAME = "Tractusx scope extractor extension";
+
+    @Setting(
+            key = "tx.edc.iam.iatp.scope-alias",
+            value = "The credential scope identifier used for policy-derived credential scopes.",
+            defaultValue = CREDENTIAL_TYPE_NAMESPACE
+    )
+    static final String TX_IATP_SCOPE_ALIAS = "tx.edc.iam.iatp.scope-alias";
 
     @Inject
     private ScopeExtractorRegistry scopeExtractorRegistry;
@@ -47,6 +57,11 @@ public class IatpScopeExtractorExtension implements ServiceExtension {
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        scopeExtractorRegistry.registerScopeExtractor(new CredentialScopeExtractor(monitor));
+        var scopeAlias = context.getSetting(TX_IATP_SCOPE_ALIAS, CREDENTIAL_TYPE_NAMESPACE);
+        if (scopeAlias == null || scopeAlias.isBlank()) {
+            throw new EdcException("Configuration '%s' must not be blank".formatted(TX_IATP_SCOPE_ALIAS));
+        }
+
+        scopeExtractorRegistry.registerScopeExtractor(new CredentialScopeExtractor(monitor, scopeAlias));
     }
 }
