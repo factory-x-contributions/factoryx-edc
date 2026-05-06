@@ -1,0 +1,28 @@
+version = 1
+SPDX-PackageName = "factoryx-edc"
+SPDX-PackageSupplier = "info@factory-x.org"
+SPDX-PackageDownloadLocation = "https://github.com/factory-x-contributions/factoryx-edc"
+
+[[annotations]]
+path = ["docs/**", "README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024-2026 Contributors to the Factory-X project"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["edc-controlplane/**", "edc-dataplane/**", "edc-extensions/**", "edc-tests/**", "spi/**", "charts/**", "resources/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024-2026 Contributors to the Factory-X project"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = [".github/**", ".gitignore", "build.gradle.kts", "settings.gradle.kts", "gradle.properties", "gradle/**", "gradlew", "gradlew.bat", "lintconf.yaml", "ct.yaml", "chart_schema.yaml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024-2026 Contributors to the Factory-X project"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["LICENSE", "LICENSE_non-code", "LICENCE", "LICENCE_non-code", "LICENSES/**", "NOTICE.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024-2026 Contributors to the Factory-X project"
+SPDX-License-Identifier = "Apache-2.0"
