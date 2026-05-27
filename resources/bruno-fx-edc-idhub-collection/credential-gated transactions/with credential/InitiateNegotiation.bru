@@ -59,7 +59,7 @@ script:post-response {
   var negotiationId = res.getBody()['@id'];
   bru.setEnvVar("protectedNegotiationId", negotiationId);
   
-  await bru.sleep(2500);
+  await bru.sleep(3000);
 }
 
 settings {

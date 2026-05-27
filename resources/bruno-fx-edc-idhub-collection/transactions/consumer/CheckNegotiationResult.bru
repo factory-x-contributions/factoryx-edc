@@ -20,6 +20,13 @@ script:post-response {
   bru.setEnvVar("contractId", contractId);
 }
 
+tests {
+  test("contains contractAgreementId", function() {
+    const contractAgreementId = res.getBody().contractAgreementId;
+    expect(contractAgreementId).to.be.a("string");
+  })
+}
+
 settings {
   encodeUrl: true
   timeout: 0

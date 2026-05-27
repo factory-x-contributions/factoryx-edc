@@ -23,6 +23,16 @@ script:post-response {
   if (contractId) {
     bru.setEnvVar("protectedContractId", contractId);
   }
+  
+  await bru.sleep(2000);
+}
+
+tests {
+  test("contains contractAgreementId", function() {
+    const contractAgreementId = res.getBody().contractAgreementId;
+    const errorDetail = res.getBody().errorDetail;
+    expect(contractAgreementId).to.be.a("string");
+  })
 }
 
 settings {

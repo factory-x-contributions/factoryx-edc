@@ -94,8 +94,7 @@ services:
 
   consumer-idhub:
     container_name: consumer-idhub
-    image: docker.io/tractusx/identityhub:0.2.0
-    pull_policy: missing
+    image: docker.io/tractusx/identityhub:0.2.0-SNAPSHOT
     depends_on:
       shared-postgres:
         condition: service_healthy
@@ -112,7 +111,8 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:1045
       - edc.hostname=consumer-idhub
-      - edc.ih.issuer.demonstrator.scope=org.eclipse.tractusx.vc.type
+      - edc.ih.issuer.demonstrator.scope=org.factoryx.vc.type
+      - tx.identityhub.scope.aliases=org.eclipse.tractusx.vc.type,org.factoryx.vc.type
       - edc.iam.did.web.use.https=false
       - edc.ih.api.superuser.id=admin
       - edc.ih.api.superuser.key=YWRtaW4.adminKey
@@ -132,8 +132,7 @@ services:
 
   provider-idhub:
     container_name: provider-idhub
-    image: docker.io/tractusx/identityhub:0.2.0
-    pull_policy: missing
+    image: docker.io/tractusx/identityhub:0.2.0-SNAPSHOT
     depends_on:
       shared-postgres:
         condition: service_healthy
@@ -150,7 +149,8 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:1045
       - edc.hostname=provider-idhub
-      - edc.ih.issuer.demonstrator.scope=org.eclipse.tractusx.vc.type
+      - edc.ih.issuer.demonstrator.scope=org.factoryx.vc.type
+      - tx.identityhub.scope.aliases=org.eclipse.tractusx.vc.type,org.factoryx.vc.type
       - edc.iam.did.web.use.https=false
       - edc.ih.api.superuser.id=admin
       - edc.ih.api.superuser.key=YWRtaW4.adminKey
@@ -182,7 +182,7 @@ services:
       - edc.iam.sts.oauth.client.id=did:web:consumer-idhub:user:consumer
       - edc.iam.issuer.id=did:web:consumer-idhub:user:consumer
       # Hint: tx.edc.iam.iatp.* will be changed to tx.edc.iam.dcp.* upstream in Tractus-X with 0.13.0!
-      - tx.edc.iam.iatp.default-scopes.membership.alias=org.eclipse.tractusx.vc.type
+      - tx.edc.iam.iatp.default-scopes.membership.alias=org.factoryx.vc.type
       - tx.edc.iam.iatp.default-scopes.membership.type=MembershipCredential
       - tx.edc.iam.iatp.default-scopes.membership.operation=read
       - web.http.port=9000
@@ -282,7 +282,7 @@ services:
       - edc.iam.sts.oauth.client.id=did:web:provider-idhub:user:provider
       - edc.iam.issuer.id=did:web:provider-idhub:user:provider
       # Hint: tx.edc.iam.iatp.* will be changed to tx.edc.iam.dcp.* upstream in Tractus-X with 0.13.0!
-      - tx.edc.iam.iatp.default-scopes.membership.alias=org.eclipse.tractusx.vc.type
+      - tx.edc.iam.iatp.default-scopes.membership.alias=org.factoryx.vc.type
       - tx.edc.iam.iatp.default-scopes.membership.type=MembershipCredential
       - tx.edc.iam.iatp.default-scopes.membership.operation=read
       - web.http.port=9000
