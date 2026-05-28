@@ -47,6 +47,12 @@ participant:
   contextId: "UUID CHANGEME"
 
 iatp:
+  # -- Default DCP scopes added to every outgoing request. Each entry produces tx.edc.iam.iatp.default-scopes.<key>.{alias,type,operation} config.
+  defaultScopes:
+    membership:
+      alias: "org.factoryx.vc.type"
+      type: "MembershipCredential"
+      operation: "read"
   # -- Configures the trusted issuers for this runtime. If no supportedTypes are specified, the value defaults to "*" for that issuer
   trustedIssuers: []
   # - id: "did:web:example1.com"
