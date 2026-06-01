@@ -22,6 +22,8 @@ script:post-response {
   const accessToken = res.getBody().access_token.trim();
   
   bru.setEnvVar("prov_access_token", accessToken);
+  
+  await bru.sleep(2000);
 }
 
 settings {

@@ -94,7 +94,7 @@ services:
 
   consumer-idhub:
     container_name: consumer-idhub
-    image: docker.io/tractusx/identityhub:0.2.0-SNAPSHOT
+    image: docker.io/tractusx/identityhub:sha-847e47d # pre 0.3.0 / ee01478 chore: Bump chart version to v0.3.0 for multiple services
     depends_on:
       shared-postgres:
         condition: service_healthy
@@ -132,7 +132,7 @@ services:
 
   provider-idhub:
     container_name: provider-idhub
-    image: docker.io/tractusx/identityhub:0.2.0-SNAPSHOT
+    image: docker.io/tractusx/identityhub:sha-847e47d # pre 0.3.0 / ee01478 chore: Bump chart version to v0.3.0 for multiple services
     depends_on:
       shared-postgres:
         condition: service_healthy
@@ -171,7 +171,6 @@ services:
   consumer-controlplane:
     container_name: consumer-controlplane
     image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.4.0-SNAPSHOT
-    pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
       - edc.iam.trusted-issuer.example.id=did:web:local-issuer-service:fx-issuer
@@ -271,7 +270,6 @@ services:
   provider-controlplane:
     container_name: provider-controlplane
     image: ghcr.io/factory-x-contributions/edc-controlplane-postgresql-hashicorp-vault:0.4.0-SNAPSHOT
-    pull_policy: missing
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005
       - edc.iam.trusted-issuer.example.id=did:web:local-issuer-service:fx-issuer
