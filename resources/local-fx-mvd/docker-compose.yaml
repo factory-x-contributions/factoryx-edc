@@ -94,7 +94,7 @@ services:
 
   consumer-idhub:
     container_name: consumer-idhub
-    image: docker.io/tractusx/identityhub:sha-847e47d # pre 0.3.0 / ee01478 chore: Bump chart version to v0.3.0 for multiple services
+    image: docker.io/tractusx/identityhub:sha-847e47d # last tag before release v0.3.0
     depends_on:
       shared-postgres:
         condition: service_healthy
@@ -111,7 +111,6 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:1045
       - edc.hostname=consumer-idhub
-      - edc.ih.issuer.demonstrator.scope=org.factoryx.vc.type
       - tx.identityhub.scope.aliases=org.eclipse.tractusx.vc.type,org.factoryx.vc.type
       - edc.iam.did.web.use.https=false
       - edc.ih.api.superuser.id=admin
@@ -132,7 +131,7 @@ services:
 
   provider-idhub:
     container_name: provider-idhub
-    image: docker.io/tractusx/identityhub:sha-847e47d # pre 0.3.0 / ee01478 chore: Bump chart version to v0.3.0 for multiple services
+    image: docker.io/tractusx/identityhub:sha-847e47d # last tag before release v0.3.0
     depends_on:
       shared-postgres:
         condition: service_healthy
@@ -149,7 +148,6 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:1045
       - edc.hostname=provider-idhub
-      - edc.ih.issuer.demonstrator.scope=org.factoryx.vc.type
       - tx.identityhub.scope.aliases=org.eclipse.tractusx.vc.type,org.factoryx.vc.type
       - edc.iam.did.web.use.https=false
       - edc.ih.api.superuser.id=admin
