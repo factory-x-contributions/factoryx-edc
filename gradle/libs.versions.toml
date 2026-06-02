@@ -16,6 +16,8 @@ rsApi = "4.0.0"
 swagger = "2.2.42"
 testcontainers = "2.0.3"
 titanium = "1.7.0"
+# Tractus-X 0.13.0+ renames tx.edc.iam.iatp.* to tx.edc.iam.dcp.*;
+# update deployment-controlplane.yaml and deployment-runtime.yaml accordingly.
 tractusx = "0.12.1"
 wiremock = "3.13.2"
 
