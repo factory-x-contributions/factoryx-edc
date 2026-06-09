@@ -14,12 +14,11 @@ Content-Type: application/json
 ```json
 {
   "@context": {
-    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "odrl": "http://www.w3.org/ns/odrl/2/"
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
   },
   "@type": "CatalogRequest",
-  "counterPartyId": "web:did:data-provider.com:dataspace",
-  "counterPartyAddress": "https://provider-control.plane/api/v1/dsp/2025-1",
+  "counterPartyId": "did:web:data-provider.com:dataspace",
+  "counterPartyAddress": "https://provider-control.plane/dsp/2025-1",
   "protocol": "dataspace-protocol-http:2025-1",
   "querySpec": {
     "@type": "QuerySpec",
@@ -42,7 +41,7 @@ The request body is lean. Mandatory properties are:
 
 - `counterPartyAddress` (formerly `providerUrl`): This property points to the DSP-endpoint of the Data Provider's
   Control
-  Plane. Usually this ends on `/api/v1/dsp/2025-1`.
+  Plane. Usually this ends on `/dsp/2025-1`.
 - `counterPartyId`: must be the provider did. This property is mandatory. If omitted the catalog request will fail.
 - `protocol`: must be `"dataspace-protocol-http:2025-1"`.
 
@@ -69,65 +68,64 @@ any further communication between the Business Partners useless.
 ```json
 {
   "@id": "acd67c9c-a5c6-4c59-9474-fcd3f948eab8",
-  "@type": "dcat:Catalog",
-  "dspace:participantId": "web:did:data-provider.com:dataspace",
-  "dcat:dataset": {
-    "@id": "{{ASSET_ID}}",
-    "@type": "dcat:Dataset",
-    "odrl:hasPolicy": {
-      "@id": "MQ==:MQ==:M2ZmZDRhY2MtMzkyNy00NGI4LWJlZDItNDcwY2RiZGRjN2Ex",
-      "@type": "odrl:Offer",
-      "odrl:permission": {
-        "odrl:action": {
-          "odrl:type": "http://www.w3.org/ns/odrl/2/use"
-        },
-        "odrl:constraint": {
-          "odrl:leftOperand": {
-            "@id": "https://w3id.org/factoryx/policy/certification"
+  "@type": "Catalog",
+  "participantId": "did:web:data-provider.com:dataspace",
+  "dataset": [
+    {
+      "@id": "{{ASSET_ID}}",
+      "@type": "Dataset",
+      "hasPolicy": [
+        {
+          "@id": "MQ==:MQ==:M2ZmZDRhY2MtMzkyNy00NGI4LWJlZDItNDcwY2RiZGRjN2Ex",
+          "@type": "Offer",
+          "permission": {
+            "action": "use",
+            "constraint": {
+              "leftOperand": "https://w3id.org/factoryx/policy/certification",
+              "operator": "eq",
+              "rightOperand": "MyCertification"
+            }
           },
-          "odrl:operator": {
-            "@id": "odrl:eq"
+          "prohibition": [],
+          "obligation": []
+        }
+      ],
+      "distribution": [
+        {
+          "@type": "Distribution",
+          "format": {
+            "@id": "HttpData-PULL"
           },
-          "odrl:rightOperand": "MyCertification"
+          "accessService": {
+            "@id": "1338f9ac-1728-4a7e-b3dc-31fe5bc109f6",
+            "@type": "DataService",
+            "terms": "connector",
+            "endpointUrl": "http://provider-data.plane/dsp"
+          }
         }
-      },
-      "odrl:prohibition": [],
-      "odrl:obligation": []
-    },
-    "dcat:distribution": [
-      {
-        "@type": "dcat:Distribution",
-        "dct:format": {
-          "@id": "HttpData-PULL"
-        },
-        "dcat:accessService": {
-          "@id": "1338f9ac-1728-4a7e-b3dc-31fe5bc109f6",
-          "@type": "dcat:DataService",
-          "dct:terms": "connector",
-          "dct:endpointUrl": "http://provider-data.plane/api/v1/dsp"
-        }
-      }
-    ],
-    "description": "Product EDC Demo Asset 1",
-    "id": "1"
-  },
-  "dcat:service": {
-    "@id": "1338f9ac-1728-4a7e-b3dc-31fe5bc109f6",
-    "@type": "dcat:DataService",
-    "dct:terms": "connector",
-    "dct:endpointUrl": "http://provider-data.plane/api/v1/dsp"
-  },
-  "@context": {
-    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-    "tx-auth": "https://w3id.org/tractusx/auth/",
-    "cx-policy": "https://w3id.org/catenax/policy/",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "dct": "http://purl.org/dc/terms/",
-    "odrl": "http://www.w3.org/ns/odrl/2/",
-    "dspace": "https://w3id.org/dspace/v0.8/"
-  }
+      ],
+      "description": "Product EDC Demo Asset 1",
+      "id": "1"
+    }
+  ],
+  "service": [
+    {
+      "@id": "1338f9ac-1728-4a7e-b3dc-31fe5bc109f6",
+      "@type": "DataService",
+      "terms": "connector",
+      "endpointUrl": "http://provider-data.plane/dsp"
+    }
+  ],
+  "@context": [
+    "https://w3id.org/tractusx/auth/v1.0.0",
+    "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+    "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+    "https://w3id.org/dspace/2025/1/context.jsonld",
+    "https://w3id.org/edc/dspace/v0.0.1",
+    {
+      "fx-policy": "https://w3id.org/factoryx/policy/v1.0/"
+    }
+  ]
 }
 ```
 

@@ -20,40 +20,38 @@ A Contract Agreement looks like this:
   "assetId": "{{ASSET_ID}}",
   "policy": {
     "@id": "{{POLICY_ID}}",
-    "@type": "odrl:Agreement",
-    "odrl:permission": {
-      "odrl:action": {
-        "odrl:type": "http://www.w3.org/ns/odrl/2/use"
+    "@type": "Agreement",
+    "permission": {
+      "action": {
+        "type": "http://www.w3.org/ns/odrl/2/use"
       },
-      "odrl:constraint": {
-        "odrl:or": {
-          "odrl:leftOperand": "https://w3id.org/catenax/policy/FrameworkAgreement",
-          "odrl:operator": {
-            "@id": "odrl:eq"
-          },
-          "odrl:rightOperand": "Pcf"
+      "constraint": {
+        "or": {
+          "leftOperand": "https://w3id.org/catenax/2025/9/policy/FrameworkAgreement",
+          "operator": "eq",
+          "rightOperand": "Pcf"
         }
       }
     },
-    "odrl:prohibition": [],
-    "odrl:obligation": [],
-    "odrl:assignee": "<DID_CONSUMER>",
-    "odrl:assigner": "<DID_PROVIDER>",
-    "odrl:target": {
-      "@id": "{{ASSET_ID}}"
-    }
+    "prohibition": [],
+    "obligation": [],
+    "assignee": "<DID_CONSUMER>",
+    "assigner": "<DID_PROVIDER>",
+    "target": "{{ASSET_ID}}"
   },
   "contractSigningDate": 1713441910,
   "consumerId": "{{DID_CONSUMER}}",
   "providerId": "{{DID_PROVIDER}}",
-  "@context": {
-    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-    "tx-auth": "https://w3id.org/tractusx/auth/",
-    "cx-policy": "https://w3id.org/catenax/policy/",
-    "odrl": "http://www.w3.org/ns/odrl/2/"
-  }
+  "@context": [
+    "https://w3id.org/tractusx/auth/v1.0.0",
+    "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+    "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+    "https://w3id.org/dspace/2025/1/context.jsonld",
+    "https://w3id.org/edc/dspace/v0.0.1",
+    {
+      "fx-policy": "https://w3id.org/factoryx/policy/v1.0/"
+    }
+  ]
 }
 ```
 

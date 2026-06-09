@@ -38,7 +38,6 @@ Content-Type: application/json
 ```
 
 ```json
-
 {
   "@context": [
     "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
@@ -48,23 +47,23 @@ Content-Type: application/json
     }
   ],
   "@type": "ContractRequest",
-  "counterPartyAddress": "{{counterPartyAddress}}/2025-1",
+  "counterPartyAddress": "https://provider-control.plane/dsp/2025-1",
   "protocol": "dataspace-protocol-http:2025-1",
   "policy": {
     "@id": "{{offerId}}",
     "@type": "Offer",
     "assigner": "{{participantId}}",
     "permission": {{theBigPermissionObjectFromTheCatalogResponse}},
-"prohibition": [],
-"obligation": [],
-"target": "{{targetId}}"
-},
-"callbackAddresses": []
+    "prohibition": [],
+    "obligation": [],
+    "target": "{{targetId}}"
+  },
+  "callbackAddresses": []
 }
 ```
 
 - `counterPartyAddress` sets the coordinates for the connector that the Consumer-EDC shall negotiate with (Provider EDC).
-  It will usually end in `/api/v1/dsp/2025-1`
+  It will usually end in `/dsp/2025-1`
 - `protocol` must be `dataspace-protocol-http:2025-1`
 - In the `policy` section, the Data Consumer specifies the Data Offer for the negotiation. As there may be multiple
   Data Offers for the same DataSet, the Data Consumer must choose one. 
@@ -174,13 +173,16 @@ that is located at `endpoint`.
   "tx-auth:expiresIn": "300",
   "authorization": "{{TOKEN}}",
   "tx-auth:refreshAudience": "{{REFRESH_AUDIENCE}}",
-  "@context": {
-    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-    "tx-auth": "https://w3id.org/tractusx/auth/",
-    "odrl": "http://www.w3.org/ns/odrl/2/"
-  }
+  "@context": [
+    "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+    "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+    "https://w3id.org/dspace/2025/1/context.jsonld",
+    "https://w3id.org/edc/dspace/v0.0.1",
+    {
+      "fx-policy": "https://w3id.org/factoryx/policy/v1.0/",
+      "tx-auth": "https://w3id.org/tractusx/auth/"
+    }
+  ]
 }
 ```
 

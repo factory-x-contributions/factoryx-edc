@@ -22,7 +22,7 @@ Content-Type: application/json
   "contractPolicyId": "myContractPolicyId",
   "assetsSelector": 
     {
-      "@type": "CriterionDto",
+      "@type": "Criterion",
       "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
       "operator": "=",
       "operandRight": "myAssetId"

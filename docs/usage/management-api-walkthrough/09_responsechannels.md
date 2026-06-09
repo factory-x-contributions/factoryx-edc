@@ -50,7 +50,7 @@ As an example, for this transfer process request:
   "assetId": "{{ASSET_ID}}",
   "contractId": "{{CONTRACT_AGREEMENT_ID}}",
   "counterPartyAddress": "{{CONNECTOR_ADDRESS}}",
-  "protocol": "dataspace-protocol-http",
+  "protocol": "dataspace-protocol-http:2025-1",
   "transferType": "HttpData-PULL",
   "callbackAddresses": []
 }
@@ -79,13 +79,17 @@ To use the response channel the same process as for any other transfer using an 
   "endpoint": "<DATAPLANE_HOST>/public",
   "authorization": "<AUTH_TOKEN>",
   (...)
-  "@context": {
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-    "tx-auth": "https://w3id.org/tractusx/auth/",
-    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "odrl": "http://www.w3.org/ns/odrl/2/"
-  }
+  "@context": [
+    "https://w3id.org/tractusx/auth/v1.0.0",
+    "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+    "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+    "https://w3id.org/dspace/2025/1/context.jsonld",
+    "https://w3id.org/edc/dspace/v0.0.1",
+    {
+      "fx-policy": "https://w3id.org/factoryx/policy/v1.0/",
+      "tx-auth": "https://w3id.org/tractusx/auth/"
+    }
+  ]
 }
 ```
 

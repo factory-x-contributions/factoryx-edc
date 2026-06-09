@@ -89,30 +89,28 @@ extracted from the Factory-X membership credential.
 
 ```json
 {
-  "@context": {
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "dct": "http://purl.org/dc/terms/",
-    "odrl": "http://www.w3.org/ns/odrl/2/",
-    "dspace": "https://w3id.org/dspace/v0.8/"
-  },
-  "@id": "something",
-  "@type": "odrl:Offer",
-  "odrl:permission": {
-    "odrl:action": {
-      "@id": "odrl:use"
-    },
-    "odrl:constraint": {
-      "odrl:leftOperand": {
-        "@id": "BusinessPartnerDID"
-      },
-      "odrl:operator": {
-        "@id": "odrl:eq"
-      },
-      "odrl:rightOperand": "did:web:my-partner.com:who:is:cool"
+  "@context": [
+    "https://w3id.org/factoryx/policy/v1.0/context.jsonld",
+    "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+    {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
     }
-  },
-  "odrl:prohibition": [],
-  "odrl:obligation": []
+  ],
+  "@type": "PolicyDefinition",
+  "@id": "bpn",
+  "policy": {
+    "@type": "Set",
+    "permission": {
+      "action": "use",
+      "constraint": {
+        "leftOperand": "BusinessPartnerDID",
+        "operator": "eq",
+        "rightOperand": "did:web:my-partner.com:who:is:cool"
+      }
+    },
+    "prohibition": [],
+    "obligation": []
+  }
 }
 ```
 

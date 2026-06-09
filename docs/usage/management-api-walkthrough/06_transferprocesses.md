@@ -46,10 +46,9 @@ Content-Type: application/json
   "contractId": "{{CONTRACT_AGREEMENT_ID}}",
   "counterPartyAddress": "{{CONNECTOR_ADDRESS}}",
   "dataDestination": {
-    "type": "<supported-transfer-type>"
+    "type": "HttpProxy"
   },
-  "privateProperties": {},
-  "protocol": "dataspace-protocol-http",
+  "protocol": "dataspace-protocol-http:2025-1",
   "transferType": "HttpData-PULL",
   "callbackAddresses": [
     {
@@ -69,13 +68,13 @@ Content-Type: application/json
 ```
 
 - `assetId` is the id of the [asset](01_assets.md) that a transfer process should be triggered for.
-- `counterPartyAddress` is the DSP-endpoint of the Data Provider (usually ending on /api/v1/dsp).
+- `counterPartyAddress` is the DSP-endpoint of the Data Provider (usually ending on /dsp/2025-1).
 - `contractId` represents the Contract Agreement that the Provider and Consumer agreed on during the [Contract Negotiation](05_contractnegotiations.md)
   phase.
 - `dataDestination` will in the case of an HTTP PULL-based transfer of the Token be a `DataAddress` object, holding exclusively
   the `type` property that must be set to `"HttpProxy"`.
 - `privateProperties` can be filled with arbitrary data (like in the [assets-API](01_assets.md)).
-- `protocol` describes the protocol between the EDCs and will always be `dataspace-protocol-http`.
+- `protocol` describes the protocol between the EDCs and will always be `dataspace-protocol-http:2025-1`.
 - `transferType` should be one of the returned format in the [Catalog](04_catalog.md)
 - `callbackAddresses`: Like the [Contract Negotiation API](05_contractnegotiations.md), an application can also register
   a callback listener to get updates on the Transfer Process state. The relevant signal is `transfer.process`.
@@ -87,14 +86,16 @@ This call also returns an id, that can be used to monitor the progress.
   "@type": "IdResponse",
   "@id": "927c9712-b270-47ee-b391-9e92a4c55a5d",
   "createdAt": 1713439560709,
-  "@context": {
-    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-    "tx-auth": "https://w3id.org/tractusx/auth/",
-    "cx-policy": "https://w3id.org/catenax/policy/",
-    "odrl": "http://www.w3.org/ns/odrl/2/"
-  }
+  "@context": [
+    "https://w3id.org/tractusx/auth/v1.0.0",
+    "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+    "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+    "https://w3id.org/dspace/2025/1/context.jsonld",
+    "https://w3id.org/edc/dspace/v0.0.1",
+    {
+      "fx-policy": "https://w3id.org/factoryx/policy/v1.0/"
+    }
+  ]
 }
 ```
 
@@ -144,14 +145,16 @@ yielding
       "authCodeId": "auth-code-id"
     }
   ],
-  "@context": {
-    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
-    "edc": "https://w3id.org/edc/v0.0.1/ns/",
-    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-    "tx-auth": "https://w3id.org/tractusx/auth/",
-    "cx-policy": "https://w3id.org/catenax/policy/",
-    "odrl": "http://www.w3.org/ns/odrl/2/"
-  }
+  "@context": [
+    "https://w3id.org/tractusx/auth/v1.0.0",
+    "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+    "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+    "https://w3id.org/dspace/2025/1/context.jsonld",
+    "https://w3id.org/edc/dspace/v0.0.1",
+    {
+      "fx-policy": "https://w3id.org/factoryx/policy/v1.0/"
+    }
+  ]
 }
 ```
 Note that the property `errorDetails` will only be returned in certain states and may contain hints to where the communication
