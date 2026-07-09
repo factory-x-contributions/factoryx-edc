@@ -14,7 +14,7 @@ opentelemetry = "2.24.0"
 restAssured = "6.0.0"
 rsApi = "4.0.0"
 swagger = "2.2.42"
-testcontainers = "2.0.3"
+testcontainers = "2.0.4"
 titanium = "1.7.0"
 # Tractus-X 0.13.0+ renames tx.edc.iam.iatp.* to tx.edc.iam.dcp.*;
 # update deployment-controlplane.yaml and deployment-runtime.yaml accordingly.
